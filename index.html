@@ -917,16 +917,6 @@ function parentLine(p){
   if(p.away)return p.left?`따로 삶 (${p.left})`:'함께 살지 않음';
   return`${p.job}${p.sick?' · 투병 중':''}${p.origin?` · ${p.origin} 출신`:''} · ${p.age}세`;
 }
-function famCrash(S,msg,sev){
-  const f=S.fam,a=S.age;f.crisis++;S.fq=Math.max(1,S.fq-sev);
-  f.wealth=Math.min(f.wealth*.3,f.wealth-5000*sev);
-  if(S.fq<=2&&!S.house)f.housing=pick(['반지하 월세방','단칸방 월세','다세대 월세']);
-  if(working(f.dad))f.dad.job=pick(['무직 (구직 중)','일용직 건설 노동자','대리운전 기사','택시 기사']);
-  if(f.mom.alive&&!f.mom.away&&f.mom.job==='전업주부')f.mom.job=pick(MOM_JOBS[1]);
-  if(a<19){eff(S,{p:-10});S.stress+=12;S.studyRate-=.3}else eff(S,{p:-6});
-  lg(S,msg+` <span class="fx">가정 형편 → ${S.fq}분위</span>`,'bad');
-  if(a>=8&&a<=24){S.famMsg=msg;S.famCrisisPending=true}
-}
 function famDeath(S,p){
   const f=S.fam,a=S.age;
   eff(S,{p:a<20?-15:-10,r:-2});S.stress+=10;
@@ -947,13 +937,10 @@ function famYear(S){
   const hh=home(S),child=a<20;
   const once=(key,yr,cond,fn)=>{if(y===yr&&!f.events.includes(key)&&cond){f.events.push(key);fn()}};
   // 시대 사건
-  once('imf',1998,a<=26&&hh.some(working),()=>{if(R()<[0,.45,.4,.3,.2,.1][S.fq])famCrash(S,'IMF 외환위기. '+pick(['아버지 회사가 부도났다.','아버지가 명예퇴직을 당했다.','부모님 가게가 문을 닫았다.']),2);else lg(S,'IMF 외환위기. 친구 집들이 하나둘 무너졌다. 우리 집은 버텼다.')});
-  once('gfc',2009,a<=26&&hh.length,()=>{if(R()<.12)famCrash(S,'글로벌 금융위기. 아버지가 투자한 펀드가 반토막 나고 일감이 끊겼다.',1)});
-  once('covid',2020,a<=30&&hh.some(p=>SELF_EMP.test(p.job||'')),()=>{if(R()<.35)famCrash(S,'코로나19. 부모님 가게 매출이 70% 줄었다.',1)});
-  once('flood',2022,/반지하/.test(f.housing)&&['seoul','capital'].includes(S.region)&&a<30,()=>{if(R()<.3){eff(S,{p:-8});f.wealth-=1500;lg(S,'폭우로 반지하 집이 침수됐다. 가족사진과 교과서가 물에 잠겼다.','bad')}});
+  once('imf',1998,a>=6&&a<=30,()=>lg(S,'IMF 외환위기. 뉴스마다 부도와 실직 소식이 이어졌다. 금 모으기 운동에 집에 있던 돌반지를 냈다.'));
+  once('wc',2002,a>=5&&a<=40,()=>{eff(S,{p:3});lg(S,'한일 월드컵 4강. 거리마다 "대~한민국"이 울렸다.','good')});
+  once('covid',2020,a>=7&&a<=24,()=>lg(S,'코로나19로 학교와 일상이 온라인으로 바뀌었다.'));
   if(child&&hh.length){
-    const self=hh.some(p=>SELF_EMP.test(p.job||''));
-    if(f.crisis<2&&R()<(self?.009:.003))famCrash(S,pick(self?['아버지 사업이 망했다. 집에 빨간 압류 딱지가 붙었다.','부모님 가게가 폐업했다. 빚만 남았다.']:['아버지가 친구 빚보증을 섰다가 집을 잃었다.','아버지가 회사에서 해고됐다.','부모님이 사기를 당해 모은 돈을 날렸다.']),R()<.4?2:1);
     if(f.type.startsWith('한부모')&&R()<.03){f.type='재혼 가정';eff(S,{r:-4,p:-3});lg(S,`${f.dad.away?'어머니':'아버지'}가 재혼했다. 낯선 새 가족이 생겼다.`)}
     if(f.mom.alive&&!f.mom.away&&f.mom.job==='전업주부'&&a>=6&&R()<(S.fq<=2?.12:.06)){f.mom.job=pick(MOM_JOBS[Math.max(1,S.fq-1)]);lg(S,`어머니가 ${f.mom.job}(으)로 다시 일을 시작했다.`);if(S.fq<5&&R()<.3)S.fq++}
     if(S.fq<5&&R()<.015){S.fq++;f.wealth+=3000;lg(S,pick(['아버지가 승진했다. 집 분위기가 밝아졌다.','부모님 가게가 자리를 잡았다.','부모님이 작은 집을 장만했다.']),'good');if(/월세|반지하|단칸|쪽방|판자|옥탑/.test(f.housing))f.housing='다세대 전세'}
@@ -1095,7 +1082,6 @@ function yearly(S){
 function nextChoice(S){
   const a=S.age;
   const once=(id,cond)=>cond&&!S.asked[id]?(S.asked[id]=1,id):null;
-  if(S.famCrisisPending){S.famCrisisPending=false;return'famCrisis'}
   if(S.inheritPending){S.inheritPending=false;return'inherit'}
   if(S.carePending&&a>=25){S.careRole=S.carePending;S.carePending=null;return'parentCare'}
   if(S.examFail){S.examFail=false;if(S.prep)return'prepFail'}
@@ -1384,12 +1370,6 @@ const CHOICES={
  workEvent:S=>{const e=WEV_MAP[S.wev],j=JOB[S.job.id];
   return{title:e.t,desc:`${typeof e.d==='function'?e.d(S):e.d}<br><span style="font-size:13px;color:var(--ink3)">${j.e} ${j.n} · ${S.job.rank||rankOf(S)} · 스트레스 ${Math.round(S.stress)}${S.jobHunt?' · 이직 준비 중':''}</span>`,
    options:e.o.map(o=>({label:o.l,sub:o.s,w:o.w||1,lock:o.lock&&o.lock(S),apply:S=>{S.wevSeen=S.wevSeen||{};S.wevSeen[e.id]=(S.wevSeen[e.id]||0)+1;o.f(S)}}))}},
- famCrisis:S=>{const f=S.fam,a=S.age;return{title:'집이 무너졌다',desc:`${S.famMsg}<br>집은 ${f.housing}(으)로 옮겼고, 가정 형편은 ${INC_LABEL[S.fq]} 수준이 됐습니다. ${a}살의 당신은 어떻게 하나요?`,options:[
-  {label:'아무렇지 않은 척, 공부에 매달린다',sub:'지식↑ · 스트레스↑ · 행복↓',lock:a>=19&&'',w:2,apply:S=>{S.studyRate+=.4;S.grit=(S.grit||0)+3;S.stress+=10;eff(S,{p:-3});lg(S,'"공부만이 살 길"이라고 되뇌었다.','choice')}},
-  {label:'알바로 생활비를 보탠다',sub:'가족 형편↑ · 공부 시간↓ · 관계↑',lock:a<15&&'15세 이상',w:1.5,apply:S=>{S.fam.wealth+=800;S.studyRate-=.4;S.grit=(S.grit||0)+4;eff(S,{r:4,h:-3});lg(S,'방과 후 편의점과 전단지 알바를 했다. 번 돈은 엄마에게 드렸다.','choice')}},
-  {label:'친척 집에 잠시 맡겨진다',sub:'관계↓ · 행복↓',lock:a>16&&'16세 이하',w:.8,apply:S=>{eff(S,{r:-6,p:-6});lg(S,'1년 동안 큰집에서 눈치를 보며 지냈다.','choice')}},
-  {label:'방황한다',sub:'지식↓ · 잠시 숨통',w:.8,apply:S=>{eff(S,{k:-5,p:2,r:-2});S.studyRate-=.3;lg(S,'학교보다 PC방과 골목에 있는 시간이 길어졌다.','bad')}},
-  {label:'학업을 미루고 일해서 가족을 돕는다',sub:'휴학 1년 · +1,500만 가족에게',lock:(a<19||S.job||!S.eduDone||!S.jobSeekAge||a>=S.jobSeekAge)&&'대학 재학 중만',w:1,apply:S=>{S.fam.wealth+=1500;S.jobSeekAge++;S.nextJobTry=S.jobSeekAge;eff(S,{h:-3,r:3});lg(S,'1년 휴학하고 공장에서 일했다.','choice')}}]}},
  parentCare:S=>{const r=S.careRole;return{title:`${r}의 투병`,desc:`${r}가 쓰러졌습니다. 간병은 누가 할까요? 한국에서 가족 간병인의 절반 이상이 간병 때문에 일을 줄이거나 그만둔다고 답합니다.`,options:[
   {label:'직접 간병한다',sub:S.job?'1년 휴직 · 스트레스↑ · 관계↑':'스트레스↑ · 관계↑',w:1,apply:S=>{if(S.job)S.onLeave=true;S.stress+=15;eff(S,{r:6,h:-4,m:-800});lg(S,`${r} 곁을 지키며 1년을 보냈다.`,'choice')}},
   {label:'요양병원에 모신다',sub:'비용 약 2,500만 · 죄책감',w:2,apply:S=>{eff(S,{m:-2500,p:-4});S.stress+=4;lg(S,`${r}를 요양병원에 모셨다. 주말마다 찾아갔다.`,'choice')}},
@@ -1691,7 +1671,7 @@ function setPauseLabel(){$('#pauseBtn').textContent=running?'❚❚ 일시정지
 /* ---------- ending ---------- */
 function epitaph(S){
   const jobs=S.jobsDone.map(id=>JOB[id].n);const mob=wq(S)-S.income;
-  let t=`${S.town}에서 ${INC_LABEL[S.income]} ${famSummary(S)==='맞벌이'||famSummary(S)==='외벌이'?'':famSummary(S)+' '}가정에 태어나, ${S.fam.crisis?'집이 무너지는 일을 겪고도 ':''}`;
+  let t=`${S.town}에서 ${INC_LABEL[S.income]} ${famSummary(S)==='맞벌이'||famSummary(S)==='외벌이'?'':famSummary(S)+' '}가정에 태어나, `;
   t+=S.edu.univ&&S.edu.univ!=='—'?`${S.edu.univ}에서 공부했다. `:`${S.edu.high||'고등학교'}를 마치고 바로 사회에 나왔다. `;
   t+=jobs.length?`${jobs.join(', ')}(으)로 ${S.workYears}년을 일했다. `:'끝내 직업을 갖지 못했다. ';
   if(S.married)t+=`결혼을 했고${S.kids?` 아이 ${S.kids}명을 키웠다`:' 아이 없이 살았다'}. `;else if(S.age>30)t+='혼자의 삶을 살았다. ';

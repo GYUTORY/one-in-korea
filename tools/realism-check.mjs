@@ -14,8 +14,7 @@ for(let i=0;i<N;i++){try{
   const S=simulate({year:[1990,2000,2010][i%3]});
   const F=S.fam,by=S.birthYear;out.fam.n[by]=(out.fam.n[by]||0)+1;
   if(F.mom.job==='전업주부'||/전업주부/.test(S.log[0].t))out.fam.home[by]=(out.fam.home[by]||0)+1;
-  if(F.crisis)out.fam.crash++; if(F.poor)out.fam.poor++;
-  if(by===1990){out.fam.imfN++;if(S.log.some(l=>l.t.startsWith('IMF')&&/부도|명예퇴직|문을 닫/.test(l.t)))out.fam.imf++}
+  if(F.poor)out.fam.poor++;
   const ih=S.log.find(l=>l.t.includes('상속받았다'));if(ih)out.fam.inh.push(+(ih.t.match(/\+([\d.,]+)(억|만)/)||[0,0,'만'])[1].replace(/,/g,'')*(ih.t.includes('억</')||/\+[\d.]+억/.test(ih.t)?10000:1));
   out.deaths.push(S.age); if(S.gender==='M')out.male++; if(!S.jobsDone.length)out.never++;
   S.jobsDone.forEach(j=>out.jobs[j]=(out.jobs[j]||0)+1);
@@ -55,8 +54,8 @@ Object.keys(o.prepStart).filter(k => o.prepStart[k] >= 20).sort((a, b) => o.prep
   console.log(`  ${k.padEnd(20)} 시작 ${String(o.prepStart[k]).padStart(5)}  합격 ${(100 * (o.prepPass[k] || 0) / o.prepStart[k]).toFixed(0).padStart(3)}%  ${y.length ? (y.reduce((a, b) => a + b, 0) / y.length).toFixed(1) + '년' : '-'}`);
 });
 const Fm=o.fam;console.log('\n[가족] 출생 시 어머니 전업주부',Object.keys(Fm.n).map(k=>`${k}년생 ${(100*(Fm.home[k]||0)/Fm.n[k]).toFixed(0)}%`).join(' · '));
-console.log(`  가세 몰락 경험 ${(100*Fm.crash/N).toFixed(1)}% · 수급·차상위 출생 ${(100*Fm.poor/N).toFixed(1)}%`);
-console.log(`  1990년생 IMF로 집 무너짐 ${(100*Fm.imf/Fm.imfN).toFixed(1)}% · 상속 받은 사람 ${(100*Fm.inh.length/N).toFixed(0)}% (중앙값 ${med(Fm.inh)||0}만)`);
+console.log(`  수급·차상위 출생 ${(100*Fm.poor/N).toFixed(1)}%`);
+console.log(`  상속 받은 사람 ${(100*Fm.inh.length/N).toFixed(0)}% (중앙값 ${med(Fm.inh)||0}만)`);
 console.log('\n[AI 실직] 출생연도별 1인당', Object.entries(o.aiOut).map(([k, v]) => `${k}: ${(v / (N / 3)).toFixed(2)}`).join(' | '));
 
 check(o.err === 0, `엔진 오류 ${o.err}건`);
