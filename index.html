@@ -1061,12 +1061,16 @@ function yearly(S){
   if(S.married&&a<62&&!(S.spouseOff&&a<S.spouseOff))inc+=S.spouseInc;
   if(S.spouseOff&&a===S.spouseOff){S.spouseOff=null;S.spouseInc=Math.round(S.spouseInc*.6);lg(S,'배우자가 다시 일을 시작했다. 예전보다 적은 월급이지만.')}
   if(S.job||S.retired||(S.jobSeekAge&&a>=S.jobSeekAge)){
-    let cost=S.job||S.married||S.retired?1900+(S.married?1100:0)+(S.house?0:1200)+Math.max(0,inc-3000)*.25:900;
+    let cost=S.job||S.married||S.retired?1900+(S.married?1100:0)+(S.house?0:1200)+Math.max(0,inc-3000)*.32:900;
     if(S.kids&&a-S.kidsAge<25)cost+=S.kids*1200;
+    if(S.retired||(!S.job&&a>=62))cost=Math.min(cost,1400+(S.married?800:0)+(S.house?0:900)); // 은퇴 후 생활비
+    if(S.money<=0)cost=Math.max(1200,Math.min(cost,inc-(S.debt>0?S.debt*.07+300:0))); // 돈이 없으면 생활비를 줄여 대출부터 갚는다
     S.money+=inc-cost;
   }
   if(S.debt>0){const pay=S.debt*.07+300,pr=pay-S.debt*.04;S.money-=pay;S.debt=Math.max(0,S.debt-pr);if(S.debt<200)S.debt=0}
-  S.money*=S.money>0?1+rnd(-.03,.05):S.money>-10000?1.04:1;
+  if(S.house&&S.money<-20000){const left=S.houseValue-S.debt;S.money+=left;S.house=false;S.houseValue=0;S.debt=0;eff(S,{p:-4});lg(S,`대출 상환이 버거워 집을 팔고 전세로 옮겼다. 남은 돈 ${fmt(Math.max(0,left))}.`,'bad')}
+  if(S.money<-3000&&(!S.job||a>=50)){S.money=-3000} // 채무조정·기초생활보장으로 빚이 끝없이 불지 않음
+  S.money*=S.money>0?1+rnd(-.035,.045):S.money>-10000?1.04:1;
   if(a===60)S.nw60=Math.round(net(S));
   if(S.house)S.houseValue*=1+rnd(-.04,.06);
 
