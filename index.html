@@ -886,8 +886,6 @@ const RURAL_JOBS=['농사','어업','축산업'];
 const SELF_EMP=/사장|점주|건물주|농사|어업|축산|트럭|택시/;
 const working=p=>p&&p.alive&&!p.away&&p.job&&!/전업|무직/.test(p.job);
 const home=S=>[S.fam.dad,S.fam.mom].filter(p=>p.alive&&!p.away);
-// 이혼율: 1990년대 후반~2000년대 초 정점 (조이혼율 2003년 3.4건)
-const divorceRate=y=>y<1990?.002:y<1998?.004:y<2008?.009:y<2018?.007:.006;
 
 function makeFamily(S){
   const y=S.birthYear,q=S.income,rural=S.region==='rural';
@@ -956,14 +954,9 @@ function famYear(S){
   if(child&&hh.length){
     const self=hh.some(p=>SELF_EMP.test(p.job||''));
     if(f.crisis<2&&R()<(self?.009:.003))famCrash(S,pick(self?['아버지 사업이 망했다. 집에 빨간 압류 딱지가 붙었다.','부모님 가게가 폐업했다. 빚만 남았다.']:['아버지가 친구 빚보증을 섰다가 집을 잃었다.','아버지가 회사에서 해고됐다.','부모님이 사기를 당해 모은 돈을 날렸다.']),R()<.4?2:1);
-    if((f.type==='양부모'||f.type==='다문화 가정')&&!f.dad.away&&!f.mom.away&&f.dad.alive&&f.mom.alive&&R()<divorceRate(y)){
-      eff(S,{p:-10,r:-3});S.stress+=10;lg(S,'부모님이 이혼했다.','bad');S.fq=Math.max(1,S.fq-1);
-      if(a>=7&&a<=17)S.divorcePending=true;else{(R()<.75?f.dad:f.mom).away=true;f.type=f.dad.away?'한부모 (엄마)':'한부모 (아빠)';(f.dad.away?f.dad:f.mom).left='이혼'}
-    }
     if(f.type.startsWith('한부모')&&R()<.03){f.type='재혼 가정';eff(S,{r:-4,p:-3});lg(S,`${f.dad.away?'어머니':'아버지'}가 재혼했다. 낯선 새 가족이 생겼다.`)}
     if(f.mom.alive&&!f.mom.away&&f.mom.job==='전업주부'&&a>=6&&R()<(S.fq<=2?.12:.06)){f.mom.job=pick(MOM_JOBS[Math.max(1,S.fq-1)]);lg(S,`어머니가 ${f.mom.job}(으)로 다시 일을 시작했다.`);if(S.fq<5&&R()<.3)S.fq++}
     if(S.fq<5&&R()<.015){S.fq++;f.wealth+=3000;lg(S,pick(['아버지가 승진했다. 집 분위기가 밝아졌다.','부모님 가게가 자리를 잡았다.','부모님이 작은 집을 장만했다.']),'good');if(/월세|반지하|단칸|쪽방|판자|옥탑/.test(f.housing))f.housing='다세대 전세'}
-    if(f.type!=='조부모 양육'&&R()<[0,.025,.015,.008,.005,.004][S.fq]){eff(S,{p:-7});S.stress+=8;lg(S,pick(['아버지의 술과 고성이 잦아졌다. 방문을 잠그고 잤다.','부모님이 매일 밤 돈 문제로 싸웠다.']),'bad')}
     if(a>=7&&R()<(/월세|전세|반지하|단칸|옥탑|쪽방|셋집/.test(f.housing)?.09:.03)){eff(S,{r:-3});lg(S,'계약이 끝나 이사를 했다. 전학 간 학교에서 처음부터 다시 친구를 사귀었다.')}
     if(f.poor&&a>=7&&a<=18&&R()<.15)lg(S,pick(['급식비 지원 대상자라는 게 알려질까 봐 조마조마했다.','지역아동센터에서 저녁을 먹었다.','교복 지원금을 받았다.']));
   }
@@ -971,7 +964,7 @@ function famYear(S){
   ps.forEach(p=>{
     const q=.000013*Math.exp(.1*p.age)*(p.role==='아버지'?1.4:.8)*(S.fq<=2?1.25:1);
     if(!p.sick&&p.age>=50&&R()<q*6){p.sick=true;eff(S,{p:-4});lg(S,`${p.role}가 ${pick(['암','뇌졸중','심장병','치매'])} 진단을 받았다.`,'bad');if(a>=25&&!p.away)S.carePending=p.role}
-    if(R()<q*(p.sick?3:1)){p.alive=false;p.diedAt=a;famDeath(S,p)}
+    if(a>=20&&R()<q*(p.sick?3:1)){p.alive=false;p.diedAt=a;famDeath(S,p)}
   });
   // 노후 준비가 없는 부모 부양
   const alive=[f.dad,f.mom].filter(p=>p.alive&&!p.left);
@@ -1103,7 +1096,6 @@ function nextChoice(S){
   const a=S.age;
   const once=(id,cond)=>cond&&!S.asked[id]?(S.asked[id]=1,id):null;
   if(S.famCrisisPending){S.famCrisisPending=false;return'famCrisis'}
-  if(S.divorcePending){S.divorcePending=false;return'divorce'}
   if(S.inheritPending){S.inheritPending=false;return'inherit'}
   if(S.carePending&&a>=25){S.careRole=S.carePending;S.carePending=null;return'parentCare'}
   if(S.examFail){S.examFail=false;if(S.prep)return'prepFail'}
@@ -1398,10 +1390,6 @@ const CHOICES={
   {label:'친척 집에 잠시 맡겨진다',sub:'관계↓ · 행복↓',lock:a>16&&'16세 이하',w:.8,apply:S=>{eff(S,{r:-6,p:-6});lg(S,'1년 동안 큰집에서 눈치를 보며 지냈다.','choice')}},
   {label:'방황한다',sub:'지식↓ · 잠시 숨통',w:.8,apply:S=>{eff(S,{k:-5,p:2,r:-2});S.studyRate-=.3;lg(S,'학교보다 PC방과 골목에 있는 시간이 길어졌다.','bad')}},
   {label:'학업을 미루고 일해서 가족을 돕는다',sub:'휴학 1년 · +1,500만 가족에게',lock:(a<19||S.job||!S.eduDone||!S.jobSeekAge||a>=S.jobSeekAge)&&'대학 재학 중만',w:1,apply:S=>{S.fam.wealth+=1500;S.jobSeekAge++;S.nextJobTry=S.jobSeekAge;eff(S,{h:-3,r:3});lg(S,'1년 휴학하고 공장에서 일했다.','choice')}}]}},
- divorce:S=>{const f=S.fam;return{title:'부모님의 이혼',desc:`${S.age}살. 부모님이 이혼하면서 누구와 살지 정해야 합니다. 이혼 가정 자녀의 약 4분의 3이 어머니와 삽니다.`,options:[
-  {label:'엄마와 산다',sub:f.mom.job==='전업주부'?'어머니가 생계를 위해 일을 시작 · 형편↓':'익숙한 생활',w:3,apply:S=>{const f=S.fam;f.dad.away=true;f.dad.left='이혼';f.type='한부모 (엄마)';if(f.mom.job==='전업주부'){f.mom.job=pick(MOM_JOBS[Math.max(1,S.fq-1)]);S.fq=Math.max(1,S.fq-1)}lg(S,'엄마와 살게 됐다.','choice')}},
-  {label:'아빠와 산다',sub:'형편 유지 · 돌봄 공백',w:1,apply:S=>{const f=S.fam;f.mom.away=true;f.mom.left='이혼';f.type='한부모 (아빠)';eff(S,{r:-3});lg(S,'아빠와 살게 됐다. 저녁은 대부분 혼자 먹었다.','choice')}},
-  {label:'조부모님 댁으로',sub:'관계↓ · 안정',w:.6,apply:S=>{const f=S.fam;f.dad.away=f.mom.away=true;f.dad.left=f.mom.left='이혼';f.type='조부모 양육';eff(S,{r:-4,p:2});lg(S,'할머니 댁에서 지내게 됐다.','choice')}}]}},
  parentCare:S=>{const r=S.careRole;return{title:`${r}의 투병`,desc:`${r}가 쓰러졌습니다. 간병은 누가 할까요? 한국에서 가족 간병인의 절반 이상이 간병 때문에 일을 줄이거나 그만둔다고 답합니다.`,options:[
   {label:'직접 간병한다',sub:S.job?'1년 휴직 · 스트레스↑ · 관계↑':'스트레스↑ · 관계↑',w:1,apply:S=>{if(S.job)S.onLeave=true;S.stress+=15;eff(S,{r:6,h:-4,m:-800});lg(S,`${r} 곁을 지키며 1년을 보냈다.`,'choice')}},
   {label:'요양병원에 모신다',sub:'비용 약 2,500만 · 죄책감',w:2,apply:S=>{eff(S,{m:-2500,p:-4});S.stress+=4;lg(S,`${r}를 요양병원에 모셨다. 주말마다 찾아갔다.`,'choice')}},
