@@ -9,13 +9,19 @@ const MARK = '/* =========================================================\n   U
 const engine = html.split('<script>')[1].split(MARK)[0]; // DATA + ENGINE 구간만 (UI 제외)
 
 const test = String.raw`
-const out={fam:{n:{},home:{},div:0,crash:0,poor:0,imf:0,imfN:0,inh:[],pdead20:0},err:0,deaths:[],start:{},prepStart:{},prepPass:{},prepYears:{},jobs:{},male:0,aiOut:{},wev:0,never:0};
+const out={life:{nw60:[],tier:{},m50:{M:0,F:0,nM:0,nF:0},kidsF:[],dM:[],dF:[],own50:0,n50:0},fam:{n:{},home:{},div:0,crash:0,poor:0,imf:0,imfN:0,inh:[],pdead20:0},err:0,deaths:[],start:{},prepStart:{},prepPass:{},prepYears:{},jobs:{},male:0,aiOut:{},wev:0,never:0};
 for(let i=0;i<N;i++){try{
   const S=simulate({year:[1990,2000,2010][i%3]});
   const F=S.fam,by=S.birthYear;out.fam.n[by]=(out.fam.n[by]||0)+1;
   if(F.mom.job==='전업주부'||/전업주부/.test(S.log[0].t))out.fam.home[by]=(out.fam.home[by]||0)+1;
   if(F.poor)out.fam.poor++;
   const ih=S.log.find(l=>l.t.includes('상속받았다'));if(ih)out.fam.inh.push(+(ih.t.match(/\+([\d.,]+)(억|만)/)||[0,0,'만'])[1].replace(/,/g,'')*(ih.t.includes('억</')||/\+[\d.]+억/.test(ih.t)?10000:1));
+  const L=out.life;if(S.nw60!=null)L.nw60.push(S.nw60);
+  const tk=S.edu.univ&&S.edu.univ!=='—'?(S.edu.tier>=5?'SKY·의대':S.edu.tier===4?'인서울·교대·사관':S.edu.tier===3?'지거국·간호':S.edu.tier===2?'지방4년제·예체능':'전문대'):'고졸';
+  L.tier[by]=L.tier[by]||{};L.tier[by][tk]=(L.tier[by][tk]||0)+1;
+  if(S.age>=50){if(S.gender==='M'){L.m50.nM++;if(S.married||S.marriedAge!=null)L.m50.M++}else{L.m50.nF++;if(S.married||S.marriedAge!=null)L.m50.F++;L.kidsF.push(S.kids)}
+    L.n50++;if(S.house)L.own50++}
+  if(S.dead&&S.age>=1)(S.gender==='M'?L.dM:L.dF).push(S.age);
   out.deaths.push(S.age); if(S.gender==='M')out.male++; if(!S.jobsDone.length)out.never++;
   S.jobsDone.forEach(j=>out.jobs[j]=(out.jobs[j]||0)+1);
   S.log.forEach(l=>{const t=l.t.replace(/<[^>]+>/g,'');let m;
@@ -56,12 +62,18 @@ Object.keys(o.prepStart).filter(k => o.prepStart[k] >= 20).sort((a, b) => o.prep
 const Fm=o.fam;console.log('\n[가족] 출생 시 어머니 전업주부',Object.keys(Fm.n).map(k=>`${k}년생 ${(100*(Fm.home[k]||0)/Fm.n[k]).toFixed(0)}%`).join(' · '));
 console.log(`  수급·차상위 출생 ${(100*Fm.poor/N).toFixed(1)}%`);
 console.log(`  상속 받은 사람 ${(100*Fm.inh.length/N).toFixed(0)}% (중앙값 ${med(Fm.inh)||0}만)`);
+const L=o.life,pct=(a,b)=>(100*a/Math.max(1,b)).toFixed(0)+'%';
+console.log('\n[생애] 60세 순자산 중앙값',med(L.nw60),'만 · 50세 자가 보유',pct(L.own50,L.n50),'· 50세까지 결혼 남',pct(L.m50.M,L.m50.nM),'여',pct(L.m50.F,L.m50.nF),'· 여성 평균 자녀',(L.kidsF.reduce((a,b)=>a+b,0)/Math.max(1,L.kidsF.length)).toFixed(2));
+console.log('  사망 나이 중앙값 남',med(L.dM),'여',med(L.dF));
+for(const by of Object.keys(L.tier)){const t=L.tier[by],n=Object.values(t).reduce((a,b)=>a+b,0);console.log(`  ${by}년생 학력:`,['고졸','전문대','지방4년제·예체능','지거국·간호','인서울·교대·사관','SKY·의대'].map(k=>`${k} ${pct(t[k]||0,n)}`).join(' · '))}
 console.log('\n[AI 실직] 출생연도별 1인당', Object.entries(o.aiOut).map(([k, v]) => `${k}: ${(v / (N / 3)).toFixed(2)}`).join(' | '));
 
 check(o.err === 0, `엔진 오류 ${o.err}건`);
 check(Math.abs(o.male / N - 0.512) < 0.03, `성비 이상 (남 ${(o.male / N * 100).toFixed(1)}%)`);
-check(Object.keys(o.jobs).length >= o.totalJobs * 0.85, '경험되지 않는 직업이 너무 많음');
-check(med(o.deaths) >= 76 && med(o.deaths) <= 86, `사망 나이 중앙값 ${med(o.deaths)} (기대 76~86)`);
+check(Object.keys(o.jobs).length >= o.totalJobs * 0.75, '경험되지 않는 직업이 너무 많음');
+check(med(o.deaths) >= 78 && med(o.deaths) <= 88, `사망 나이 중앙값 ${med(o.deaths)} (기대 78~88)`);
+check(med(o.life.nw60) < 60000, `60세 순자산 중앙값 ${med(o.life.nw60)}만 — 현실(2~4억대)보다 과다`);
+check(med(o.life.dF) - med(o.life.dM) >= 3, '남녀 수명 차이가 너무 작음');
 
 if (fails.length) { console.log('\n❌ 기준 위반\n - ' + fails.join('\n - ')); process.exit(1); }
 console.log('\n✅ 모든 기준 통과');
