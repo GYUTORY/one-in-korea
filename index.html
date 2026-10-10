@@ -1,0 +1,1613 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>대한민국 한 번 살아보기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{
+  --paper:#f3efe6; --paper2:#e9e3d6; --card:#fbf9f4; --ink:#1c1a17; --ink2:#575047; --ink3:#948b7d; --line:#d9d0bf;
+  --accent:#c2410c; --accent2:#9a3412;
+  --child:#e0b44c; --school:#7fa66a; --study:#2a9d8f; --seek:#b5838d; --work:#2b4a5c; --retire:#9c6644;
+  --good:#2f7d4f; --bad:#b33a3a; --prep:#cf8a5a;
+  --serif:'Noto Serif KR',serif; --sans:'Pretendard',-apple-system,'Apple SD Gothic Neo',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;cursor:pointer;border:none;background:none}
+.screen{display:none;min-height:100vh}
+.screen.on{display:block}
+.serif{font-family:var(--serif)}
+.muted{color:var(--ink3)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:14px 26px;border-radius:999px;background:var(--ink);color:var(--paper);font-weight:600;letter-spacing:-.01em;transition:transform .15s,background .15s}
+.btn:hover{background:var(--accent);transform:translateY(-1px)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink)}
+.btn.ghost:hover{background:var(--ink);color:var(--paper)}
+.btn.sm{padding:8px 14px;font-size:13px}
+
+/* ---------- landing ---------- */
+#landing{max-width:1180px;margin:0 auto;padding:56px 32px 80px}
+.eyebrow{font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.hero{display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:end;margin-top:20px}
+.hero h1{font-family:var(--serif);font-weight:900;font-size:clamp(44px,6.4vw,92px);line-height:.95;letter-spacing:-.04em;word-break:keep-all}
+.hero h1 small{display:block;font-size:.32em;font-weight:400;letter-spacing:-.01em;margin-top:18px;color:var(--ink2)}
+.hero p.lede{font-size:17px;color:var(--ink2);margin-top:24px;max-width:520px}
+.setup{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px}
+.setup h3{font-size:13px;font-weight:700;color:var(--ink3);letter-spacing:.06em;margin:16px 0 8px}
+.setup h3:first-child{margin-top:0}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{padding:8px 13px;border-radius:999px;border:1px solid var(--line);font-size:13.5px;background:var(--paper)}
+.seg button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.custom{display:none;margin-top:4px}
+.yearpick .yp-top{display:flex;align-items:baseline;gap:10px;margin-bottom:6px}
+.yearpick .yp-top b{font-family:var(--serif);font-size:30px;font-weight:900;line-height:1}
+.yearpick .yp-top span{font-size:12.5px;color:var(--ink2)}
+.yearpick input[type=range]{width:100%;accent-color:var(--ink);cursor:pointer;margin:4px 0 0}
+.yp-scale{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-bottom:10px}
+.custom.on{display:block}
+.setup .go{margin-top:22px;width:100%;justify-content:center}
+.features{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:72px}
+.features div{background:var(--card);padding:22px}
+.features b{display:block;font-family:var(--serif);font-size:20px;margin:8px 0 6px}
+.features span{font-size:13.5px;color:var(--ink2)}
+.features i{font-style:normal;font-size:12px;color:var(--accent);font-weight:700;letter-spacing:.1em}
+.section-h{display:flex;justify-content:space-between;align-items:baseline;margin:64px 0 16px;border-bottom:1px solid var(--ink);padding-bottom:10px}
+.section-h h2{font-family:var(--serif);font-size:28px;letter-spacing:-.02em}
+.dex{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:8px}
+.dex .d{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13px;opacity:.5}
+.dex .d.got{opacity:1;border-color:var(--ink)}
+.dex .d em{font-style:normal;font-size:22px;display:block}
+.dex .d small{display:block;color:var(--ink3);font-size:11px}
+.flow{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:8px}
+.flow div{border-top:3px solid var(--c);padding-top:10px;font-size:13px}
+.flow b{display:block;font-size:14px}
+.note{font-size:12px;color:var(--ink3);margin-top:48px;border-top:1px dashed var(--line);padding-top:16px}
+
+/* ---------- birth ---------- */
+#birth{display:none;place-items:center;text-align:center;background:var(--ink);color:var(--paper);padding:40px}
+#birth.on{display:grid}
+#birth .lines p{font-family:var(--serif);font-size:clamp(20px,2.6vw,32px);line-height:1.7;opacity:0;transform:translateY(8px);transition:all .9s}
+#birth .lines p.show{opacity:1;transform:none}
+#birth .lines p.name{font-size:clamp(34px,5vw,60px);font-weight:900;margin-top:10px}
+#birth .stat{margin-top:34px;font-size:14px;color:#b9b0a1;opacity:0;transition:opacity 1s}
+#birth .stat.show{opacity:1}
+#birth .btn{margin-top:36px;background:var(--paper);color:var(--ink);opacity:0;transition:opacity 1s}
+#birth .btn.show{opacity:1}
+
+/* ---------- game ---------- */
+.topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:22px;padding:12px 24px;background:rgba(243,239,230,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.brand{font-family:var(--serif);font-weight:900;font-size:17px;letter-spacing:-.02em}
+.agebox{display:flex;align-items:baseline;gap:10px;margin-left:auto}
+.agebox .age{font-family:var(--serif);font-size:34px;font-weight:900;line-height:1}
+.agebox .yr{color:var(--ink3);font-size:13px}
+.phase-tag{font-size:12px;padding:3px 10px;border-radius:999px;color:#fff;font-weight:600}
+.ctrl{display:flex;gap:6px;align-items:center;margin-left:auto}
+.ctrl button{padding:7px 11px;border:1px solid var(--line);border-radius:8px;font-size:13px;background:var(--card)}
+.ctrl button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.game-grid{display:grid;grid-template-columns:290px 1fr 330px;gap:18px;padding:18px 24px 40px;max-width:1500px;margin:0 auto}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.panel+.panel{margin-top:14px}
+.panel h4{font-size:12px;letter-spacing:.12em;color:var(--ink3);font-weight:700;margin-bottom:12px}
+.who{font-family:var(--serif);font-size:24px;font-weight:900}
+.who small{font-family:var(--sans);font-size:13px;font-weight:500;color:var(--ink3);margin-left:6px}
+.kv{display:grid;grid-template-columns:64px 1fr;gap:5px 10px;font-size:13.5px;margin-top:12px}
+.kv dt{color:var(--ink3)}
+.stat{margin-bottom:11px}
+.stat .row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px}
+.stat .bar{height:7px;border-radius:9px;background:var(--paper2);overflow:hidden}
+.stat .bar i{display:block;height:100%;border-radius:9px;transition:width .5s}
+.money{font-family:var(--serif);font-size:26px;font-weight:900}
+.mapwrap{display:flex;gap:18px;align-items:flex-start}
+.lifemap{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;flex:1}
+.lifemap .c{aspect-ratio:1;border-radius:4px;background:var(--paper2);position:relative;font-size:9px;color:transparent;display:grid;place-items:center}
+.lifemap .c.dec{box-shadow:inset 0 0 0 1px var(--line)}
+.lifemap .c.now{outline:2px solid var(--accent);outline-offset:1px;animation:pulse 1s infinite}
+.lifemap .c.choice::after{content:'';position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 0 1.5px var(--ink)}
+@keyframes pulse{50%{outline-color:transparent}}
+.legend{display:flex;flex-wrap:wrap;gap:10px 14px;font-size:12px;color:var(--ink2);margin-top:12px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.log{max-height:430px;overflow:auto;margin-top:4px}
+.log .e{display:grid;grid-template-columns:54px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--paper2);font-size:14px}
+.log .e.new{animation:fade .7s ease-out}
+.log .e .t{color:var(--ink3);font-size:12px;padding-top:2px}
+.log .e.choice{font-weight:600}
+.log .e.choice .t{color:var(--accent)}
+.log .e.good .m::before{content:'▲ ';color:var(--good);font-size:10px}
+.log .e.bad .m::before{content:'▼ ';color:var(--bad);font-size:10px}
+.log .e.job .m{color:var(--work)}
+.log .e .fx{color:var(--ink3);font-size:12px}
+@keyframes fade{from{opacity:.35}}
+.future .big{font-family:var(--serif);font-size:22px;font-weight:900;line-height:1.3}
+.future .row{display:flex;justify-content:space-between;font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.future .row:last-child{border:0}
+.future .row b{font-weight:700}
+.chart text{font-size:10px;fill:var(--ink3);font-family:var(--sans)}
+.ladder{display:flex;gap:4px;margin-top:8px}
+.ladder div{flex:1;height:30px;border-radius:6px;background:var(--paper2);display:grid;place-items:center;font-size:11px;color:var(--ink3);position:relative}
+.ladder div.born{box-shadow:inset 0 0 0 2px var(--ink3)}
+.ladder div.now{background:var(--ink);color:var(--paper)}
+.pb{height:6px;background:var(--paper2);border-radius:6px;overflow:hidden;margin-top:8px}
+.pb i{display:block;height:100%;background:var(--accent)}
+
+/* ---------- modal ---------- */
+.modal{position:fixed;inset:0;background:rgba(28,26,23,.55);display:none;place-items:center;z-index:20;padding:24px;backdrop-filter:blur(3px)}
+.modal.on{display:grid}
+.sheet{background:var(--paper);border-radius:22px;max-width:980px;width:100%;max-height:90vh;overflow:auto;padding:30px 32px 32px;box-shadow:0 30px 80px rgba(0,0,0,.3);animation:rise .35s}
+@keyframes rise{from{transform:translateY(16px);opacity:0}}
+.sheet .q-age{font-size:12px;letter-spacing:.2em;color:var(--accent);font-weight:700}
+.sheet h2{font-family:var(--serif);font-size:30px;letter-spacing:-.02em;margin:4px 0 6px}
+.sheet .desc{color:var(--ink2);font-size:14.5px;max-width:720px}
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px;margin-top:20px}
+.opt{text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 16px;transition:all .15s;position:relative}
+.opt:hover:not(.lock){border-color:var(--ink);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.06)}
+.opt b{display:block;font-size:15.5px;margin-bottom:3px}
+.opt span{display:block;font-size:12.5px;color:var(--ink2)}
+.opt .ch{position:absolute;top:12px;right:12px;font-size:11.5px;font-weight:700;color:var(--good)}
+.opt .ch.lo{color:var(--bad)}
+.opt.lock{opacity:.45;cursor:not-allowed}
+.opt.lock .ch{color:var(--ink3)}
+.opt.failed{opacity:.5;border-style:dashed}
+.opt.failed .ch{color:var(--bad)}
+.opt .emo{font-size:22px;display:block;margin-bottom:4px}
+.opt .meta{display:flex;gap:10px;font-size:11.5px;color:var(--ink3);margin-top:7px}
+.catname{font-family:var(--serif);font-weight:700;font-size:16px;margin:22px 0 -10px;display:flex;align-items:center;gap:10px}
+.catname::after{content:'';flex:1;height:1px;background:var(--line)}
+.banner{margin-top:16px;padding:12px 16px;border-radius:12px;background:#f6e3dc;color:var(--accent2);font-size:14px;display:none}
+.banner.on{display:block}
+.tabs{display:flex;flex-wrap:wrap;gap:6px;margin-top:18px}
+.tabs button{padding:6px 12px;border-radius:999px;border:1px solid var(--line);font-size:12.5px;background:var(--card)}
+.tabs button.on{background:var(--ink);color:var(--paper)}
+
+/* ---------- job detail / work ---------- */
+.jd-back{font-size:13px;color:var(--ink2);margin-bottom:10px}
+.jd-back:hover{color:var(--accent)}
+.jd-head{display:flex;gap:14px;align-items:center}
+.jd-head .emo{font-size:40px}
+.jd-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.jd-box{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.jd-box h5{font-family:var(--serif);font-size:17px;margin-bottom:10px}
+.jd-box ol{padding-left:18px;font-size:13.5px;color:var(--ink2);margin-bottom:10px}
+.jd-box ol li{margin:3px 0}
+.kvrow{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.kvrow:last-child{border:0}
+.kvrow b{text-align:right}
+.sbar{height:8px;border-radius:8px;background:var(--paper2);overflow:hidden;margin:4px 0 2px}
+.sbar i{display:block;height:100%;border-radius:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chip{font-size:12px;padding:3px 9px;border-radius:999px;background:#f3dfd6;color:var(--accent2)}
+.tl{margin-top:8px;font-size:13px}
+.tl div{display:grid;grid-template-columns:48px 1fr;gap:8px;padding:4px 0;border-left:2px solid var(--line);padding-left:10px;margin-left:4px}
+.tl div span{color:var(--ink3);font-variant-numeric:tabular-nums}
+.jd-actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap;align-items:center}
+.jd-actions .why{font-size:13px;color:var(--bad)}
+.opt .prepline{font-size:11.5px;color:var(--prep);margin-top:6px;font-weight:600}
+.lifemap .c.hot{box-shadow:inset 0 0 0 2px var(--bad)}
+.log .e.prep .m{color:#8a4b22}
+#pWork{display:none}
+#pWork.on{display:block}
+@media (max-width:760px){.jd-grid{grid-template-columns:1fr}}
+
+/* ---------- ending ---------- */
+#ending{max-width:1180px;margin:0 auto;padding:48px 32px 80px}
+.tomb{display:grid;grid-template-columns:1fr 1.1fr;gap:40px;align-items:start}
+.tomb h1{font-family:var(--serif);font-size:clamp(44px,6vw,76px);font-weight:900;letter-spacing:-.03em;line-height:1}
+.tomb .dates{font-family:var(--serif);font-size:20px;color:var(--ink2);margin-top:10px}
+.tomb .epitaph{font-family:var(--serif);font-size:19px;line-height:1.75;margin-top:26px;padding-left:18px;border-left:3px solid var(--accent)}
+.numbers{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:26px}
+.numbers div{background:var(--card);padding:16px}
+.numbers small{display:block;font-size:12px;color:var(--ink3)}
+.numbers b{font-family:var(--serif);font-size:22px}
+.timeline .ch{display:grid;grid-template-columns:58px 1fr auto;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px}
+.timeline .ch .a{font-family:var(--serif);font-weight:900;color:var(--accent)}
+.timeline .ch small{display:block;color:var(--ink3);font-size:12px}
+.others{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.others .o{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;font-size:13px}
+.others .o b{font-family:var(--serif);font-size:18px;display:block}
+.others .o .ln{margin-top:8px;color:var(--ink2)}
+.others .o .ag{font-family:var(--serif);font-size:30px;font-weight:900;margin-top:8px}
+
+@media (max-width:1100px){
+  .game-grid{grid-template-columns:1fr 1fr}
+  .game-grid>.col-c{grid-column:1/-1;order:-1}
+}
+@media (max-width:760px){
+  html,body{font-size:14px}
+  #landing,#ending{padding:28px 16px 60px}
+  .hero h1{font-size:clamp(40px,12vw,60px)}
+  .hero p.lede{font-size:15px}
+  .setup{padding:18px}
+  .features{grid-template-columns:1fr}
+  .section-h h2{font-size:22px}
+  .topbar{padding:8px 12px;gap:8px}
+  .brand{display:none}
+  .agebox .age{font-size:26px}
+  .ctrl{margin-left:0;width:100%;overflow-x:auto;flex-wrap:nowrap;-webkit-overflow-scrolling:touch}
+  .ctrl button{flex:none;padding:7px 10px}
+  .game-grid{gap:12px}
+  .game-grid>.col-c{order:0}
+  .col-l{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .col-l .panel+.panel{margin-top:0}
+  .col-l #pProfile{grid-column:1/-1}
+  .panel{padding:14px;border-radius:14px}
+  .lifemap{gap:3px}
+  .log{max-height:360px}
+  .log .e{grid-template-columns:44px 1fr;gap:8px;font-size:13.5px}
+  .modal{padding:0;place-items:end stretch}
+  .sheet{border-radius:20px 20px 0 0;max-height:92vh;padding:20px 16px 28px}
+  .sheet h2{font-size:24px}
+  .opts{grid-template-columns:1fr}
+  .opt{padding:13px 14px}
+  .tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px}
+  .tabs button{flex:none}
+  .jd-head .emo{font-size:32px}
+  .jd-actions .btn{flex:1;justify-content:center}
+  .timeline .ch{grid-template-columns:44px 1fr;row-gap:6px}
+  .timeline .ch button{grid-column:2}
+  .hero,.tomb{grid-template-columns:1fr;gap:28px}
+  .features,.others{grid-template-columns:1fr 1fr}
+  .flow{grid-template-columns:repeat(2,1fr)}
+  .game-grid{grid-template-columns:1fr;padding:12px 16px}
+  .topbar{flex-wrap:wrap;gap:10px;padding:10px 16px}
+  .agebox{margin-left:0}
+  .sheet{padding:22px 18px}
+  .numbers{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ===================== LANDING ===================== -->
+<section id="landing" class="screen on">
+  <div class="eyebrow">Life Simulator · Republic of Korea</div>
+  <div class="hero">
+    <div>
+      <h1 id="heroTitle">25만 분의 1<small>대한민국에서, 단 한 번 살아보기</small></h1>
+      <p class="lede">어느 동네, 어떤 집에서 태어날지는 고를 수 없습니다. 그 다음부터는 당신의 선택입니다.
+      학교와 대학, 첫 직장, 결혼과 집, 은퇴까지 — 실제 한국 통계를 바탕으로 한 사람의 일생을 10분 만에 살아봅니다.
+      그리고 다시 태어나, 다른 직업으로 살아보세요.</p>
+    </div>
+    <div class="setup">
+      <h3>태어나는 방식</h3>
+      <div class="seg" data-k="mode">
+        <button data-v="random" class="on">통계대로 무작위</button>
+        <button data-v="custom">직접 고르기</button>
+      </div>
+      <div class="custom" id="customBox">
+        <h3>지역</h3>
+        <div class="seg" data-k="region" id="segRegion"></div>
+        <h3>가정 소득</h3>
+        <div class="seg" data-k="income">
+          <button data-v="1">하위 20%</button><button data-v="2">하위 40%</button><button data-v="3" class="on">중간</button><button data-v="4">상위 40%</button><button data-v="5">상위 20%</button>
+        </div>
+      </div>
+      <h3>성별</h3>
+      <div class="seg" data-k="gender"><button data-v="random" class="on">무작위 (출생 성비 105:100)</button><button data-v="F">여성</button><button data-v="M">남성</button></div>
+      <h3>태어나는 해</h3>
+      <div class="yearpick">
+        <div class="yp-top"><b id="yearVal">2026</b><span id="yearMeta"></span></div>
+        <input type="range" id="yearRange" min="1960" max="2026" step="1" value="2026" aria-label="태어나는 해">
+        <div class="yp-scale"><span>1960</span><span>1980</span><span>2000</span><span>2026</span></div>
+        <div class="seg" data-k="year">
+          <button data-v="1960">1960</button><button data-v="1975">1975</button><button data-v="1990">1990</button><button data-v="2005">2005</button><button data-v="2026" class="on">2026</button>
+        </div>
+      </div>
+      <button class="btn go" id="goBtn">태어나기 →</button>
+    </div>
+  </div>
+
+  <div class="features">
+    <div><i>01</i><b>출생 추첨</b><span>지역·소득분위·가족 형태가 실제 출생 분포대로 정해져요.</span></div>
+    <div><i>02</i><b>선택의 순간</b><span>초등 방과후, 고교 유형, 수능과 대학, 군대, 취업, 결혼, 집.</span></div>
+    <div><i>03</i><b id="jobCountF">직업 체험</b><span>합격 확률·연봉 곡선·정년·워라밸이 다른 직업들. 직업마다 겪는 일도 달라요.</span></div>
+    <div><i>04</i><b>미래 그리기</b><span>지금 경로라면 몇 살에 은퇴하고, 얼마를 벌고, 언제까지 살지 실시간 예측.</span></div>
+  </div>
+
+  <div class="section-h"><h2>한 사람의 일생</h2><span class="muted">1칸 = 1년</span></div>
+  <div class="flow">
+    <div style="--c:var(--child)"><b>0–6세</b>출생 · 가정환경</div>
+    <div style="--c:var(--school)"><b>7–18세</b>초·중·고 선택</div>
+    <div style="--c:var(--study)"><b>19–25세</b>수능 · 대학 · 군대</div>
+    <div style="--c:var(--seek)"><b>취준</b>합격과 낙방</div>
+    <div style="--c:var(--work)"><b>직장</b>직업별 사건 · 이직 · 창업</div>
+    <div style="--c:var(--retire)"><b>은퇴</b>재취업 · 연금 · 노후</div>
+    <div style="--c:var(--ink)"><b>끝</b>묘비 · 다른 4명의 삶</div>
+  </div>
+
+  <div class="section-h"><h2>직업 도감</h2><span class="muted" id="dexCount"></span></div>
+  <div class="dex" id="dexGrid"></div>
+
+  <p class="note">목업 프로토타입 — 수치는 통계청·한국고용정보원 등 공개 통계를 단순화한 예시값입니다. 실서비스에서는 지역별 출생아 수, 가구 소득분위, 학력별 취업률, 직업별 임금(워크넷), 생명표 등 실데이터로 교체합니다.</p>
+</section>
+
+<!-- ===================== BIRTH ===================== -->
+<section id="birth" class="screen">
+  <div>
+    <div class="lines" id="birthLines"></div>
+    <div class="stat" id="birthStat"></div>
+    <button class="btn" id="liveBtn">삶을 시작하기</button>
+  </div>
+</section>
+
+<!-- ===================== GAME ===================== -->
+<section id="game" class="screen">
+  <div class="topbar">
+    <div class="brand" id="gBrand">25만 분의 1</div>
+    <div class="agebox"><span class="age" id="gAge">0세</span><span class="yr" id="gYear"></span><span class="phase-tag" id="gPhase"></span></div>
+    <div class="ctrl">
+      <button id="pauseBtn">❚❚ 일시정지</button>
+      <button data-sp="1" class="on">×1</button><button data-sp="2">×2</button><button data-sp="4">×4</button><button data-sp="10">×10</button>
+      <button id="autoBtn" title="모든 선택을 확률대로 자동 진행">자동 선택</button>
+    </div>
+  </div>
+  <div class="game-grid">
+    <div class="col-l">
+      <div class="panel" id="pProfile"></div>
+      <div class="panel"><h4>상태</h4><div id="pStats"></div></div>
+      <div class="panel"><h4>순자산</h4><div class="money" id="pMoney"></div><div class="muted" style="font-size:12.5px;margin-top:4px" id="pMoneySub"></div></div>
+    </div>
+    <div class="col-c">
+      <div class="panel">
+        <h4>삶의 지도 — 1칸이 1년, 진할수록 행복했던 해</h4>
+        <div class="lifemap" id="lifemap"></div>
+        <div class="legend">
+          <span><i style="background:var(--child)"></i>유년</span><span><i style="background:var(--school)"></i>학창</span><span><i style="background:var(--study)"></i>대학·군대</span><span><i style="background:var(--seek)"></i>구직</span><span><i style="background:var(--prep)"></i>시험·수련 준비</span><span><i style="background:var(--work)"></i>직장</span><span><i style="background:var(--retire)"></i>은퇴</span><span>● 선택의 순간</span><span><i style="box-shadow:inset 0 0 0 2px var(--bad)"></i>스트레스 75+</span>
+        </div>
+      </div>
+      <div class="panel"><h4>기록</h4><div class="log" id="log"></div></div>
+    </div>
+    <div class="col-r">
+      <div class="panel future" id="pFuture"></div>
+      <div class="panel future" id="pWork"></div>
+      <div class="panel future" id="pLadder"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ENDING ===================== -->
+<section id="ending" class="screen"></section>
+
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
+<script>
+/* =========================================================
+   DATA
+   ========================================================= */
+const R=Math.random, rnd=(a,b)=>a+R()*(b-a), ri=(a,b)=>Math.floor(rnd(a,b+1)), pick=a=>a[Math.floor(R()*a.length)];
+const clamp=(v,a=0,b=100)=>Math.max(a,Math.min(b,v));
+function wpick(items){const t=items.reduce((s,x)=>s+x[1],0);let r=R()*t;for(const x of items){if((r-=x[1])<=0)return x[0]}return items[items.length-1][0]}
+
+// 연도별 출생아 수(만 명, 통계청 인구동향 근사값) — 사이 연도는 선형 보간
+const BIRTH_ANCHORS=[[1960,108.0],[1965,99.6],[1970,100.7],[1971,102.5],[1975,87.5],[1980,86.3],[1983,76.9],[1985,65.5],[1987,62.4],[1990,65.0],[1992,73.1],[1995,71.5],[1997,67.5],[2000,64.0],[2002,49.7],[2005,43.5],[2007,49.7],[2010,47.0],[2012,48.5],[2015,43.8],[2017,35.8],[2020,27.2],[2022,24.9],[2023,23.0],[2024,23.8],[2025,25.4],[2026,25.6]];
+function births(y){y=+y;const A=BIRTH_ANCHORS;if(y<=A[0][0])return A[0][1];for(let i=1;i<A.length;i++)if(y<=A[i][0]){const[x0,v0]=A[i-1],[x1,v1]=A[i];return Math.round((v0+(v1-v0)*(y-x0)/(x1-x0))*10)/10}return A[A.length-1][1]}
+function generation(y){y=+y;return y<1955?'전쟁 세대':y<1964?'1차 베이비붐 세대':y<1975?'2차 베이비붐 세대':y<1981?'X세대':y<1997?'밀레니얼(M) 세대':y<2010?'Z세대':'알파 세대'}
+const REGIONS={
+  gangnam:{n:'서울 강남3구',w:4, inc:1.3, edu:8, house:200000, towns:['강남구','서초구','송파구']},
+  seoul:  {n:'서울',w:12, inc:.35, edu:3, house:100000, towns:['마포구','노원구','관악구','은평구','강서구']},
+  capital:{n:'경기·인천',w:33, inc:.1, edu:1, house:55000, towns:['경기도 수원시','경기도 성남시','경기도 화성시','인천 부평구','경기도 고양시']},
+  metro:  {n:'지방 광역시',w:20, inc:-.15, edu:0, house:35000, towns:['부산 해운대구','대구 수성구','광주 북구','대전 유성구','울산 남구']},
+  city:   {n:'지방 중소도시',w:23, inc:-.35, edu:-2, house:25000, towns:['경북 구미시','충남 천안시','전북 전주시','충북 청주시','경남 창원시']},
+  rural:  {n:'농어촌',w:8, inc:-.8, edu:-5, house:15000, towns:['전남 해남군','경북 의성군','강원 정선군','충남 청양군']}
+};
+const INC_LABEL=['','소득 하위 20%','소득 하위 40%','소득 중간','소득 상위 40%','소득 상위 20%'];
+const PARENT_JOBS={1:['일용직 근로자','식당 종업원','택배기사','기초생활수급 가정'],2:['중소기업 생산직','분식집 사장','요양보호사','경비원'],3:['중소기업 사무직','9급 공무원','편의점 점주','간호사'],4:['대기업 과장','교사','공기업 차장','중견기업 부장'],5:['의사','대기업 임원','변호사','건물주']};
+const SUR=['김','이','박','최','정','강','조','윤','장','임','한','오','서','신','권','황','안','송','류','홍'];
+const NM={M:['민준','서준','도윤','예준','시우','하준','지호','주원','지후','준우','건우','우진','현우','태윤'],F:['서아','하윤','지안','서윤','하은','지우','아린','수아','지유','윤서','채원','다은','예린','소율']};
+
+const CATS=['의료','법·공공','전문 자격','교육','기업','IT','연구·과학','기술·현장','건설·운송','서비스·자영업','복지·돌봄','문화·예술','스포츠·농업'];
+// t: 최소 학력 티어(0 고졸,1 전문대,2 지방대,3 지거국·수도권,4 인서울,5 SKY/의대)  f: 필수 계열  fb: 가산 계열  mj: 우대 전공  it: 우대 관심사
+// k: 기준 지식  o: 기본 합격률  s: 초봉(만원)  g: 연 상승률  cap: 상한  ret: 정년  wlb/sat: 1~5  hp: 연간 건강 변화  v: 대박 확률  fail: 폐업 확률
+const JOBS=[
+ {id:'doctor',n:'의사',c:'의료',e:'🩺',t:5,f:'med',k:70,o:.95,s:9000,g:.06,cap:30000,ret:70,wlb:2,sat:4,hp:-1,d:'전공의 수련 후 전문의. 최고 소득, 최고 강도.'},
+ {id:'dentist',n:'치과의사',c:'의료',e:'🦷',t:5,f:'med',k:70,o:.9,s:8000,g:.05,cap:22000,ret:68,wlb:3,sat:3,d:'개원 대출이 크지만 안정적인 고소득.'},
+ {id:'kmd',n:'한의사',c:'의료',e:'🌿',t:5,f:'med',k:70,o:.9,s:6000,g:.04,cap:14000,ret:70,wlb:4,sat:3,d:'워라밸은 좋지만 시장은 정체.'},
+ {id:'pharm',n:'약사',c:'의료',e:'💊',t:4,mj:'sci',k:82,o:.35,s:6000,g:.03,cap:9000,ret:70,wlb:4,sat:3,d:'약대 6년. 정년 없는 전문직.'},
+ {id:'nurse',n:'간호사',c:'의료',e:'🏥',t:3,f:'nurse',k:45,o:.93,s:3800,g:.04,cap:7000,ret:60,wlb:1,sat:3,hp:-2,d:'3교대. 취업률 최상위, 이직률도 최상위.'},
+ {id:'pt',n:'물리치료사',c:'의료',e:'🦴',t:1,mj:'sci',k:40,o:.6,s:3000,g:.03,cap:5000,ret:62,wlb:3,sat:3,d:'전문대 3년제로도 가능한 의료직.'},
+ {id:'care',n:'요양보호사',c:'의료',e:'🤲',t:0,k:0,o:.92,s:2300,g:.01,cap:2800,ret:70,wlb:3,sat:2,hp:-1,d:'초고령사회 필수 인력. 낮은 임금, 높은 강도.'},
+ {id:'judge',n:'판사·검사',c:'법·공공',e:'⚖️',t:5,k:92,o:.18,s:6000,g:.04,cap:14000,ret:65,wlb:2,sat:4,pub:1,d:'로스쿨 → 변호사시험 → 임용. 최상위 경쟁.'},
+ {id:'lawyer',n:'변호사',c:'법·공공',e:'📜',t:4,k:85,o:.4,s:7000,g:.05,cap:20000,v:.03,ret:70,wlb:2,sat:3,d:'변호사 3만 명 시대. 양극화가 크다.'},
+ {id:'gov7',n:'7급 공무원',c:'법·공공',e:'🏛',t:2,k:65,o:.25,s:3300,g:.035,cap:7500,ret:60,wlb:4,sat:3,pub:1,d:'정책 실무의 허리. 순환보직.'},
+ {id:'gov9',n:'9급 공무원',c:'법·공공',e:'🗂',t:0,k:45,o:.3,s:2900,g:.035,cap:6000,ret:60,wlb:4,sat:2,pub:1,d:'평균 경쟁률 20대 1. 민원 스트레스.'},
+ {id:'police',n:'경찰관',c:'법·공공',e:'🚓',t:0,k:45,o:.35,s:3200,g:.04,cap:7000,ret:60,wlb:2,sat:3,hp:-1,pub:1,d:'교대 근무. 야간 출동.'},
+ {id:'fire',n:'소방관',c:'법·공공',e:'🚒',t:0,k:40,o:.3,s:3200,g:.04,cap:6800,ret:60,wlb:2,sat:4,hp:-2,pub:1,risk:.001,d:'가장 신뢰받는 직업 1위. 트라우마 위험.'},
+ {id:'officer',n:'군 장교',c:'법·공공',e:'🎖',t:4,f:'army',k:50,o:.95,s:3600,g:.045,cap:8000,ret:55,wlb:2,sat:3,pub:1,d:'계급정년. 잦은 이사.'},
+ {id:'nco',n:'직업군인 (부사관)',c:'법·공공',e:'🪖',t:0,k:30,o:.45,s:3000,g:.04,cap:6500,ret:55,wlb:2,sat:3,pub:1,d:'하사 임관. 장기복무 선발이 관건. RNTC 출신 우대.'},
+ {id:'diplomat',n:'외교관',c:'법·공공',e:'🌐',t:5,k:90,o:.15,s:4500,g:.045,cap:10000,ret:60,wlb:2,sat:4,pub:1,d:'외교관 후보자 시험. 3년마다 해외 근무.'},
+ {id:'teachE',n:'초등교사',c:'교육',e:'🍎',t:4,f:'edu',k:55,o:.8,s:3300,g:.04,cap:8000,ret:62,wlb:4,sat:3,pub:1,d:'교대 졸업 후 임용. 학부모 민원이 변수.'},
+ {id:'teachS',n:'중등교사',c:'교육',e:'📐',t:4,fb:'edu',k:72,o:.15,s:3300,g:.04,cap:8000,ret:62,wlb:4,sat:3,pub:1,d:'임용 경쟁률이 높다. 사범대 출신 우대.'},
+ {id:'prof',n:'대학교수',c:'교육',e:'🎓',t:5,k:93,o:.07,s:5000,g:.04,cap:13000,ret:65,wlb:3,sat:4,d:'박사·포닥·임용. 가장 좁은 문.'},
+ {id:'tutor',n:'학원 강사',c:'교육',e:'✏️',t:2,k:60,o:.6,s:3000,g:.05,cap:12000,v:.03,ret:60,wlb:2,sat:3,d:'1타 강사가 되면 연봉 수십억.'},
+ {id:'corpOffice',n:'대기업 사무직',c:'기업',e:'🏢',t:4,k:70,o:.28,s:5500,g:.05,cap:15000,ret:53,wlb:2,sat:3,d:'높은 초봉, 이른 명예퇴직.'},
+ {id:'corpEng',n:'대기업 엔지니어',c:'기업',e:'⚙️',t:3,mj:'eng',k:65,o:.38,s:5800,g:.05,cap:15000,ret:55,wlb:2,sat:3,d:'반도체·배터리·자동차. 공대 우대.'},
+ {id:'midCo',n:'중견기업 사무직',c:'기업',e:'🏬',t:2,k:50,o:.5,s:4000,g:.04,cap:9000,ret:57,wlb:3,sat:3,d:'안정과 연봉 사이 어딘가.'},
+ {id:'smallCo',n:'중소기업 사무직',c:'기업',e:'📎',t:0,k:30,o:.8,s:3000,g:.03,cap:5500,ret:58,wlb:3,sat:2,d:'근로자의 80%가 일하는 곳.'},
+ {id:'bank',n:'은행원',c:'기업',e:'🏦',t:4,mj:'biz',k:70,o:.25,s:5500,g:.05,cap:13000,ret:54,wlb:3,sat:3,d:'고연봉, 지점 축소와 희망퇴직.'},
+ {id:'publicCo',n:'공기업 직원',c:'기업',e:'🔌',t:3,k:70,o:.15,s:4800,g:.04,cap:10000,ret:60,wlb:4,sat:3,d:'NCS 필기 + 면접. 신의 직장.'},
+ {id:'cpa',n:'회계사',c:'기업',e:'🧮',t:3,mj:'biz',k:80,o:.25,s:6000,g:.05,cap:18000,ret:65,wlb:2,sat:3,d:'시즌엔 야근. 자격증의 힘.'},
+ {id:'consult',n:'전략 컨설턴트',c:'기업',e:'📊',t:5,k:85,o:.15,s:7500,g:.07,cap:22000,ret:50,wlb:1,sat:3,hp:-2,d:'주 80시간. 빠른 성장, 빠른 소진.'},
+ {id:'marketer',n:'마케터',c:'기업',e:'📣',t:2,k:50,o:.45,s:3800,g:.04,cap:8000,ret:52,wlb:3,sat:3,d:'트렌드를 좇는 직업.'},
+ {id:'flight',n:'항공 승무원',c:'기업',e:'✈️',t:2,k:50,o:.12,s:4200,g:.04,cap:8000,ret:55,wlb:2,sat:4,hp:-1,d:'경쟁률 100대 1. 시차와 체력전.'},
+ {id:'devBig',n:'빅테크 개발자',c:'IT',e:'💻',t:3,mj:'eng',k:70,o:.3,s:6000,g:.07,cap:17000,ret:48,wlb:3,sat:4,d:'네카라쿠배. 코딩테스트 관문.'},
+ {id:'devStart',n:'스타트업 개발자',c:'IT',e:'🚀',t:1,mj:'eng',k:55,o:.6,s:4500,g:.06,cap:12000,v:.05,ret:50,wlb:2,sat:4,d:'스톡옵션 로또 혹은 폐업.'},
+ {id:'data',n:'데이터 사이언티스트',c:'IT',e:'🧠',t:4,mj:'eng',k:78,o:.3,s:5800,g:.06,cap:15000,ret:52,wlb:3,sat:4,d:'AI 시대의 수혜 직군.'},
+ {id:'game',n:'게임 기획자',c:'IT',e:'🎮',t:2,k:55,o:.4,s:3800,g:.04,cap:8500,v:.02,ret:48,wlb:2,sat:4,d:'크런치 모드와 출시의 희열.'},
+ {id:'factory',n:'대기업 생산직',c:'기술·현장',e:'🏭',t:0,k:35,o:.1,voc:.45,s:5000,g:.04,cap:11000,ret:60,wlb:3,sat:3,hp:-1,d:'마이스터고 출신 우대. 고연봉 현장직.'},
+ {id:'elec',n:'전기기사',c:'기술·현장',e:'🔧',t:0,k:40,o:.6,voc:.25,s:3500,g:.04,cap:7500,ret:67,wlb:3,sat:3,d:'자격증 하나로 평생 먹고 산다.'},
+ {id:'mechanic',n:'자동차 정비사',c:'기술·현장',e:'🚗',t:0,it:'tech',k:25,o:.75,voc:.15,s:3000,g:.035,cap:6000,ret:65,wlb:3,sat:3,hp:-1,d:'전기차 시대, 기술 전환이 과제.'},
+ {id:'welder',n:'조선소 용접공',c:'기술·현장',e:'🔥',t:0,k:20,o:.75,s:4200,g:.03,cap:7000,ret:62,wlb:2,sat:2,hp:-3,d:'수주 호황기엔 고소득. 몸이 자본.'},
+ {id:'delivery',n:'택배기사',c:'기술·현장',e:'📦',t:0,k:0,o:.9,s:4500,g:.01,cap:5000,ret:62,wlb:1,sat:2,hp:-3,d:'하루 300개. 건당 수수료.'},
+ {id:'rider',n:'배달 라이더',c:'기술·현장',e:'🛵',t:0,k:0,o:.95,s:3200,g:0,cap:3500,ret:55,wlb:2,sat:2,hp:-2,risk:.003,d:'자유로운 시간, 위험한 도로.'},
+ {id:'chef',n:'요리사 → 셰프',c:'서비스·자영업',e:'🍳',t:0,k:20,o:.75,s:2800,g:.06,cap:8000,v:.02,ret:65,wlb:1,sat:4,hp:-1,d:'주방 막내에서 오너 셰프까지.'},
+ {id:'hair',n:'미용사',c:'서비스·자영업',e:'💇',t:0,k:15,o:.8,s:2600,g:.05,cap:6500,ret:65,wlb:2,sat:3,d:'단골이 곧 자산.'},
+ {id:'cafe',n:'카페 사장',c:'서비스·자영업',e:'☕',t:0,k:20,o:.9,s:2500,g:.02,cap:6000,v:.02,fail:.09,ret:70,wlb:2,sat:3,d:'인구 대비 카페 수 세계 최고 수준.'},
+ {id:'founder',n:'치킨집 사장',c:'서비스·자영업',e:'🍗',t:0,k:10,o:.9,s:3500,g:.01,cap:5000,fail:.1,ret:72,wlb:1,sat:2,d:'은퇴자의 마지막 선택지. 5년 생존율 20%대.'},
+ {id:'cvs',n:'편의점 점주',c:'서비스·자영업',e:'🏪',t:0,k:10,o:.9,s:3000,g:.01,cap:4000,fail:.04,ret:70,wlb:1,sat:2,d:'24시간 365일.'},
+ {id:'giftshop',n:'소품샵 사장',c:'서비스·자영업',e:'🧸',t:0,k:15,o:.9,s:2200,g:.03,cap:6000,v:.03,fail:.1,ret:70,wlb:2,sat:4,d:'감성 소품과 인스타그램. 임대료와의 싸움.'},
+ {id:'florist',n:'꽃집 · 플로리스트',c:'서비스·자영업',e:'💐',t:0,it:'art',k:15,o:.85,s:2300,g:.03,cap:5500,fail:.07,ret:72,wlb:2,sat:4,d:'졸업·입학·어버이날이 1년 매출의 절반.'},
+ {id:'bakery',n:'동네 베이커리',c:'서비스·자영업',e:'🥐',t:0,k:15,o:.85,s:2800,g:.03,cap:7000,v:.02,fail:.08,ret:70,wlb:1,sat:4,hp:-1,d:'새벽 4시 반죽. 프랜차이즈와의 경쟁.'},
+ {id:'nail',n:'네일·속눈썹샵 원장',c:'서비스·자영업',e:'💅',t:0,k:10,o:.85,s:2600,g:.04,cap:6500,fail:.07,ret:65,wlb:2,sat:3,d:'1인 샵 창업은 쉽지만 경쟁도 치열.'},
+ {id:'ecommerce',n:'온라인 쇼핑몰 운영',c:'서비스·자영업',e:'🛒',t:0,k:30,o:.85,s:2000,g:.05,cap:8000,v:.05,fail:.08,ret:70,wlb:2,sat:3,d:'스마트스토어 · 광고비 · 반품과의 전쟁.'},
+ {id:'unmanned',n:'무인 아이스크림 할인점',c:'서비스·자영업',e:'🍦',t:0,k:10,o:.9,s:1500,g:.01,cap:2500,fail:.12,ret:75,wlb:4,sat:2,d:'부업으로 시작하기 쉽지만 과포화.'},
+ {id:'banchan',n:'반찬가게 사장',c:'서비스·자영업',e:'🍱',t:0,k:10,o:.85,s:2600,g:.02,cap:5000,fail:.07,ret:72,wlb:1,sat:3,hp:-1,d:'1인 가구 시대의 동네 장사.'},
+ {id:'realtor',n:'공인중개사',c:'서비스·자영업',e:'🏘',t:0,k:45,o:.5,s:3000,g:.03,cap:9000,v:.03,fail:.04,ret:75,wlb:3,sat:3,d:'개업 중개사만 11만 명. 거래량이 곧 소득.'},
+ {id:'pilates',n:'필라테스 강사·원장',c:'스포츠·농업',e:'🧘',t:0,it:'sport',k:15,o:.75,s:2600,g:.05,cap:7000,fail:.04,ret:60,wlb:3,sat:4,d:'자격 과정 수백만 원. 시급제 프리랜서로 시작.'},
+ {id:'parttime',n:'아르바이트·프리터',c:'서비스·자영업',e:'🧾',t:0,k:0,o:1,s:1800,g:.02,cap:2400,ret:65,wlb:3,sat:1,d:'언제든 가능. 언제든 끝날 수 있다.'},
+ {id:'webtoon',n:'웹툰 작가',c:'문화·예술',e:'🖊',t:0,it:'art',k:20,o:.3,s:1500,g:.05,cap:5000,v:.06,ret:70,wlb:1,sat:5,d:'연재 한 편이 인생을 바꾼다.'},
+ {id:'youtuber',n:'유튜버',c:'문화·예술',e:'🎥',t:0,k:10,o:.6,s:400,g:.1,cap:3000,v:.05,ret:70,wlb:2,sat:4,d:'상위 1%가 수익의 대부분.'},
+ {id:'actor',n:'배우',c:'문화·예술',e:'🎭',t:0,it:'art',fb:'art',k:10,o:.2,s:800,g:.05,cap:3000,v:.04,ret:80,wlb:3,sat:5,d:'배우의 연 소득 중위값은 수백만 원.'},
+ {id:'musician',n:'음악가',c:'문화·예술',e:'🎻',t:2,it:'art',fb:'art',k:30,o:.3,s:1800,g:.04,cap:5000,v:.02,ret:75,wlb:3,sat:5,d:'레슨과 공연 사이.'},
+ {id:'designer',n:'디자이너',c:'문화·예술',e:'🎨',t:1,it:'art',fb:'art',k:30,o:.55,s:3000,g:.04,cap:7000,ret:55,wlb:2,sat:4,d:'포트폴리오가 학벌을 이긴다.'},
+ {id:'reporter',n:'기자',c:'문화·예술',e:'📰',t:4,k:70,o:.2,s:4000,g:.04,cap:9000,ret:58,wlb:1,sat:3,d:'언론고시. 마감이 일상.'},
+ {id:'pd',n:'방송 PD',c:'문화·예술',e:'🎬',t:4,k:72,o:.12,s:4500,g:.045,cap:10000,v:.02,ret:58,wlb:1,sat:4,d:'시청률이 곧 성적표.'},
+ {id:'athlete',n:'프로 운동선수',c:'스포츠·농업',e:'⚽',t:0,it:'sport',lockIt:1,fb:'art',k:0,o:.15,s:4000,g:.12,cap:20000,v:.05,ret:33,wlb:3,sat:5,hp:1,d:'프로 입단은 극소수. 평균 은퇴는 30대 초반.'},
+ {id:'coach',n:'스포츠 코치',c:'스포츠·농업',e:'🏋',t:0,it:'sport',k:10,o:.6,s:2800,g:.03,cap:6000,ret:62,wlb:3,sat:4,hp:1,d:'운동을 가르치는 삶.'},
+ {id:'farmer',n:'청년 농부',c:'스포츠·농업',e:'🌾',t:0,k:15,o:.85,s:2200,g:.04,cap:6000,v:.02,ret:75,wlb:3,sat:4,d:'귀농 정착금 지원. 날씨가 사장님.'},
+
+ // ---- 전문 자격 ----
+ {id:'taxacct',n:'세무사',c:'전문 자격',e:'🧾',t:2,k:78,o:.3,s:5000,g:.05,cap:15000,ret:70,wlb:2,sat:3,d:'연 700명 선발. AI 장부 자동화로 소규모 기장 시장이 줄고 있다.'},
+ {id:'bookkeeper',n:'세무·회계 사무원',c:'전문 자격',e:'📒',t:1,k:40,o:.7,s:2800,g:.03,cap:4500,ret:60,wlb:3,sat:2,d:'경리·기장 대행. AI 자동화 1순위 직무.'},
+ {id:'labor',n:'공인노무사',c:'전문 자격',e:'📑',t:3,k:80,o:.25,s:4500,g:.05,cap:12000,ret:70,wlb:3,sat:3,d:'노동 분쟁·4대보험. 연 300명 선발.'},
+ {id:'customs',n:'관세사',c:'전문 자격',e:'🛃',t:2,k:75,o:.25,s:4500,g:.04,cap:11000,ret:70,wlb:3,sat:3,d:'수출입 통관. 연 90명 선발.'},
+ {id:'appraiser',n:'감정평가사',c:'전문 자격',e:'🏠',t:3,k:82,o:.25,s:6000,g:.05,cap:15000,ret:70,wlb:3,sat:3,d:'부동산 가치 평가. AI 시세 산정과 경쟁 중.'},
+ {id:'scrivener',n:'법무사',c:'전문 자격',e:'🖋',t:2,k:78,o:.2,s:5000,g:.03,cap:10000,ret:72,wlb:3,sat:3,d:'등기·소송서류. 전자등기 자동화로 위축.'},
+ {id:'patent',n:'변리사',c:'전문 자격',e:'💡',t:4,mj:'eng',k:88,o:.25,s:7000,g:.06,cap:20000,ret:70,wlb:2,sat:4,d:'이공계 출신 지식재산 전문가.'},
+ {id:'actuary',n:'보험계리사',c:'전문 자격',e:'🎲',t:4,mj:'biz',k:85,o:.3,s:6000,g:.05,cap:15000,ret:60,wlb:3,sat:3,d:'보험 상품의 수학. 인원이 적어 몸값이 높다.'},
+ // ---- 기업 · 금융 ----
+ {id:'analyst',n:'증권사 애널리스트',c:'기업',e:'📈',t:5,k:85,o:.15,s:7000,g:.06,cap:25000,v:.03,ret:55,wlb:1,sat:3,d:'새벽 6시 출근, 리포트와 숫자.'},
+ {id:'insurance',n:'보험설계사',c:'기업',e:'☂️',t:0,k:20,o:.9,s:2500,g:.05,cap:9000,v:.03,ret:70,wlb:3,sat:2,d:'수수료제. 1년 정착률 약 40%.'},
+ {id:'sales',n:'영업직',c:'기업',e:'💼',t:2,k:45,o:.55,s:4000,g:.05,cap:10000,v:.02,ret:55,wlb:2,sat:3,d:'실적이 곧 연봉. 술자리와 출장.'},
+ {id:'hr',n:'인사·총무 담당',c:'기업',e:'👔',t:3,k:60,o:.35,s:4300,g:.04,cap:9000,ret:55,wlb:3,sat:3,d:'채용·급여·평가. HR 자동화가 빠르게 진행 중.'},
+ {id:'secretary',n:'비서·사무보조',c:'기업',e:'📇',t:1,k:35,o:.6,s:2800,g:.02,cap:4200,ret:55,wlb:3,sat:2,d:'일정·문서 관리. AI 비서가 대체 중.'},
+ // ---- IT ----
+ {id:'aiEng',n:'AI 엔지니어',c:'IT',e:'🤖',t:4,mj:'eng',k:85,o:.25,s:7000,g:.08,cap:22000,ret:52,wlb:3,sat:4,d:'AI 시대 최대 수혜 직군. 석사 이상 선호.'},
+ {id:'security',n:'보안 엔지니어',c:'IT',e:'🔐',t:3,mj:'eng',k:68,o:.35,s:5000,g:.06,cap:13000,ret:55,wlb:3,sat:3,d:'해킹은 쉬지 않는다.'},
+ {id:'qa',n:'QA 테스터',c:'IT',e:'🧪',t:1,k:35,o:.65,s:3200,g:.03,cap:5500,ret:50,wlb:3,sat:2,d:'테스트 자동화로 수요 감소.'},
+ {id:'ux',n:'UX/UI 디자이너',c:'IT',e:'🖌',t:2,it:'art',fb:'art',k:50,o:.4,s:3800,g:.05,cap:9000,ret:50,wlb:3,sat:4,d:'생성형 AI 디자인 도구와 경쟁.'},
+ {id:'pm',n:'서비스 기획자 (PM)',c:'IT',e:'📋',t:3,k:65,o:.3,s:4500,g:.06,cap:12000,ret:50,wlb:2,sat:4,d:'개발·디자인·사업 사이의 통역사.'},
+ {id:'si',n:'SI 개발자',c:'IT',e:'🖥',t:1,mj:'eng',k:45,o:.6,s:3500,g:.04,cap:7500,ret:50,wlb:1,sat:2,d:'하청 구조 · 파견 근무 · 야근.'},
+ {id:'labeler',n:'데이터 라벨러',c:'IT',e:'🏷',t:0,k:10,o:.9,s:2000,g:.01,cap:2600,ret:60,wlb:3,sat:1,d:'AI 학습 데이터 작업. AI가 AI를 대신하며 줄어드는 중.'},
+ // ---- 연구·과학 ----
+ {id:'researcher',n:'출연연 연구원',c:'연구·과학',e:'🔬',t:5,mj:'sci',k:88,o:.2,s:5500,g:.04,cap:12000,ret:61,wlb:4,sat:4,pub:1,d:'박사 학위 필요. 정년 보장, 연구비 경쟁.'},
+ {id:'chemist',n:'화학·소재 연구원',c:'연구·과학',e:'⚗️',t:4,mj:'sci',k:75,o:.3,s:5000,g:.05,cap:12000,ret:55,wlb:3,sat:4,d:'배터리·반도체 소재 개발.'},
+ {id:'bio',n:'바이오 연구원',c:'연구·과학',e:'🧬',t:4,mj:'sci',k:75,o:.3,s:4500,g:.05,cap:11000,ret:55,wlb:3,sat:4,d:'신약 개발. 성공 확률은 1만 분의 1.'},
+ {id:'labtech',n:'연구 보조원',c:'연구·과학',e:'🧫',t:2,mj:'sci',k:50,o:.55,s:3000,g:.03,cap:5000,ret:55,wlb:3,sat:3,d:'실험 자동화로 수요 감소.'},
+ // ---- 건설·운송 ----
+ {id:'architect',n:'건축사',c:'건설·운송',e:'🏗',t:3,mj:'eng',k:70,o:.3,s:4000,g:.05,cap:12000,v:.02,ret:70,wlb:1,sat:4,d:'설계사무소 박봉 실무 3년을 버텨야 한다.'},
+ {id:'civil',n:'건설 현장관리자',c:'건설·운송',e:'🦺',t:3,mj:'eng',k:55,o:.45,s:5000,g:.04,cap:11000,ret:58,wlb:1,sat:3,hp:-1,d:'전국 현장 순환 근무.'},
+ {id:'carpenter',n:'목수',c:'건설·운송',e:'🪚',t:0,k:10,o:.75,s:3500,g:.04,cap:7000,ret:65,wlb:3,sat:3,hp:-2,d:'숙련공 일당 30만 원 시대. 몸이 자본.'},
+ {id:'interior',n:'인테리어 시공업',c:'건설·운송',e:'🛠',t:0,k:20,o:.75,s:3500,g:.04,cap:9000,v:.02,fail:.04,ret:68,wlb:2,sat:3,hp:-1,d:'기술 + 영업. 하자 분쟁이 변수.'},
+ {id:'plumber',n:'설비·배관 기사',c:'건설·운송',e:'🔩',t:0,k:20,o:.75,s:3500,g:.04,cap:7000,ret:68,wlb:3,sat:3,hp:-1,d:'AI가 대신할 수 없는 손기술.'},
+ {id:'crane',n:'타워크레인 기사',c:'건설·운송',e:'🪝',t:0,k:30,o:.4,s:6000,g:.03,cap:9000,ret:62,wlb:2,sat:3,risk:.001,d:'고공 단독 작업. 고연봉.'},
+ {id:'trucker',n:'화물차 기사',c:'건설·운송',e:'🚚',t:0,k:10,o:.8,s:5000,g:.01,cap:6500,ret:65,wlb:1,sat:2,hp:-2,risk:.001,d:'차량 할부와 기름값. 자율주행 트럭이 다가온다.'},
+ {id:'bus',n:'버스 기사',c:'건설·운송',e:'🚌',t:0,k:10,o:.6,s:4500,g:.02,cap:6000,ret:65,wlb:2,sat:3,hp:-1,d:'준공영제 노선은 안정적.'},
+ {id:'taxi',n:'택시 기사',c:'건설·운송',e:'🚕',t:0,k:10,o:.9,s:2800,g:0,cap:3500,ret:75,wlb:2,sat:2,hp:-1,d:'고령 기사 비율 최고. 로보택시와 경쟁.'},
+ {id:'pilot',n:'항공기 조종사',c:'건설·운송',e:'🧑‍✈️',t:2,k:70,o:.5,s:8000,g:.05,cap:25000,ret:65,wlb:3,sat:5,ma:45,d:'비행교육에 자비 약 1억. 기장이 되면 억대 연봉.'},
+ {id:'sailor',n:'항해사',c:'건설·운송',e:'⚓',t:2,k:50,o:.6,s:6000,g:.04,cap:12000,ret:60,wlb:1,sat:2,d:'한 번 나가면 6개월. 고연봉, 고립.'},
+ {id:'rail',n:'철도 기관사',c:'건설·운송',e:'🚆',t:1,k:60,o:.2,s:5000,g:.04,cap:9000,ret:60,wlb:3,sat:3,d:'공기업 채용 + 면허. 안정적.'},
+ {id:'logistics',n:'물류센터 근무',c:'건설·운송',e:'🗃',t:0,k:0,o:.95,s:2800,g:.01,cap:3200,ret:60,wlb:2,sat:1,hp:-2,d:'로봇 자동화가 가장 빠른 현장.'},
+ // ---- 의료 ----
+ {id:'radiologist',n:'방사선사',c:'의료',e:'🩻',t:1,mj:'sci',k:45,o:.7,s:3500,g:.03,cap:6500,ret:60,wlb:3,sat:3,d:'AI 판독 보조가 빠르게 도입 중.'},
+ {id:'hygienist',n:'치위생사',c:'의료',e:'🪥',t:1,k:35,o:.8,s:3000,g:.03,cap:5000,ret:60,wlb:3,sat:3,d:'취업률 높음. 임금 상승은 더딤.'},
+ {id:'clinlab',n:'임상병리사',c:'의료',e:'🩸',t:1,mj:'sci',k:40,o:.7,s:3300,g:.03,cap:6000,ret:60,wlb:3,sat:3,d:'검사 자동화로 인력 수요 감소.'},
+ {id:'nurseAide',n:'간호조무사',c:'의료',e:'💉',t:0,k:15,o:.85,s:2500,g:.02,cap:3500,ret:65,wlb:2,sat:2,d:'의원급 의료기관의 실질적 인력.'},
+ {id:'vet',n:'수의사',c:'의료',e:'🐾',t:5,mj:'sci',k:88,o:.3,s:5000,g:.05,cap:15000,ret:70,wlb:2,sat:4,d:'수의대 6년. 반려동물 1,500만 시대.'},
+ {id:'pharmaSales',n:'제약 영업 (MR)',c:'의료',e:'🧳',t:2,k:45,o:.5,s:4500,g:.05,cap:10000,ret:55,wlb:2,sat:2,d:'병원 방문 영업. 실적 압박.'},
+ // ---- 복지·돌봄 ----
+ {id:'socialworker',n:'사회복지사',c:'복지·돌봄',e:'🤝',t:2,k:40,o:.7,s:2800,g:.03,cap:4500,ret:60,wlb:3,sat:3,d:'보람과 박봉 사이. 감정 소진.'},
+ {id:'daycare',n:'어린이집 보육교사',c:'복지·돌봄',e:'🍼',t:1,k:25,o:.8,s:2500,g:.02,cap:3800,ret:60,wlb:2,sat:3,d:'저출생으로 어린이집이 줄고 있다.'},
+ {id:'counselor',n:'상담심리사',c:'복지·돌봄',e:'🛋',t:4,k:75,o:.3,s:3000,g:.04,cap:7000,ret:70,wlb:3,sat:4,d:'석사 + 수련 3년. 정신건강 수요 급증.'},
+ {id:'funeral',n:'장례지도사',c:'복지·돌봄',e:'⚱️',t:1,k:20,o:.75,s:3200,g:.03,cap:5500,ret:65,wlb:2,sat:3,d:'초고령사회의 필수 직업.'},
+ // ---- 교육 ----
+ {id:'kinder',n:'유치원 교사',c:'교육',e:'🎈',t:1,k:45,o:.6,s:2800,g:.03,cap:5000,ret:60,wlb:3,sat:3,d:'사립은 박봉, 공립은 임용시험.'},
+ {id:'specialEd',n:'특수교사',c:'교육',e:'🧩',t:4,fb:'edu',k:65,o:.25,s:3300,g:.04,cap:8000,ret:62,wlb:3,sat:4,pub:1,d:'수요는 늘고 인력은 부족.'},
+ {id:'lecturer',n:'대학 시간강사',c:'교육',e:'📚',t:5,k:85,o:.3,s:1800,g:.02,cap:3000,ret:65,wlb:3,sat:3,d:'박사 학위, 연봉 2천만 원 미만.'},
+ {id:'engTutor',n:'영어 강사·과외',c:'교육',e:'🗣',t:2,k:60,o:.6,s:3000,g:.04,cap:8000,v:.02,ret:60,wlb:2,sat:3,d:'AI 회화 튜터와 경쟁.'},
+ // ---- 문화·예술 ----
+ {id:'writer',n:'소설가·작가',c:'문화·예술',e:'📖',t:0,it:'art',k:40,o:.08,s:800,g:.05,cap:3000,v:.03,ret:80,wlb:3,sat:5,d:'등단 후에도 연 소득 1천만 원 미만이 대부분.'},
+ {id:'translator',n:'번역가',c:'문화·예술',e:'🈂️',t:4,k:70,o:.45,s:3000,g:.02,cap:5000,ret:70,wlb:3,sat:3,d:'기계 번역 이후 단가가 급락.'},
+ {id:'photographer',n:'사진작가',c:'문화·예술',e:'📷',t:0,it:'art',k:20,o:.6,s:2500,g:.03,cap:6000,v:.02,ret:65,wlb:2,sat:4,d:'웨딩·상업 촬영. 생성형 이미지와 경쟁.'},
+ {id:'dancer',n:'무용수',c:'문화·예술',e:'🩰',t:2,it:'art',fb:'art',k:20,o:.15,s:1500,g:.03,cap:4000,ret:35,wlb:3,sat:5,hp:-1,ma:28,d:'국립 단체 입단은 극소수.'},
+ {id:'idol',n:'아이돌',c:'문화·예술',e:'🎤',t:0,it:'art',lockIt:1,k:0,o:.03,s:1000,g:.2,cap:30000,v:.08,ret:32,wlb:1,sat:4,hp:-1,ma:22,d:'연습생 수천 명 중 데뷔는 수십 명.'},
+ {id:'voice',n:'성우',c:'문화·예술',e:'🎙',t:0,it:'art',k:30,o:.1,s:2000,g:.03,cap:6000,ret:70,wlb:3,sat:4,d:'AI 음성 합성의 직격탄.'},
+ {id:'curator',n:'큐레이터',c:'문화·예술',e:'🖼',t:4,it:'art',k:65,o:.2,s:3000,g:.03,cap:6000,ret:60,wlb:3,sat:4,d:'학예사 자격 + 계약직 반복.'},
+ {id:'copywriter',n:'카피라이터',c:'문화·예술',e:'✍️',t:3,k:60,o:.3,s:3800,g:.04,cap:8000,ret:50,wlb:2,sat:3,d:'생성형 AI가 가장 먼저 대체한 글쓰기.'},
+ {id:'editor',n:'영상 편집자',c:'문화·예술',e:'🎞',t:1,k:30,o:.6,s:3000,g:.03,cap:6000,ret:50,wlb:1,sat:3,d:'AI 자동 편집 도구 확산.'},
+ {id:'announcer',n:'아나운서',c:'문화·예술',e:'📺',t:4,k:75,o:.04,s:4500,g:.04,cap:10000,ret:58,wlb:2,sat:4,ma:30,d:'공채 경쟁률 1,000 : 1.'},
+ {id:'illustrator',n:'일러스트레이터',c:'문화·예술',e:'🖍',t:0,it:'art',k:20,o:.4,s:2000,g:.03,cap:5000,v:.02,ret:70,wlb:3,sat:4,d:'이미지 생성 AI로 외주 단가 하락.'},
+ // ---- 서비스 ----
+ {id:'cs',n:'콜센터 상담원',c:'서비스·자영업',e:'🎧',t:0,k:10,o:.9,s:2500,g:.01,cap:3200,ret:60,wlb:3,sat:1,d:'감정노동 1위. AI 상담봇이 빠르게 대체 중.'},
+ {id:'hotel',n:'호텔리어',c:'서비스·자영업',e:'🛎',t:1,k:35,o:.6,s:3000,g:.03,cap:6000,ret:55,wlb:2,sat:3,d:'교대 근무와 서비스 정신.'},
+ {id:'guide',n:'관광 가이드',c:'서비스·자영업',e:'🗺',t:2,k:45,o:.6,s:2800,g:.03,cap:5000,ret:65,wlb:3,sat:4,d:'관광통역안내사 자격. 관광객 수에 따라 출렁.'},
+ {id:'schoolCook',n:'급식 조리실무사',c:'서비스·자영업',e:'🍲',t:0,k:10,o:.7,s:2800,g:.02,cap:3800,ret:60,wlb:3,sat:2,hp:-2,d:'폐암 산재 이슈. 학교 비정규직.'},
+ {id:'groomer',n:'반려동물 미용사',c:'서비스·자영업',e:'🐶',t:0,k:10,o:.8,s:2500,g:.04,cap:5500,ret:65,wlb:2,sat:4,d:'펫 산업 성장.'},
+ {id:'cleaner',n:'청소·방역',c:'서비스·자영업',e:'🧹',t:0,k:0,o:.95,s:2400,g:.01,cap:2800,ret:70,wlb:3,sat:2,hp:-1,d:'고령층 일자리의 큰 비중.'},
+ // ---- 법·공공 ----
+ {id:'gov5',n:'5급 공무원 (행정고시)',c:'법·공공',e:'✒️',t:4,k:92,o:.04,s:4500,g:.045,cap:11000,ret:60,wlb:2,sat:4,pub:1,d:'평균 수험 기간 3~4년. 정책 결정의 중심.'},
+ {id:'correction',n:'교정직 공무원',c:'법·공공',e:'🔒',t:0,k:45,o:.25,s:3000,g:.035,cap:6500,ret:60,wlb:2,sat:2,pub:1,ma:40,d:'교도관. 수용자 폭행 위험.'},
+ {id:'coastguard',n:'해양경찰',c:'법·공공',e:'🚤',t:0,k:45,o:.25,s:3200,g:.04,cap:7000,ret:60,wlb:2,sat:3,hp:-1,pub:1,ma:40,d:'바다 위의 경찰.'},
+ {id:'postman',n:'집배원',c:'법·공공',e:'✉️',t:0,k:35,o:.3,s:3000,g:.035,cap:5500,ret:60,wlb:2,sat:3,hp:-2,pub:1,d:'과로사 이슈. 오토바이 사고 위험.'},
+ {id:'socialGov',n:'사회복지직 공무원',c:'법·공공',e:'🗃',t:2,k:50,o:.25,s:2900,g:.035,cap:6000,ret:60,wlb:3,sat:2,pub:1,d:'민원 강도 최상위 직렬.'},
+ {id:'investigator',n:'검찰 수사관',c:'법·공공',e:'🕵',t:2,k:65,o:.12,s:3300,g:.04,cap:7500,ret:60,wlb:2,sat:3,pub:1,d:'7급 공채. 수사 실무.'},
+ // ---- 기술·현장 ----
+ {id:'semiOp',n:'반도체 설비 엔지니어',c:'기술·현장',e:'🔌',t:1,k:40,o:.35,voc:.3,s:4500,g:.04,cap:9000,ret:57,wlb:2,sat:3,hp:-1,d:'클린룸 4조 3교대.'},
+ {id:'elevator',n:'승강기 기사',c:'기술·현장',e:'🛗',t:0,k:30,o:.6,s:4000,g:.03,cap:6500,ret:62,wlb:3,sat:3,d:'노후 아파트 증가로 수요 꾸준.'},
+ {id:'aircraftMech',n:'항공 정비사',c:'기술·현장',e:'🛩',t:1,k:50,o:.4,s:4500,g:.04,cap:9000,ret:60,wlb:2,sat:4,d:'면허 + 야간 정비.'},
+ // ---- 스포츠·농업 ----
+ {id:'smartfarm',n:'스마트팜 운영',c:'스포츠·농업',e:'🌱',t:0,k:35,o:.7,s:3000,g:.05,cap:8000,v:.03,fail:.05,ret:70,wlb:3,sat:4,d:'시설 투자 수억. 데이터 농업.'},
+ {id:'fisher',n:'어부',c:'스포츠·농업',e:'🎣',t:0,k:0,o:.8,s:3500,g:.02,cap:6000,ret:75,wlb:2,sat:3,hp:-2,risk:.002,d:'어촌 고령화. 외국인 선원 의존.'},
+ {id:'trainer',n:'퍼스널 트레이너',c:'스포츠·농업',e:'💪',t:0,it:'sport',k:10,o:.7,s:2800,g:.04,cap:6000,ret:50,wlb:3,sat:4,d:'회원 수가 곧 월급.'},
+ {id:'golfpro',n:'골프 프로·레슨',c:'스포츠·농업',e:'⛳',t:0,it:'sport',lockIt:1,k:10,o:.1,s:4000,g:.04,cap:12000,v:.03,ret:60,wlb:3,sat:4,d:'프로 테스트 합격률 한 자릿수.'},
+ {id:'esports',n:'프로게이머',c:'스포츠·농업',e:'🕹',t:0,k:20,o:.04,s:2000,g:.2,cap:20000,v:.06,ret:27,wlb:2,sat:5,ma:23,d:'평균 은퇴 20대 중반.'},
+ {id:'senior',n:'경비·시설관리',c:'서비스·자영업',e:'🧓',t:0,k:0,o:.9,s:2200,g:0,cap:2200,ret:72,wlb:3,sat:2,hidden:1,d:'은퇴 후 재취업.'}
+];
+const JOB=Object.fromEntries(JOBS.map(j=>[j.id,j]));
+// 응시·채용 연령 상한 (공채 기준)
+Object.entries({police:40,fire:40,nco:29,officer:29,flight:32,athlete:26,doctor:40}).forEach(([k,v])=>JOB[k].ma=v);
+// AI 대체 위험도 0~3 (2030년대 자동화 전망 기반 근사)
+const AI={bookkeeper:3,cs:3,translator:3,copywriter:3,editor:3,voice:3,qa:3,secretary:3,labeler:3,logistics:2,illustrator:3,
+ bank:2,cpa:2,taxacct:2,scrivener:2,customs:2,appraiser:2,actuary:1,analyst:2,insurance:2,smallCo:2,midCo:2,corpOffice:2,marketer:2,hr:2,
+ designer:2,ux:2,si:2,devStart:1,devBig:1,data:1,game:1,pm:1,webtoon:2,reporter:2,pd:1,photographer:2,tutor:2,engTutor:3,lawyer:1,judge:0,
+ trucker:2,taxi:2,bus:1,rider:1,delivery:1,rail:1,realtor:2,factory:2,semiOp:1,cvs:1,unmanned:1,pharm:1,radiologist:2,clinlab:2,labtech:2,
+ sales:1,publicCo:1,gov9:1,gov7:1,socialGov:1,ecommerce:1,musician:1,writer:1,curator:1,lecturer:1,kinder:0};
+const AI_N=['낮음','보통','높음','매우 높음'];
+// 대기업·금융·빅테크는 40대 후반부터 경력직 채용도 사실상 없음
+const LATE_CAP=new Set(['corpOffice','corpEng','bank','publicCo','consult','analyst','devBig','data','aiEng','hr','pm','flight']);
+const aiYear=y=>clamp((y-2024)/8,0,1.4); // 2030년 ≈ .75, 2032년 = 1, 2035년 ≈ 1.4
+const FLAG_N={med:'의대',nurse:'간호학과',edu:'교대·사범대',army:'사관학교',art:'예체능'};
+const TIER_N=['고졸','전문대','지방 4년제','지거국·수도권','인서울','SKY·의대'];
+
+/* ---------- events ---------- */
+const EV={
+ child:[
+  {t:'어린이집에서 처음으로 단짝을 사귀었다.',e:{r:4,p:3}},{t:'수족구에 걸려 일주일을 앓았다.',e:{h:-3}},
+  {t:'할머니 댁에서 여름방학을 보냈다.',e:{p:4,r:3}},{t:'한글을 또래보다 빨리 뗐다.',e:{k:4}},
+  {t:'부모님이 크게 다투는 소리를 들었다.',e:{p:-5},c:S=>S.income<=3},{t:'태권도 노란띠를 땄다.',e:{h:3,p:2}},
+  {t:'동생이 태어났다.',e:{p:-2,r:3},c:S=>S.sib==='외동'||S.sib==='첫째'}],
+ teen:[
+  {t:'전교 등수가 크게 올랐다.',e:{k:5,p:4}},{t:'단짝 친구와 크게 싸웠다.',e:{r:-5,p:-4}},
+  {t:'첫 연애를 시작했다.',e:{p:6,r:3,k:-2}},{t:'반에서 은근히 따돌림을 당했다.',e:{p:-9,r:-6},c:S=>S.rel<55},
+  {t:'게임에 빠져 성적이 떨어졌다.',e:{k:-4,p:3}},{t:'인생 선생님을 만났다.',e:{k:4,p:3}},
+  {t:'수학여행에서 평생 친구를 만났다.',e:{r:7,p:4}},{t:'집안 형편이 어려워져 학원을 끊었다.',e:{k:-3,p:-4},c:S=>S.income<=2},
+  {t:'과외 선생님이 바뀌고 성적이 올랐다.',e:{k:5},c:S=>S.income>=4},{t:'사춘기가 세게 왔다.',e:{r:-4,p:-3}}],
+ young:[
+  {t:'친구들과 처음으로 해외여행을 떠났다.',e:{p:6,m:-300}},{t:'코인에 넣은 돈이 반토막 났다.',e:{p:-6,m:-800},c:S=>S.money>1500},
+  {t:'주식 투자로 짭짤한 수익을 냈다.',e:{p:4,m:700},c:S=>S.money>1000},{t:'오랜 연인과 헤어졌다.',e:{p:-8,r:-3},c:S=>!S.married},
+  {t:'독립해서 원룸을 얻었다.',e:{p:3,m:-500}},{t:'번아웃이 와서 한 달간 쉬었다.',e:{h:-4,p:-5},c:S=>S.job},
+  {t:'전세사기를 당할 뻔했다. 보증금 일부를 잃었다.',e:{p:-10,m:-2000},c:S=>!S.house&&S.money>4000},
+  {t:'헬스를 시작했다.',e:{h:6,p:2}},{t:'친구 결혼식 축의금으로 한 달 월급이 나갔다.',e:{m:-300,r:3}}],
+ mid:[
+  {t:'부모님이 편찮으셔서 병원비를 보탰다.',e:{m:-1200,p:-4,r:3}},{t:'아이가 첫걸음마를 뗐다.',e:{p:8,r:5},c:S=>S.kids>0&&S.age-S.kidsAge<3},
+  {t:'건강검진에서 고지혈증 진단을 받았다.',e:{h:-6}},{t:'오래된 친구와 연락이 끊겼다.',e:{r:-4}},
+  {t:'집값이 크게 올랐다.',e:{p:5},c:S=>S.house,fx:S=>S.houseValue*=1.15},{t:'자녀 사교육비가 버거워졌다.',e:{m:-1000,p:-3},c:S=>S.kids>0&&S.age-S.kidsAge>6&&S.age-S.kidsAge<19},
+  {t:'부부싸움이 잦아졌다.',e:{p:-5,r:-5},c:S=>S.married},{t:'퇴근 후 마라톤을 시작했다.',e:{h:7,p:4}},
+  {t:'아이가 대학에 합격했다.',e:{p:7,r:4},c:S=>S.kids>0&&S.age-S.kidsAge===19},{t:'부모님이 돌아가셨다.',e:{p:-10,r:-2},c:S=>S.age>45}],
+ campus:[
+  {t:'중간고사 기간에 이틀 밤을 샜다.',e:{h:-2,k:3}},{t:'동아리 MT에서 밤새 이야기했다.',e:{r:5,p:4}},
+  {t:'학점 4.0을 넘겼다.',e:{k:4,p:4},fx:S=>S.spec=(S.spec||0)+.5},{t:'조별과제에서 무임승차자를 만났다.',e:{p:-4,r:-1}},
+  {t:'토익 900점을 넘겼다.',e:{k:3},fx:S=>S.spec=(S.spec||0)+.5},{t:'공모전에서 상을 받았다.',e:{p:6},fx:S=>S.spec=(S.spec||0)+.5},
+  {t:'등록금 인상 소식에 한숨을 쉬었다.',e:{p:-3}},{t:'편의점 야간 알바를 했다.',e:{m:400,h:-2}},
+  {t:'수강신청에 실패해 아침 9시 수업만 남았다.',e:{p:-3}},{t:'축제에서 좋아하는 가수를 봤다.',e:{p:5}}],
+ old:[
+  {t:'손주가 태어났다.',e:{p:9,r:6},c:S=>S.kids>0},{t:'오랜 친구의 부고를 들었다.',e:{p:-6,r:-3}},
+  {t:'무릎 수술을 받았다.',e:{h:-8,m:-500}},{t:'경로당에서 새 친구들을 사귀었다.',e:{r:5,p:4}},
+  {t:'자녀가 사업 자금을 부탁했다.',e:{m:-3000,r:2},c:S=>S.kids>0&&S.money>5000},{t:'혼자 밥 먹는 날이 늘었다.',e:{p:-6,r:-4},c:S=>!S.married},
+  {t:'평생학습관에서 그림을 배우기 시작했다.',e:{p:5,k:3}},{t:'가벼운 뇌경색이 왔다.',e:{h:-12}}]
+};
+const JEV_EXTRA={
+ '전문 자격':[{t:'종합소득세 신고 시즌, 한 달 내내 야근했다.',e:{h:-3,p:-3}},{t:'AI 세무 앱 때문에 소규모 고객이 줄었다.',e:{p:-4,m:-500}},{t:'큰 고객사를 수임했다.',e:{p:6,m:1000}},{t:'보수교육 시간을 채웠다.',e:{k:3}}],
+ '연구·과학':[{t:'연구 과제 예산이 삭감됐다.',e:{p:-6}},{t:'논문이 좋은 저널에 실렸다.',e:{p:8,k:3}},{t:'실험이 6개월째 재현되지 않는다.',e:{p:-5}},{t:'특허를 출원했다.',e:{p:5}}],
+ '건설·운송':[{t:'폭염 속 현장에서 하루를 버텼다.',e:{h:-4}},{t:'일감이 끊겨 한 달을 쉬었다.',e:{m:-400,p:-4}},{t:'장거리 운행 중 졸음이 쏟아졌다.',e:{h:-3}},{t:'큰 공사를 무사히 마쳤다.',e:{p:6}}],
+ '복지·돌봄':[{t:'돌보던 분이 고맙다며 손을 잡아줬다.',e:{p:7}},{t:'인력 부족으로 혼자 두 사람 몫을 했다.',e:{h:-4,p:-4}},{t:'감정 소진으로 한동안 무기력했다.',e:{p:-6}},{t:'처우 개선 수당이 올랐다.',e:{p:3}}]
+};
+const JEV={
+ '의료':[{t:'36시간 연속 당직을 섰다.',e:{h:-4,p:-3}},{t:'환자 보호자에게 감사 편지를 받았다.',e:{p:5}},{t:'의료사고 소송에 휘말렸다.',e:{p:-8,m:-1500}},{t:'새벽 응급 수술을 성공시켰다.',e:{p:5,k:2}}],
+ '법·공공':[{t:'민원인에게 폭언을 들었다.',e:{p:-6}},{t:'순환보직으로 낯선 부서에 갔다.',e:{k:2,p:-2}},{t:'연금 개혁 뉴스에 마음이 무거웠다.',e:{p:-3}},{t:'표창을 받았다.',e:{p:5,r:2}}],
+ '교육':[{t:'밤 10시에 학부모 민원 전화가 왔다.',e:{p:-6}},{t:'졸업한 제자가 찾아와 고맙다고 했다.',e:{p:8}},{t:'방학 동안 푹 쉬었다.',e:{h:4,p:4}},{t:'학생 수가 줄어 학교가 통폐합됐다.',e:{p:-3}}],
+ '기업':[{t:'구조조정 소문에 잠을 설쳤다.',e:{p:-5,h:-2}},{t:'성과급 300%가 나왔다.',e:{p:6},fx:S=>S.money+=S.job.sal*.25},{t:'해외 법인 파견을 다녀왔다.',e:{k:4,r:-3}},{t:'회식이 새벽 2시에 끝났다.',e:{h:-3,r:2}}],
+ 'IT':[{t:'새벽 3시 서버 장애 대응에 불려 나갔다.',e:{h:-3,p:-3}},{t:'사이드 프로젝트가 커뮤니티에서 화제가 됐다.',e:{p:6,k:3}},{t:'AI 도구가 업무의 절반을 바꿨다.',e:{k:4,p:-2}},{t:'회사가 정리해고를 단행했다.',e:{p:-6}}],
+ '기술·현장':[{t:'현장에서 손을 다쳤다.',e:{h:-6}},{t:'기능장 자격증을 땄다.',e:{k:4,p:4},fx:S=>S.job.sal*=1.08},{t:'잔업 수당으로 목돈을 모았다.',e:{m:600,h:-2}},{t:'폭염 속에서 하루 종일 일했다.',e:{h:-4}}],
+ '서비스·자영업':[{t:'바로 앞에 경쟁 가게가 생겼다.',e:{p:-5,m:-500}},{t:'단골손님이 부쩍 늘었다.',e:{p:5,m:500}},{t:'최저임금 인상으로 인건비가 부담됐다.',e:{p:-3,m:-400}},{t:'SNS에서 입소문이 났다.',e:{p:6,m:800}}],
+ '문화·예술':[{t:'작품이 플랫폼 메인에 걸렸다.',e:{p:8}},{t:'1년 내내 수입이 거의 없었다.',e:{p:-6,m:-800}},{t:'번아웃으로 작업을 쉬었다.',e:{h:-4,p:-5}},{t:'첫 팬레터를 받았다.',e:{p:6}}],
+ '스포츠·농업':[{t:'큰 부상을 입었다.',e:{h:-10,p:-5}},{t:'우승 트로피를 들어 올렸다.',e:{p:10}},{t:'태풍으로 한 해 농사를 망쳤다.',e:{p:-6,m:-1000}},{t:'풍년이었다.',e:{p:5,m:800}}]
+};
+
+
+/* ---------- 준비 과정 (시험·수련·데뷔) ---------- */
+// fix: 시험 전 고정 기간(년)  pass: 기준 연 합격률  cost: 연 비용(만원, 음수=수련 급여)  st: 준비 중 스트레스  max: 응시 제한  body: 체력 반영
+const PREPS={
+ gongsi9:{n:'9급 공무원 공채',how:'노량진 고시원 · 인강',steps:['국어·영어·한국사 + 전공 2과목','필기시험 (연 1회)','면접'],pass:.14,cost:1100,st:76,comp:'약 22 : 1 · 평균 수험 2년+',ev:['노량진 컵밥으로 끼니를 때웠다.','합격선에서 2점 모자랐다.']},
+ gongsi7:{n:'7급 공무원 공채',how:'PSAT + 전공 필기',steps:['PSAT (언어논리·자료해석·상황판단)','전공 필기 (헌법·행정법·행정학·경제학)','면접'],pass:.07,cost:1300,st:80,comp:'약 46 : 1 · 평균 수험 3년+'},
+ police:{n:'경찰 공채',how:'필기 + 체력',steps:['필기 (헌법·형사법·경찰학)','체력시험 (팔굽혀펴기·악력·왕복오래달리기)','면접'],pass:.17,cost:1000,st:72,comp:'약 20 : 1',body:1},
+ fire:{n:'소방 공채',how:'필기 + 체력',steps:['필기 (소방학개론·소방관계법규·행정법)','체력시험','신체검사 · 면접'],pass:.18,cost:1000,st:70,comp:'약 15 : 1',body:1},
+ law:{n:'로스쿨 + 변호사시험',how:'LEET → 로스쿨 3년 → 변시',steps:['LEET 응시 → 로스쿨 입학','로스쿨 3년 (연 등록금 약 2천만 원)','변호사시험 (합격률 약 50%, 5회 제한)'],fix:3,pass:.53,cost:2600,st:82,max:5,comp:'변시 합격률 약 50%',ev:['로스쿨 학점 경쟁에 밤을 새웠다.','판례 수천 개를 외웠다.']},
+ judge:{n:'로스쿨 → 변시 → 검사·재판연구원',how:'로스쿨 최상위권 + 임용',steps:['로스쿨 3년, 상위 5~10% 성적 유지','변호사시험 합격','검사 임용 / 재판연구원 → 법조경력 후 판사'],fix:3,pass:.2,cost:2600,st:88,max:3,comp:'로스쿨 상위 약 5~10%',ev:['로스쿨 학점 경쟁에 밤을 새웠다.','검찰 실무수습을 다녀왔다.']},
+ diplomat:{n:'외교관후보자 선발시험',how:'PSAT + 논술 + 외국어',steps:['PSAT','전공 논술 (국제정치·국제법·경제)','외국어 + 심층면접','국립외교원 1년 교육'],pass:.07,cost:1300,st:84,max:6,comp:'약 40 : 1'},
+ teachE:{n:'초등 교원임용시험',how:'교대 4년 → 임용',steps:['1차: 교육학 논술 + 교과','2차: 수업실연 · 영어 면접'],pass:.65,cost:500,st:62,comp:'약 1.2~2 : 1 (지역별)'},
+ teachS:{n:'중등 교원임용시험',how:'사범대·교직이수 → 임용',steps:['1차: 교육학 + 전공 (논술형)','2차: 수업실연 · 면접'],pass:.12,cost:900,st:76,comp:'약 8 : 1',ev:['기간제 교사로 일하며 시험을 준비했다.']},
+ prof:{n:'박사 → 포닥 → 교수 임용',how:'대학원 5년 + 포닥',steps:['박사과정 약 5년 (연구실 생활)','해외 포닥 2~3년','논문 실적으로 교수 공채 지원'],fix:7,pass:.18,cost:-2000,st:76,max:6,comp:'임용 경쟁 수십 : 1',label:'대학원·포닥',ev:['논문이 리젝됐다.','지도교수 프로젝트로 주말이 사라졌다.','국제 학회에서 발표했다.']},
+ corp:{n:'대기업 공채',how:'서류 → 인적성 → 면접',steps:['서류 (학점·어학·자격증·직무 경험)','인적성 검사 (GSAT 등)','직무 면접 → 임원 면접'],pass:.3,cost:700,st:70,comp:'약 50~100 : 1',ev:['자기소개서를 50개 넘게 썼다.','최종 면접에서 떨어졌다.','인턴을 하며 스펙을 쌓았다.']},
+ consult:{n:'전략컨설팅 채용',how:'케이스 인터뷰',steps:['서류 (학벌·학점 컷)','케이스 인터뷰 4~6회','파트너 면접'],pass:.15,cost:500,st:78,comp:'약 200 : 1'},
+ ncs:{n:'공기업 NCS 채용',how:'NCS 필기 + 전공 + 면접',steps:['NCS 직업기초능력 필기','전공 필기','PT · 인성 면접'],pass:.18,cost:900,st:72,comp:'약 60 : 1'},
+ it:{n:'코딩테스트 + 기술 면접',how:'알고리즘 + 포트폴리오',steps:['알고리즘 문제 수백 개','개인·팀 프로젝트 포트폴리오','코딩테스트 → 기술 면접 2~3회'],pass:.33,cost:600,st:68,comp:'약 30 : 1',ev:['알고리즘 사이트 골드 티어를 찍었다.','부트캠프에 다녔다.','오픈소스에 첫 PR을 올렸다.']},
+ cpa:{n:'공인회계사 시험',how:'1차 객관식 → 2차 주관식',steps:['회계·세무 학점 이수 + 토익','1차 (경영·경제·상법·세법·회계)','2차 주관식 (과목별 부분합격)','실무수습 2년'],pass:.22,cost:1500,st:85,comp:'연 최종 합격 약 1,100명'},
+ pharm:{n:'약대 + 약사 국가고시',how:'약대 4년 → 국시',steps:['약대 편입·진학 후 4년','약사 국가고시 (합격률 약 90%)'],fix:4,pass:.9,cost:1600,st:70,label:'약대'},
+ nurseExam:{n:'간호사 국가고시',how:'국가고시',steps:['임상 실습 1,000시간','국가고시 (합격률 약 95%)'],pass:.95,cost:200,st:62},
+ medExam:{n:'의료인 국가고시',how:'국가고시',steps:['실기 + 필기 국가고시 (합격률 약 95%)'],pass:.95,cost:300,st:70},
+ med:{n:'국가고시 → 인턴 → 레지던트',how:'전공의 수련 5년',steps:['의사 국가고시 (합격률 약 95%)','인턴 1년 (주 80시간)','레지던트 4년 → 전문의 시험'],fix:5,pass:.95,cost:-4500,st:90,hp:-4,label:'전공의 수련',ev:['36시간 연속 당직 후 퇴근길에 졸았다.','처음으로 환자를 떠나보냈다.','한 달에 집에 네 번 들어갔다.']},
+ cert:{n:'자격증 + 현장 경력',how:'국비지원 학원 6~12개월',steps:['국비지원(내일배움카드) 과정','필기 + 실기 시험','현장 보조로 경력 시작'],pass:.75,cost:300,st:48},
+ care:{n:'요양보호사 자격',how:'교육 320시간',steps:['이론·실기 240시간 + 현장실습 80시간','자격시험 (합격률 약 90%)'],pass:.92,cost:100,st:40},
+ elecCert:{n:'전기기사 자격증',how:'필기 → 실기',steps:['전기 이론·회로 공부','필기 (합격률 약 25~30%)','실기'],pass:.35,cost:400,st:58},
+ webtoon:{n:'아마추어 연재 → 플랫폼 계약',how:'도전만화 · 공모전',steps:['아마추어 연재','공모전 · 플랫폼 PD 컨택','정식 연재 계약'],pass:.2,cost:500,st:64,ev:['조회수 37짜리 회차를 올렸다.','어시스턴트로 일하며 그림을 배웠다.']},
+ actor:{n:'오디션',how:'연기 학원 · 단편영화',steps:['연기 학원 · 독립영화 출연','소속사 · 작품 오디션 수십 번'],pass:.12,cost:900,st:72,ev:['오디션에서 30초 만에 "다음 분"을 들었다.','단역으로 드라마에 한 장면 나왔다.']},
+ musician:{n:'콩쿠르 · 오디션',how:'하루 6~8시간 연습',steps:['하루 6~8시간 연습','콩쿠르 입상 · 오케스트라/세션 오디션'],pass:.2,cost:1500,st:70},
+ design:{n:'포트폴리오 · 인턴',how:'툴 + 포트폴리오',steps:['디자인 툴 숙련 + 포트폴리오','공모전 · 인턴'],pass:.45,cost:400,st:55},
+ media:{n:'언론고시',how:'논술 · 작문 · 합숙면접',steps:['논술·작문·시사상식 필기','실무평가 (취재·기획안)','합숙 면접 → 최종'],pass:.1,cost:900,st:76,comp:'약 100 : 1',ev:['언론사 스터디에서 매일 작문을 했다.']},
+ flight:{n:'승무원 공채',how:'어학 + 면접 3~5단계',steps:['토익 · 회화 점수','실무·임원 면접','수영 · 체력 테스트'],pass:.12,cost:900,st:70,comp:'약 100 : 1'},
+ athlete:{n:'프로 드래프트',how:'경기 실적 → 지명',steps:['학교·대학 리그 실적','드래프트 지명 (지명률 약 10%)'],pass:.18,cost:800,st:78,max:3,body:1,ev:['무릎 부상으로 시즌을 날렸다.','전국대회 MVP를 받았다.']},
+ farm:{n:'귀농 교육 + 정착',how:'교육 100시간 + 정착 지원',steps:['귀농귀촌 교육 100시간','청년창업농 정착지원 신청','땅 · 시설 마련'],pass:.95,cost:800,st:52}
+};
+const PREP_EV=['고시원 1.5평 방에서 한 해를 보냈다.','모의고사 점수가 처음으로 합격선을 넘었다.','친구들의 승진·결혼 소식에 SNS를 지웠다.','부모님께 "올해는 꼭"이라고 말했다.','같이 공부하던 스터디원이 먼저 합격했다.','불면증과 위염이 생겼다.','하루 12시간, 주 6일 공부했다.','명절에 친척들 질문이 무서워 집에 가지 않았다.'];
+Object.assign(PREPS,{
+ taxexam:{n:'세무사 시험',how:'1차 객관식 → 2차 주관식',steps:['1차: 재정학 · 세법학개론 · 회계학개론 · 상법','2차: 회계학 · 세법학 (과락 엄격)','수습 6개월'],pass:.12,cost:1400,st:84,comp:'최종 합격 연 약 700명',max:6},
+ laborexam:{n:'공인노무사 시험',how:'1·2·3차',steps:['1차: 노동법 · 민법 · 사회보험법 · 경영학','2차: 노동법 · 인사노무관리 · 행정쟁송법','3차 면접 → 수습'],pass:.1,cost:1200,st:82,comp:'최종 합격 연 약 300명',max:6},
+ customsexam:{n:'관세사 시험',how:'1차 · 2차',steps:['1차: 관세법개론 · 무역영어 · 회계학','2차: 관세법 · 관세율표 · 관세평가'],pass:.1,cost:1100,st:80,comp:'최종 합격 연 약 90명',max:6},
+ appraisalexam:{n:'감정평가사 시험',how:'1차 · 2차 + 수습',steps:['1차: 민법 · 경제학 · 부동산학 · 회계학','2차: 감정평가실무 · 이론 · 법규','실무수습 1년'],pass:.12,cost:1300,st:84,comp:'최종 합격 연 약 200명',max:6},
+ scrivenerexam:{n:'법무사 시험',how:'1차 · 2차',steps:['1차: 헌법 · 민법 · 상법 · 민사집행법 등','2차: 민법 · 형법 · 민사소송법 · 등기 실무'],pass:.07,cost:1100,st:82,comp:'최종 합격 연 약 130명',max:6},
+ patentexam:{n:'변리사 시험',how:'1차 · 2차 + 수습',steps:['1차: 산업재산권법 · 민법 · 자연과학개론','2차: 특허법 · 상표법 · 민사소송법','수습 1년'],pass:.1,cost:1500,st:86,comp:'최종 합격 연 약 210명',max:6},
+ actuaryexam:{n:'보험계리사 시험',how:'1차 · 2차',steps:['1차: 보험계약법 · 경제학 · 보험수학 · 회계원리','2차: 보험수리학 · 계리리스크관리 등'],pass:.15,cost:900,st:78},
+ haengsi:{n:'5급 공채 (행정고시)',how:'PSAT → 2차 논술 → 면접',steps:['PSAT','2차: 행정법 · 행정학 · 경제학 등 논술','3차 면접 → 인재개발원 교육'],pass:.04,cost:1800,st:90,comp:'약 40 : 1 · 평균 수험 3~4년',max:8,ev:['신림동 고시촌 독서실에서 한 해를 보냈다.','2차 논술에서 과락이 나왔다.']},
+ archexam:{n:'실무수련 3년 + 건축사 시험',how:'설계사무소 실무 → 시험',steps:['설계사무소 실무수련 3년 (박봉 · 야근)','건축사 자격시험 (합격률 약 10~15%)'],fix:3,pass:.25,cost:-2800,st:82,label:'설계사무소 실무수련',max:8},
+ pilot:{n:'비행교육 → 항공사 입사',how:'비행교육원 · 자비 약 1억',steps:['비행교육원 (자비 약 1억 원)','사업용 조종사 면허 + 비행 250시간','항공사 부기장 채용'],fix:2,pass:.45,cost:5000,st:76,comp:'항공사 채용 경쟁 치열'},
+ trainee:{n:'연습생 · 입단 테스트',how:'기획사 · 프로팀 연습생',steps:['오디션 · 입단 테스트','연습생 생활 (하루 12시간)','데뷔조 · 1군 콜업'],pass:.06,cost:300,st:88,max:4,ev:['월말 평가에서 탈락 위기를 넘겼다.','같이 연습하던 친구가 방출됐다.']},
+ lit:{n:'신춘문예 · 공모전',how:'습작 · 투고',steps:['습작 수백 편','신춘문예 · 문학 공모전 · 웹소설 연재','등단 · 출간 계약'],pass:.08,cost:300,st:66},
+ grad5:{n:'박사과정 → 출연연 공채',how:'석박사 통합 5년',steps:['석박사 통합과정 5~6년','논문 · 학회 실적','출연연 공채 (서류 · 발표 · 면접)'],fix:5,pass:.35,cost:-2000,st:78,label:'박사과정',max:6},
+ grad2:{n:'석사 + 수련',how:'상담심리 석사 2년 + 수련',steps:['상담심리 석사 2년','수련 1,000시간 이상','자격시험 · 면접'],fix:2,pass:.4,cost:1200,st:68},
+ healthExam:{n:'보건의료 국가고시',how:'국가고시',steps:['학과 실습','국가고시 (합격률 약 70~85%)'],pass:.8,cost:200,st:58},
+ kpga:{n:'프로 테스트',how:'투어 · 티칭 프로 자격',steps:['하루 500개 연습','프로 선발전 (합격률 약 5~10%)'],pass:.1,cost:3000,st:76,max:5}
+});
+const PREP_OF={taxacct:'taxexam',labor:'laborexam',customs:'customsexam',appraiser:'appraisalexam',scrivener:'scrivenerexam',patent:'patentexam',actuary:'actuaryexam',
+ gov5:'haengsi',correction:'gongsi9',coastguard:'police',postman:'gongsi9',socialGov:'gongsi9',investigator:'gongsi7',architect:'archexam',pilot:'pilot',
+ idol:'trainee',esports:'trainee',dancer:'actor',voice:'actor',announcer:'media',writer:'lit',researcher:'grad5',counselor:'grad2',vet:'medExam',
+ radiologist:'healthExam',hygienist:'healthExam',clinlab:'healthExam',nurseAide:'cert',socialworker:'cert',daycare:'cert',funeral:'cert',crane:'cert',
+ trucker:'cert',bus:'cert',taxi:'cert',carpenter:'cert',plumber:'cert',elevator:'cert',aircraftMech:'cert',groomer:'cert',trainer:'cert',golfpro:'kpga',
+ interior:'cert',rail:'ncs',specialEd:'teachS',smartfarm:'farm',fisher:'cert',doctor:'med',dentist:'medExam',kmd:'medExam',pharm:'pharm',nurse:'nurseExam',pt:'cert',care:'care',judge:'judge',lawyer:'law',gov7:'gongsi7',gov9:'gongsi9',police:'police',fire:'fire',diplomat:'diplomat',teachE:'teachE',teachS:'teachS',prof:'prof',corpOffice:'corp',corpEng:'corp',bank:'corp',consult:'consult',publicCo:'ncs',cpa:'cpa',flight:'flight',devBig:'it',data:'it',elec:'elecCert',mechanic:'cert',welder:'cert',chef:'cert',hair:'cert',webtoon:'webtoon',actor:'actor',musician:'musician',designer:'design',reporter:'media',pd:'media',athlete:'athlete',coach:'cert',farmer:'farm'};
+// 시험이 없는 직업도 서류·면접을 거치는 '구직 활동'이나 '창업 준비' 기간이 있다. 즉시 시작은 아르바이트·플랫폼 노동뿐.
+PREPS.hunt={n:'구직 활동',label:'구직 활동',how:'서류 → 면접',steps:['이력서 · 자기소개서 수십 곳 지원','서류 합격 → 인적성 · 면접 1~3회','최종 합격 (청년 첫 취업까지 평균 약 11개월)'],pass:0,cost:500,st:64,comp:'서류 합격률 약 10~20%',
+ ev:['자소서 40개를 썼는데 서류 합격은 3곳이었다.','면접에서 "마지막으로 하고 싶은 말"에 말문이 막혔다.','청년 구직활동지원금을 받았다.','3개월짜리 체험형 인턴을 했다.','최종 면접에서 떨어졌다.','합격 연락을 기다리며 휴대폰만 쳐다봤다.']};
+PREPS.startup={n:'창업 준비',label:'창업 준비',how:'상권 분석 · 대출 · 인테리어',steps:['상권 분석 · 점포 계약 (보증금·권리금)','인테리어 · 장비 · 초도 물품 (3천만~1억)','가오픈 → 정식 오픈 (자영업 5년 생존율 약 30%)'],pass:.9,cost:3500,st:70,
+ ev:['권리금 협상에 진땀을 뺐다.','소상공인 정책자금 대출을 받았다.','인테리어 공사가 한 달 밀렸다.']};
+PREPS.ecom={n:'온라인 창업 준비',label:'온라인 창업',how:'사업자등록 · 상품 소싱',steps:['사업자등록 · 통신판매업 신고','상품 소싱 · 상세페이지 제작','광고비 집행 → 첫 주문'],pass:.85,cost:1000,st:62,ev:['첫 주문 알림에 소리를 질렀다.','광고비만 쓰고 한 달 매출이 0원이었다.']};
+PREPS.realtor={n:'공인중개사 시험',how:'1차 · 2차 (연 1회)',steps:['1차: 부동산학개론 · 민법','2차: 공법 · 세법 · 중개사법','합격 후 실무교육 → 개업'],pass:.22,cost:600,st:66,comp:'최종 합격률 약 20%대'};
+const INSTANT=new Set(['parttime','rider','delivery','senior','youtuber','cleaner','logistics','labeler','insurance']);
+const STARTUP=new Set(['cafe','cvs','founder','giftshop','florist','bakery','nail','unmanned','banchan']);
+const prepOf=id=>PREP_OF[id]||(INSTANT.has(id)?null:STARTUP.has(id)?'startup':id==='ecommerce'?'ecom':id==='realtor'?'realtor':id==='pilates'?'cert':'hunt');
+const FALLBACK={gov7:'gov9',judge:'lawyer',diplomat:'gov7',teachS:'tutor',prof:'tutor',corpOffice:'midCo',corpEng:'midCo',bank:'midCo',publicCo:'midCo',consult:'corpOffice',devBig:'devStart',data:'devStart',cpa:'midCo',reporter:'marketer',pd:'marketer',flight:'smallCo',actor:'youtuber',musician:'tutor',athlete:'coach',webtoon:'designer',lawyer:'smallCo',gov9:'smallCo',police:'smallCo',fire:'smallCo',elec:'smallCo',designer:'smallCo'};
+
+/* ---------- 일하는 환경 ---------- */
+// st: 직장 스트레스 기준치(0~100)  h: 주당 근무시간  tg: 주요 스트레스 원인
+const WORK={
+ doctor:{st:80,h:60,tg:['응급 호출','의료소송 위험','생명의 무게']},dentist:{st:55,h:45,tg:['개원 대출','환자 불만','반복 노동']},
+ kmd:{st:45,h:42,tg:['시장 정체','개원 경쟁']},pharm:{st:45,h:44,tg:['종일 서서 근무','약국 경쟁']},
+ nurse:{st:86,h:50,tg:['3교대','태움 문화','인력 부족','감정 노동']},pt:{st:55,h:45,tg:['체력 소모','더딘 임금 상승']},
+ care:{st:72,h:44,tg:['신체 부담','감정 노동','저임금']},judge:{st:75,h:55,tg:['사건 적체','판결의 무게','순환 근무']},
+ lawyer:{st:78,h:55,tg:['수임 경쟁','타임차지','의뢰인 압박']},gov7:{st:60,h:45,tg:['국회·감사 대응','순환보직','세종 근무']},
+ nco:{st:66,h:50,tg:['장기복무 선발','격오지 근무','잦은 훈련']},gov9:{st:64,h:42,tg:['악성 민원','박봉','경직된 조직']},police:{st:76,h:50,tg:['교대 근무','폭언·폭행','트라우마']},
+ fire:{st:72,h:50,tg:['24시간 교대','참혹한 현장','PTSD']},officer:{st:70,h:52,tg:['잦은 이사','계급정년','격오지 근무']},
+ diplomat:{st:68,h:52,tg:['3년마다 해외 이동','가족 부담']},teachE:{st:62,h:44,tg:['학부모 민원','교권 침해','행정 업무']},
+ teachS:{st:66,h:45,tg:['입시 압박','생활지도','민원']},prof:{st:60,h:55,tg:['연구비 수주','논문 실적','학생 지도']},
+ tutor:{st:68,h:55,tg:['성적 압박','저녁·주말 근무']},corpOffice:{st:72,h:52,tg:['실적 압박','회식','명예퇴직 공포']},
+ corpEng:{st:72,h:54,tg:['양산 일정','긴급 대응','지방 사업장']},midCo:{st:60,h:46,tg:['애매한 처우','이직 고민']},
+ smallCo:{st:62,h:46,tg:['낮은 연봉','1인 다역','고용 불안']},bank:{st:66,h:46,tg:['영업 실적','지점 축소','희망퇴직']},
+ publicCo:{st:50,h:42,tg:['지방 근무','보수적 문화']},cpa:{st:80,h:58,tg:['감사 시즌 야근','자격 유지 교육']},
+ consult:{st:92,h:75,tg:['주 70~80시간','출장','Up or Out']},marketer:{st:64,h:48,tg:['성과 지표','트렌드 압박']},
+ flight:{st:70,h:45,tg:['시차','감정 노동','체력']},devBig:{st:64,h:48,tg:['온콜 장애 대응','성과 평가','AI 대체 불안']},
+ devStart:{st:76,h:55,tg:['투자 유치 불안','야근','회사 존폐']},data:{st:60,h:46,tg:['모호한 요구사항','성과 증명']},
+ game:{st:78,h:56,tg:['크런치 모드','흥행 실패 시 팀 해체']},factory:{st:58,h:48,tg:['교대 근무','소음·반복 작업']},
+ elec:{st:52,h:46,tg:['감전 위험','현장 이동']},mechanic:{st:55,h:48,tg:['육체 노동','전기차 전환']},
+ welder:{st:70,h:52,tg:['유해 가스','고소 작업','산업재해']},delivery:{st:82,h:70,tg:['하루 300개','분류 작업','과로']},
+ rider:{st:70,h:55,tg:['교통사고 위험','알고리즘 평가','날씨']},chef:{st:76,h:60,tg:['주방 열기','주말 근무','위계']},
+ hair:{st:60,h:52,tg:['서서 일하기','고객 응대']},cafe:{st:72,h:60,tg:['임대료','경쟁 매장','매출 변동']},
+ founder:{st:84,h:72,tg:['주 7일 영업','폐업 위험','본사 갑질']},cvs:{st:76,h:70,tg:['24시간 운영','알바 구인','낮은 마진']},
+ giftshop:{st:66,h:60,tg:['임대료','재고','인스타 알고리즘']},florist:{st:60,h:58,tg:['시즌 편중','꽃 폐기','새벽 꽃시장']},bakery:{st:74,h:66,tg:['새벽 4시 기상','재료비 상승','프랜차이즈']},
+ nail:{st:62,h:54,tg:['손님 응대','목·어깨 통증','가격 경쟁']},ecommerce:{st:70,h:58,tg:['광고비','반품·CS','플랫폼 수수료']},unmanned:{st:50,h:20,tg:['도난','과포화','관리비']},
+ banchan:{st:70,h:62,tg:['새벽 장보기','재료 폐기','위생 점검']},realtor:{st:64,h:50,tg:['거래 절벽','분쟁 책임','경쟁']},pilates:{st:56,h:40,tg:['회원 모집','시급제','부상 위험']},
+ parttime:{st:52,h:40,tg:['불안정 고용','4대보험 없음']},webtoon:{st:86,h:65,tg:['주간 마감','악플','손목·허리']},
+ youtuber:{st:68,h:55,tg:['알고리즘','악플','수익 변동']},actor:{st:72,h:40,tg:['캐스팅 불확실','수입 공백','외모 압박']},
+ musician:{st:62,h:44,tg:['불안정 수입','레슨 병행']},designer:{st:68,h:52,tg:['잦은 수정','마감','낮은 대우']},
+ reporter:{st:82,h:58,tg:['마감','출입처','악플']},pd:{st:84,h:62,tg:['시청률','밤샘 편집','섭외']},
+ athlete:{st:78,h:45,tg:['부상','성적','짧은 선수 수명']},coach:{st:52,h:44,tg:['수강생 모집','체력']},
+ farmer:{st:50,h:55,tg:['날씨','판로','일손 부족']},senior:{st:45,h:48,tg:['24시간 격일 근무','입주민 갑질']}
+};
+function milPay(y){return y>=2024?2000:y>=2018?700:y>=2000?250:100} // 복무 기간 중 모을 수 있는 돈(만원) 근사
+const MIL_DONE={army:'육군 병장으로 전역했다.',navy:'해군 병장으로 전역했다.',airforce:'공군 병장으로 전역했다.',marine:'해병대 병장으로 전역했다. 빨간 명찰은 평생 간다.',katusa:'카투사 복무를 마쳤다.',
+ rotc:'ROTC 소위로 임관해 28개월 복무를 시작한다.',rntc:'RNTC 과정을 마쳤다.',industry:'산업기능요원 복무가 시작됐다.',research:'전문연구요원 편입이 확정됐다.',medic:'군의관 복무가 예정됐다.',phd:'공중보건의 복무가 예정됐다.',social:'사회복무요원 소집해제됐다.'};
+Object.assign(JEV,JEV_EXTRA);
+const workOf=id=>WORK[id]||{st:58+(3-JOB[id].wlb)*7,h:HRS[JOB[id].wlb],tg:(AI[id]>=2?['AI 대체 불안']:[]).concat(JOB[id].hp<0?['육체 부담']:[])};
+const HRS={1:58,2:52,3:46,4:41,5:38};
+const DAY_CAT={
+ '의료':[['07:00','회진'],['09:00','외래 진료 · 시술'],['13:00','점심은 10분'],['19:00','차트 정리'],['22:00','당직 콜']],
+ '법·공공':[['08:30','출근 · 업무 회의'],['10:00','민원·사건 처리'],['14:00','보고서 · 공문'],['18:00','정시 퇴근… 혹은 야근']],
+ '교육':[['08:20','조회'],['09:00','수업 4~5시간'],['13:00','급식 지도'],['15:00','행정 업무 · 상담'],['21:00','학부모 문자']],
+ '기업':[['08:30','출근'],['09:00','주간 회의'],['13:00','보고서 · 메일'],['19:00','야근 또는 회식']],
+ 'IT':[['10:00','스탠드업'],['11:00','코딩 · 코드 리뷰'],['16:00','기획 회의'],['02:00','온콜 알림']],
+ '기술·현장':[['06:30','현장 출근 · 안전 교육'],['07:00','작업'],['12:00','현장 식당'],['17:00','잔업']],
+ '서비스·자영업':[['08:00','오픈 준비'],['11:30','점심 피크'],['15:00','재고 · 정산'],['22:00','마감']],
+ '문화·예술':[['11:00','기상'],['13:00','작업'],['20:00','미팅 · 연습'],['03:00','마감 작업']],
+ '스포츠·농업':[['05:30','새벽 훈련 · 일'],['10:00','본 작업'],['15:00','오후 훈련 · 관리'],['21:00','휴식']]
+};
+const DAY_ID={
+ gov9:[['09:00','민원창구 오픈'],['11:00','악성 민원 응대'],['14:00','공문 처리'],['18:00','퇴근']],
+ police:[['08:00','교대 · 순찰'],['14:00','신고 출동'],['22:00','주취자 처리'],['03:00','야간 출동']],
+ fire:[['09:00','24시간 근무 시작 · 장비 점검'],['13:00','화재 출동'],['20:00','구급 출동'],['04:00','교통사고 현장']],
+ nurse:[['06:30','인계'],['07:00','투약 · 활력징후'],['12:00','밥 먹을 틈 없음'],['15:00','인계 후 차팅 · 초과근무']],
+ delivery:[['06:30','터미널 분류 작업'],['11:00','배송 시작'],['20:00','300개째 배송'],['22:00','퇴근']],
+ consult:[['08:00','클라이언트 사이트 출근'],['13:00','장표 작업'],['23:00','파트너 리뷰'],['02:00','숙소 복귀']],
+ teachE:[['08:20','아침 맞이'],['09:00','수업 5교시'],['13:00','급식 · 생활지도'],['15:00','공문 · 학부모 상담'],['21:00','학부모 메시지']]
+};
+DAY_ID.giftshop=[['11:00','오픈 · 인스타 업로드'],['14:00','손님 응대 · 포장'],['19:00','재고 정리 · 발주'],['23:00','도매 사이트 구경']];
+DAY_ID.bakery=[['04:00','반죽'],['07:00','오픈'],['14:00','두 번째 굽기'],['20:00','남은 빵 정리']];
+DAY_ID.realtor=[['10:00','매물 광고 올리기'],['14:00','손님과 집 보기'],['17:00','계약서 작성'],['21:00','단톡방 문의 응대']];
+Object.assign(DAY_CAT,{
+ '전문 자격':[['09:00','고객 상담'],['11:00','신고서 · 서류 검토'],['15:00','관공서 · 법원 업무'],['20:00','시즌엔 야근']],
+ '연구·과학':[['09:00','실험 세팅'],['13:00','데이터 분석'],['16:00','랩 미팅'],['22:00','논문 작성']],
+ '건설·운송':[['05:30','현장 집결 · 운행 시작'],['07:00','작업 · 운행'],['12:00','현장 식당 · 휴게소'],['18:00','마감']],
+ '복지·돌봄':[['08:00','출근 · 인계'],['10:00','돌봄 · 상담'],['14:00','서류 · 기록'],['18:00','퇴근 후에도 걱정']]
+});
+const dayOf=id=>DAY_ID[id]||DAY_CAT[JOB[id].c];
+const RANKS={
+ '기업':[[0,'사원'],[4,'대리'],[8,'과장'],[13,'차장'],[18,'부장'],[24,'임원']],
+ 'IT':[[0,'주니어'],[3,'미들'],[7,'시니어'],[12,'리드'],[17,'디렉터']],
+ '교육':[[0,'신규 교사'],[5,'1급 정교사'],[15,'부장 교사'],[25,'교감']],
+ '의료':[[0,'신입'],[5,'중견'],[12,'과장·실장'],[20,'원장급']],
+ default:[[0,'신입'],[3,'주니어'],[8,'시니어'],[15,'베테랑'],[25,'장인']]
+};
+const RANK_ID={
+ gov9:[[0,'9급 서기보'],[4,'8급 서기'],[9,'7급 주사보'],[16,'6급 주사'],[26,'5급 사무관']],
+ gov7:[[0,'7급 주사보'],[7,'6급 주사'],[16,'5급 사무관'],[26,'4급 서기관']],
+ police:[[0,'순경'],[4,'경장'],[9,'경사'],[16,'경위'],[25,'경감']],
+ fire:[[0,'소방사'],[4,'소방교'],[9,'소방장'],[16,'소방위'],[25,'소방경']],
+ nco:[[0,'하사'],[4,'중사'],[11,'상사'],[20,'원사']],
+ officer:[[0,'소위'],[2,'중위'],[5,'대위'],[11,'소령'],[18,'중령'],[25,'대령']],
+ judge:[[0,'검사·재판연구원'],[7,'판사·부부장'],[15,'부장'],[22,'법원장·검사장']],
+ lawyer:[[0,'어쏘 변호사'],[7,'시니어'],[12,'파트너']],
+ doctor:[[0,'전문의 (봉직의)'],[5,'과장'],[10,'개원의 · 부장']],
+ cpa:[[0,'스태프'],[3,'시니어'],[7,'매니저'],[12,'파트너']],
+ consult:[[0,'애널리스트'],[2,'컨설턴트'],[5,'매니저'],[9,'파트너']],
+ chef:[[0,'막내'],[3,'라인 쿡'],[7,'수셰프'],[12,'헤드 셰프']]
+};
+function rankOf(S){const id=S.job.id,y=S.age-S.job.start-(S.job.delay||0),L=RANK_ID[id]||RANKS[JOB[id].c]||RANKS.default;let r=L[0][1];for(const[t,n]of L)if(y>=t)r=n;return r}
+
+/* ---------- 직장 생활의 순간들 (선택) ---------- */
+const delay=S=>{S.job.delay=(S.job.delay||0)+1};
+const JH={l:'이직 준비 시작',s:'재직 중 1~2년 · 스트레스 +8/년',lock:S=>S.jobHunt&&'이미 이직 준비 중',w:.8,f:S=>startHunt(S)};
+const OFFICE=['기업','IT','법·공공','교육','의료','문화·예술','기술·현장','전문 자격','연구·과학','건설·운송','복지·돌봄'];
+const WEV=[
+ {id:'boss',cats:OFFICE,t:'상사의 폭언',d:'회의 중 팀장이 모두 앞에서 당신에게 소리를 질렀습니다. 2019년부터 직장 내 괴롭힘 금지법이 시행 중이지만, 신고자의 상당수가 불이익을 겪었다고 답합니다.',o:[
+  {l:'참는다',s:'스트레스 +12 · 행복 −4',w:2,f:S=>{S.stress+=12;eff(S,{p:-4});lg(S,'아무 말도 하지 못하고 화장실에서 숨을 골랐다.','bad')}},
+  {l:'녹음하고 인사팀에 신고',s:'50% 징계 / 50% 보복 인사',w:1,f:S=>{if(R()<.5){S.stress-=10;eff(S,{p:6});lg(S,'신고가 받아들여져 팀장이 징계를 받았다.','good')}else{S.stress+=15;S.job.sal*=.97;delay(S);lg(S,'신고 뒤 한직으로 발령이 났다. 보복 인사였다.','bad')}}},
+  {l:'노무사 상담 → 노동청 진정',s:'비용 100만 · 60% 인정',w:.7,f:S=>{eff(S,{m:-100});if(R()<.6){S.stress-=8;eff(S,{p:5});lg(S,'노동청이 직장 내 괴롭힘을 인정했다.','good')}else{S.stress+=10;lg(S,'증거 불충분으로 진정이 종결됐다.','bad')}}},
+  {l:'부서 이동 요청',s:'스트레스 −8 · 승진 1년 늦어짐',w:1,f:S=>{S.stress-=8;delay(S);lg(S,'다른 부서로 옮겼다. 처음부터 다시 시작이다.','choice')}},JH]},
+ {id:'overtime',cats:['기업','IT','문화·예술','법·공공','의료','전문 자격','건설·운송'],t:'끝없는 야근',d:'이번 프로젝트는 석 달째 밤 11시 퇴근입니다. 한국의 연간 노동시간은 OECD 평균보다 약 150시간 깁니다.',o:[
+  {l:'끝까지 해낸다',s:'건강 −6 · 스트레스 +10 · 40% 성과 인정',w:2,f:S=>{eff(S,{h:-6});S.stress+=10;if(R()<.4){S.job.sal*=1.08;eff(S,{p:5});lg(S,'프로젝트를 성공시켜 특별 성과급을 받았다.','good')}else lg(S,'석 달을 갈아 넣었지만 아무도 기억하지 않았다.','bad')}},
+  {l:'칼퇴 선언',s:'스트레스 −6 · 행복↑ · 승진 늦어짐',w:1,f:S=>{S.stress-=6;eff(S,{p:4,r:3});delay(S);lg(S,'6시 정각에 노트북을 덮었다. 눈치가 보였지만 저녁이 생겼다.','choice')}},
+  {l:'업무 재분배 요청',s:'50% 수용',w:1.2,f:S=>{if(R()<.5){S.stress-=5;lg(S,'팀장이 업무를 나눠줬다.','good')}else{S.stress+=5;eff(S,{r:-3});lg(S,'"다들 바빠"라는 대답이 돌아왔다.','bad')}}},JH]},
+ {id:'drink',cats:['기업','법·공공','기술·현장','의료','건설·운송'],t:'회식',d:'부장님이 "오늘은 다 같이 2차까지"라고 합니다. 내일도 9시 출근입니다.',o:[
+  {l:'끝까지 달린다',s:'관계 +4 · 건강 −4',w:1.5,f:S=>{eff(S,{r:4,h:-4});S.stress+=3;lg(S,'새벽 2시, 택시를 잡으며 부장님 노래를 세 곡 들었다.')}},
+  {l:'1차만 하고 빠진다',s:'무난함',w:2,f:S=>{eff(S,{r:1})}},
+  {l:'정중히 불참',s:'관계 −3 · 스트레스 −3',w:1,f:S=>{eff(S,{r:-3,p:2});S.stress-=3;lg(S,'회식에 빠지고 집에서 쉬었다. 다음 날 분위기가 묘했다.')}}]},
+ {id:'unjust',cats:['기업','법·공공','의료','IT','전문 자격','건설·운송'],t:'부당한 지시',d:'상사가 실적 숫자를 "조금만" 고쳐서 보고하라고 합니다.',o:[
+  {l:'시키는 대로 한다',s:'스트레스 +10 · 15% 적발 시 징계',w:1.5,f:S=>{S.stress+=10;if(R()<.15){S.job.sal*=.9;eff(S,{p:-10});lg(S,'감사에서 조작이 드러났다. 지시한 사람은 빠지고 당신이 징계를 받았다.','bad')}else lg(S,'찜찜했지만 아무 일도 없었다.','bad')}},
+  {l:'거절한다',s:'관계 −4 · 50% 승진 불이익',w:1.5,f:S=>{eff(S,{r:-4,p:2});S.stress+=4;if(R()<.5)delay(S);lg(S,'지시를 거절했다. 그 뒤로 중요한 일에서 빠졌다.','choice')}},
+  {l:'내부 고발',s:'스트레스 +18 · 50% 보복',w:.4,f:S=>{S.stress+=18;if(R()<.5){eff(S,{p:-8,r:-6});delay(S);lg(S,'공익신고 후 조직에서 고립됐다.','bad')}else{eff(S,{p:8});lg(S,'조사 끝에 문제가 바로잡혔다.','good')}}}]},
+ {id:'complaint',cats:['법·공공','교육','의료','서비스·자영업','복지·돌봄'],t:'악성 민원',d:S=>({'교육':'한 학부모가 아동학대로 신고하겠다며 매일 밤 전화합니다.','의료':'보호자가 진료실에서 폭언을 퍼붓고 소송을 예고했습니다.','서비스·자영업':'진상 손님이 별점 테러와 SNS 폭로를 예고했습니다.','복지·돌봄':'이용자 가족이 매일 찾아와 고성을 지릅니다.'})[JOB[S.job.id].c]||'같은 민원인이 6개월째 매일 찾아와 욕설을 합니다.',o:[
+  {l:'혼자 감당한다',s:'스트레스 +12 · 행복 −5',w:1.5,f:S=>{S.stress+=12;eff(S,{p:-5});lg(S,'밤마다 휴대폰 진동에 깼다.','bad')}},
+  {l:'조직에 보호 요청',s:'50% 지원',w:1.5,f:S=>{if(R()<.5){S.stress-=6;lg(S,'기관이 대신 대응해줬다.','good')}else{S.stress+=4;lg(S,'"원만하게 해결하라"는 말만 돌아왔다.','bad')}}},
+  {l:'법적으로 대응',s:'비용 300만 · 60% 해결',w:.8,f:S=>{eff(S,{m:-300});S.stress+=5;if(R()<.6){eff(S,{p:6});S.stress-=10;lg(S,'법적 대응 끝에 민원이 멈췄다.','good')}else lg(S,'소송은 길어졌다.','bad')}},
+  {l:'병가 내고 쉰다',s:'스트레스 −10 · 연봉 −5%',w:1,f:S=>{S.stress-=10;S.job.sal*=.95;lg(S,'2주 병가를 냈다.','choice')}}]},
+ {id:'perf',cats:['기업','IT','문화·예술','서비스·자영업','전문 자격'],t:'실적 압박',d:'분기 평가 팀 최하위. 다음에도 낮으면 대기발령이라는 말이 돕니다.',o:[
+  {l:'주말 출근으로 만회',s:'건강 −5 · 55% 회복',w:1.5,f:S=>{eff(S,{h:-5});S.stress+=10;if(R()<.55){eff(S,{p:4});lg(S,'다음 분기 실적을 끌어올렸다.','good')}else{S.job.sal*=.9;lg(S,'대기발령을 받았다.','bad')}}},
+  {l:'자기계발 (자격증·야간 대학원)',s:'비용 800만 · 지식↑ · 스펙 +1',w:1,f:S=>{eff(S,{m:-800,k:6});S.spec=(S.spec||0)+1;S.stress+=4;lg(S,'퇴근 후 야간 대학원에 등록했다.','choice')}},
+  {l:'그냥 버틴다',s:'스트레스 +6 · 30% 대기발령',w:1,f:S=>{S.stress+=6;if(R()<.3){S.job.sal*=.9;lg(S,'대기발령을 받았다.','bad')}}},JH]},
+ {id:'coworker',cats:null,t:'동료와의 갈등',d:'옆자리 동료가 당신의 성과를 자기 것처럼 보고했습니다.',o:[
+  {l:'직접 이야기한다',s:'60% 해결',w:1.5,f:S=>{if(R()<.6){eff(S,{r:3});S.stress-=3;lg(S,'솔직하게 이야기했고, 사과를 받았다.','good')}else{eff(S,{r:-4});S.stress+=6;lg(S,'대화는 싸움이 됐다.','bad')}}},
+  {l:'상사에게 알린다',s:'관계 −2 · 50% 인정',w:1,f:S=>{eff(S,{r:-2});if(R()<.5){eff(S,{p:4});lg(S,'상사가 사실을 바로잡아줬다.','good')}}},
+  {l:'넘어간다',s:'스트레스 +6',w:1.5,f:S=>{S.stress+=6;eff(S,{p:-3})}}]},
+ {id:'safety',cats:['기술·현장','건설·운송'],t:'안전수칙 무시',d:'공정이 밀렸다며 반장이 안전장비 없이 고소 작업을 하라고 합니다. 한국에선 매년 800명 넘게 일하다 목숨을 잃습니다.',o:[
+  {l:'시키는 대로 한다',s:'10% 중상',w:1.5,f:S=>{S.stress+=5;if(R()<.1){eff(S,{h:-30,p:-10});lg(S,'추락 사고로 크게 다쳤다. 산재 처리에만 1년이 걸렸다.','bad')}else lg(S,'아무 일 없었지만 다리가 떨렸다.','bad')}},
+  {l:'작업중지권 행사',s:'관계 −4 · 안전',w:1,f:S=>{eff(S,{r:-4,p:2});S.stress+=4;lg(S,'"위험해서 못 합니다"라고 말했다.','choice')}},
+  {l:'안전관리자 · 노조에 신고',s:'70% 개선',w:1,f:S=>{eff(S,{r:-2});if(R()<.7){S.stress-=4;lg(S,'현장에 안전망이 설치됐다.','good')}}}]},
+ {id:'oncall',cats:['IT'],t:'새벽 장애 호출',d:'이번 달에만 새벽 3시에 열 번 넘게 장애 알림을 받았습니다.',o:[
+  {l:'계속 받는다',s:'건강 −5 · 스트레스 +10 · 평가↑',w:1.5,f:S=>{eff(S,{h:-5});S.stress+=10;S.job.sal*=1.04}},
+  {l:'온콜 로테이션 개선 제안',s:'55% 수용 · 스트레스 −8',w:1.2,f:S=>{if(R()<.55){S.stress-=8;lg(S,'온콜 당번제가 도입됐다.','good')}else lg(S,'"다음 분기에 검토하자"는 답을 받았다.','bad')}},JH]},
+ {id:'relocate',cats:['기업','법·공공','교육','건설·운송'],t:'지방 발령',d:'회사가 2년간 지방 사업장 근무를 명령했습니다.',o:[
+  {l:'가족과 함께 이사',s:'관계 −2 · 행복 −2',w:1,f:S=>{eff(S,{r:-2,p:-2});lg(S,'짐을 싸서 지방으로 내려갔다.','choice')}},
+  {l:'주말부부 · 혼자 내려간다',s:'관계 −6 · 스트레스 +6',w:1.2,f:S=>{eff(S,{r:-6});S.stress+=6;lg(S,'금요일 밤마다 고속버스를 탔다.','choice')}},
+  {l:'거부한다',s:'40% 철회 / 60% 사직 압박',w:.5,f:S=>{if(R()<.4)lg(S,'발령이 철회됐다.','good');else{S.stress+=12;delay(S);lg(S,'발령 거부 뒤 사직 압박을 받았다.','bad')}}}]},
+ {id:'promo',cats:null,t:'승진 제안',d:'팀장 자리를 제안받았습니다. 연봉은 오르지만 책임과 야근이 늘어납니다.',o:[
+  {l:'수락한다',s:'연봉 +15% · 스트레스 계속 +8',w:2,f:S=>{S.job.sal*=1.15;S.stressMod=(S.stressMod||0)+8;S.job.delay=(S.job.delay||0)-2;lg(S,'팀장이 됐다. 팀원 다섯 명의 고민이 내 일이 됐다.','good')}},
+  {l:'거절한다',s:'지금의 워라밸 유지',w:1,f:S=>{eff(S,{p:2});lg(S,'승진을 고사했다.','choice')}}]},
+ {id:'relief',cats:null,t:'퇴근 후',d:S=>`요즘 스트레스 지수 ${Math.round(S.stress)}. 퇴근 후 무엇으로 스트레스를 푸나요?`,o:[
+  {l:'운동',s:'건강 +6 · 스트레스 −10',w:1.5,f:S=>{eff(S,{h:6,m:-100});S.stress-=10;S.stressMod=(S.stressMod||0)-3;lg(S,'퇴근 후 헬스장과 러닝이 루틴이 됐다.','good')}},
+  {l:'술',s:'스트레스 −8 · 건강 −6',w:1.2,f:S=>{eff(S,{h:-6});S.stress-=8;lg(S,'편의점 맥주가 하루의 마무리가 됐다.','bad')}},
+  {l:'취미 (악기·그림·여행)',s:'행복 +4 · 스트레스 −8',w:1.2,f:S=>{eff(S,{p:4,m:-200});S.stress-=8;S.stressMod=(S.stressMod||0)-2}},
+  {l:'심리 상담',s:'비용 300만 · 스트레스 −14',w:.8,f:S=>{eff(S,{m:-300});S.stress-=14;S.stressMod=(S.stressMod||0)-3;lg(S,'상담을 받기 시작했다.','good')}},
+  {l:'유튜브 · 게임',s:'스트레스 −4',w:1.5,f:S=>{S.stress-=4}}]}
+];
+const WEV_MAP=Object.fromEntries(WEV.map(e=>[e.id,e]));
+function pickWev(S){
+  const c=JOB[S.job.id].c,done=S.wevSeen||{};
+  const pool=WEV.filter(e=>(!e.cats||e.cats.includes(c)));
+  return wpick(pool.map(e=>[e.id,(e.id==='relief'&&S.stress>65?3:1)/(1+(done[e.id]||0)*1.5)]));
+}
+
+/* =========================================================
+   ENGINE
+   ========================================================= */
+function lg(S,t,k='life'){S.log.push({a:S.age,y:S.year,t,k})}
+function eff(S,e={}){
+  const map={h:'health',p:'happy',k:'know',r:'rel'},nm={h:'건강',p:'행복',k:'지식',r:'관계',m:'돈'};const out=[];
+  for(const key in e){const v=e[key];if(!v)continue;
+    if(key==='m'){S.money+=v;out.push(`${nm.m} ${v>0?'+':'−'}${fmt(Math.abs(v))}`)}
+    else{S[map[key]]=clamp(S[map[key]]+v);out.push(`${nm[key]} ${v>0?'+':'−'}${Math.abs(v)}`)}}
+  return out.join(' · ');
+}
+function fmt(v){v=Math.round(v);const a=Math.abs(v),s=v<0?'−':'';if(a>=10000)return s+(a/10000).toFixed(a>=100000?0:1)+'억';return s+a.toLocaleString()+'만'}
+function net(S){return S.money+S.houseValue-S.debt}
+function wq(S){if(S.age<25&&!S.job)return S.income;const n=net(S);return n<8000?1:n<25000?2:n<45000?3:n<80000?4:5}
+
+function newLife(o={}){
+  const gender=o.gender||(R()<.512?'M':'F');
+  const region=o.region||wpick(Object.entries(REGIONS).map(([k,v])=>[k,v.w]));
+  const Rg=REGIONS[region];
+  const income=o.income?+o.income:wpick([1,2,3,4,5].map(i=>[i,[0,12,18,22,24,24][i]*Math.exp(Rg.inc*(i-3)*.6)]));
+  const family=wpick([['맞벌이',income>=3?52:40],['외벌이',38],['한부모',income<=2?14:5],['조부모 양육',3]]);
+  const sib=wpick([['외동',45],['첫째',30],['둘째',20],['셋째 이상',5]]);
+  const S={
+    name:pick(SUR)+pick(NM[gender]),gender,birthYear:+o.year||2026,year:+o.year||2026,age:0,region,town:pick(Rg.towns),
+    income,family,sib,parentJob:pick(PARENT_JOBS[income]),
+    health:clamp(72+rnd(-12,12)),happy:clamp(62+rnd(-8,8)+(family==='한부모'?-5:0)),
+    know:clamp(25+income*4+Rg.edu+rnd(-8,8)),rel:clamp(56+rnd(-10,10)+(sib==='외동'?-3:3)),
+    money:0,debt:0,house:false,houseValue:0,married:false,spouseInc:0,kids:0,kidsAge:0,
+    edu:{high:'',univ:'',tier:0,flag:'',major:'',voc:false,hs:0,artsHs:false},interest:'',
+    studyRate:1.2+income*.25+Rg.edu*.08,uniEnd:0,
+    job:null,prep:null,stress:20,jobsDone:[],workYears:0,lifeIncome:0,retired:false,pension:0,failed:[],
+    collegeAge:19,retook:false,eduDone:false,jobSeekAge:null,nextJobTry:null,militaryAge:null,militaryDone:gender==='F',
+    loveAge:31,houseAge:34,asked:{},history:[],log:[],years:[],pending:null,next:null,snapNeeded:false,dead:false,cause:''
+  };
+  lg(S,`${S.birthYear}년, ${S.town}에서 ${INC_LABEL[income]} ${family} 가정의 ${sib}로 태어났다. 부모님은 ${S.parentJob}.`,'choice');
+  return S;
+}
+
+function phase(S){const a=S.age;if(a<7)return'child';if(a<=18)return'school';if(S.prep)return'prep';if(S.job)return'work';if(S.retired)return'retire';if(S.jobSeekAge&&a>=S.jobSeekAge)return'seek';return'study'}
+const PH={child:['유년','var(--child)'],school:['학창','var(--school)'],study:['대학·군대','var(--study)'],seek:['구직','var(--seek)'],prep:['시험·수련 준비','var(--prep)'],work:['직장','var(--work)'],retire:['은퇴','var(--retire)']};
+
+function qx(S,a){
+  if(a>=110)return 1;
+  let q=.000018*Math.exp(.1*a);
+  if(a<30)q+=.0003; if(a===1)q+=.002;
+  q*=S.gender==='M'?1.4:.8;
+  q*=clamp(1.7-S.health/80,.5,2.5);
+  q*=1.15-wq(S)*.05;
+  if(S.job&&JOB[S.job.id].risk)q+=JOB[S.job.id].risk;
+  return Math.min(q,.95);
+}
+function lifeExp(S){let s=1,e=S.age;for(let a=S.age+1;a<=110;a++){s*=1-qx(S,a);e+=s}return e}
+function causeOf(S){const a=S.age;
+  if(a<15)return pick(['불의의 사고','소아암']);
+  if(a<40)return S.job&&JOB[S.job.id].risk?'업무 중 사고':pick(['교통사고','불의의 사고','급성 질환']);
+  if(a<65)return wpick([['암',45],['심장질환',20],['뇌혈관질환',12],['간질환',8],['사고',15]]);
+  return wpick([['암',28],['심장질환',13],['폐렴',11],['뇌혈관질환',9],['알츠하이머',6],['노환',22],['패혈증',5]]);
+}
+
+function randomEvent(S){
+  const a=S.age;let pool;
+  if(S.job&&R()<.45)pool=JEV[JOB[S.job.id].c];
+  else if(a>=19&&S.edu.tier>=1&&S.jobSeekAge&&a<S.jobSeekAge&&!S.job&&!S.prep)pool=EV.campus;
+  else pool=a<7?EV.child:a<19?EV.teen:a<35?EV.young:a<60?EV.mid:EV.old;
+  const ok=pool.filter(x=>!x.c||x.c(S));if(!ok.length)return;
+  const ev=pick(ok);ev.fx&&ev.fx(S);const f=eff(S,ev.e);
+  const p=(ev.e.p||0)+(ev.e.h||0)+(ev.e.r||0)+(ev.e.k||0)+(ev.e.m||0)/400;
+  lg(S,ev.t+(f?` <span class="fx">${f}</span>`:''),p>0?'good':p<0?'bad':'life');
+}
+
+function yearly(S){
+  S.age++;S.year++;const a=S.age;S.failed=[];
+  if(a>=7&&a<=18)S.know+=S.studyRate*rnd(.6,1.4);
+  if(a>=17&&a<=18)S.know+=(S.grind||0)*.45;
+  if(S.uniEnd&&a<=S.uniEnd)S.know+=rnd(.5,2);
+  if(a>40)S.health-=rnd(.2,.9)*(a/50);else S.health+=rnd(-1,1.2);
+  if(a>65)S.rel-=rnd(0,1);
+  if(a===7)lg(S,'초등학교에 입학했다.');if(a===13)lg(S,'중학교에 입학했다.');
+
+  let inc=0,leave=false;
+  if(S.prep)prepYear(S);
+  if(S.job&&S.onLeave){S.onLeave=false;leave=true;lg(S,'휴직 1년. 처음으로 아무것도 하지 않는 시간을 보냈다. <span class="fx">급여 없음</span>','good')}
+  else if(S.job){
+    const j=JOB[S.job.id];inc=S.job.sal;S.workYears++;S.lifeIncome+=S.job.sal;
+    if(S.jobHunt)huntYear(S);
+    const ai=AI[S.job.id]||0,yf=aiYear(S.year);
+    if(ai&&yf&&R()<ai*.03*yf/(1+(S.aiSafe||0))){S.aiPending=true}
+    else if(ai&&yf>.3&&R()<.2){S.stress+=4;lg(S,pick(['AI 도구 도입으로 팀 인원이 줄었다. 남은 사람의 일이 늘었다.','회사가 AI로 대체 가능한 업무 목록을 만든다는 소문이 돌았다.','신입 채용이 2년째 없다. AI가 신입 일을 하고 있다.']),'bad')}
+    if(S.job&&a>=(S.nextWev||S.job.start+2)&&a<S.job.ret){S.wevPending=pickWev(S);S.nextWev=a+ri(3,4)}
+    const rk=rankOf(S);if(S.job.rank&&rk!==S.job.rank){lg(S,`${rk}(으)로 승진했다.`,'good');eff(S,{p:4})}S.job.rank=rk;
+    if(S.job.sal<j.cap)S.job.sal=Math.min(j.cap,S.job.sal*(1+j.g*rnd(.5,1.5)));
+    S.health+=(j.hp||0)*rnd(.5,1.2);
+    if(j.v&&R()<j.v){S.job.sal=Math.min(j.cap*4,S.job.sal*rnd(1.8,3.5));eff(S,{p:10});lg(S,`${j.n}(으)로 크게 성공했다! 연 소득이 ${fmt(S.job.sal)}원으로 뛰었다.`,'good')}
+    if(j.fail&&R()<j.fail){eff(S,{p:-12,m:-3000});lg(S,`가게를 폐업했다. 남은 건 빚과 권리금 손실. <span class="fx">돈 −3,000만 · 행복 −12</span>`,'bad');
+      endJob(S);if(a>=60)S.retired=true;else S.nextJobTry=a+1;}
+    if(j.risk&&R()<j.risk*6){eff(S,{h:-20});lg(S,'업무 중 큰 사고를 당했다. <span class="fx">건강 −20</span>','bad')}
+  }
+  if(!S.job&&S.retired&&a>=65)inc+=S.pension||400;
+  if(S.married&&a<62)inc+=S.spouseInc;
+  if(S.job||S.retired||(S.jobSeekAge&&a>=S.jobSeekAge)){
+    let cost=S.job||S.married||S.retired?1300+(S.married?700:0)+(S.house?0:900):900;
+    if(S.kids&&a-S.kidsAge<25)cost+=S.kids*900;
+    S.money+=inc-cost;
+  }
+  if(S.debt>0){const pay=S.debt*.07+300,pr=pay-S.debt*.04;S.money-=pay;S.debt=Math.max(0,S.debt-pr);if(S.debt<200)S.debt=0}
+  S.money*=S.money>0?1+rnd(-.02,.045):1.06;
+  if(S.house)S.houseValue*=1+rnd(-.04,.06);
+
+  // 스트레스: 시기·직업·준비에 따라 목표치로 수렴
+  let stT=a<7?15:a<=18?28+(a>=16?14:0)+Math.max(0,S.studyRate-2)*10:30;
+  if(S.prep)stT=PREPS[S.prep.k].st;else if(S.job)stT=(leave?25:workOf(S.job.id).st)+(S.jobHunt?8:0)+(S.stressMod||0);else if(S.retired)stT=25;else if(S.jobSeekAge&&a>=S.jobSeekAge)stT=60;
+  if(S.married)stT-=3;if(S.money<0&&a>=25)stT+=6;
+  S.stress=clamp(S.stress+(stT-S.stress)*.4+rnd(-4,4));
+  if(S.stress>70)S.health-=(S.stress-70)*.1;
+  if(S.job&&!leave&&S.stress>=82&&a>=(S.burnCool||0)&&R()<.35){S.burnout=true;S.burnCool=a+4}
+
+  let t=50+(S.health-60)*.25+(S.rel-50)*.3-(S.stress-50)*.2;
+  if(S.job){const j=JOB[S.job.id];t+=(j.wlb-3)*3+(j.sat-3)*4}
+  else if(S.prep)t-=6;
+  else if(S.jobSeekAge&&a>=S.jobSeekAge&&!S.retired)t-=12;
+  if(S.money<0)t-=8;if(net(S)>50000)t+=4;if(S.married)t+=3;
+  S.happy+=(t-S.happy)*.3+rnd(-3,3);
+
+  if(R()<(S.edu.tier>=1&&S.jobSeekAge&&a<S.jobSeekAge&&a>=19?.7:.38))randomEvent(S);
+  for(const k of['health','happy','know','rel','stress'])S[k]=clamp(S[k]);
+  S.years.push({a,ph:phase(S),p:Math.round(S.happy),s:Math.round(S.stress)});
+  if(R()<qx(S,a)){S.dead=true;S.cause=causeOf(S);lg(S,`${S.cause}(으)로 세상을 떠났다.`,'choice')}
+}
+
+function nextChoice(S){
+  const a=S.age;
+  const once=(id,cond)=>cond&&!S.asked[id]?(S.asked[id]=1,id):null;
+  if(S.examFail){S.examFail=false;return'prepFail'}
+  if(S.burnout&&S.job){S.burnout=false;return'burnout'}
+  if(S.aiPending&&S.job){S.aiPending=false;return'aiLayoff'}
+  if(S.wevPending&&S.job){S.wev=S.wevPending;S.wevPending=null;return'workEvent'}
+  if(a===7)return'elementary';
+  if(a===13)return'interest';
+  if(a===16)return'highschool';
+  if(a===17)return'grind';
+  if(!S.asked.campus&&S.eduDone&&S.edu.tier>=1&&S.jobSeekAge&&a>=S.jobSeekAge-2&&a<S.jobSeekAge&&!S.job&&!S.prep&&a>=20){S.asked.campus=1;return'campus'}
+  if(a===18)return'strategy';
+  if(!S.eduDone&&a===S.collegeAge)return'college';
+  if(!S.militaryDone&&a===S.militaryAge)return'military';
+  if(S.gender==='F'&&S.militaryAgeF&&!S.asked.militaryF&&a>=S.militaryAgeF){S.asked.militaryF=1;return'militaryF'}
+  if(!S.job&&!S.prep&&!S.retired&&S.nextJobTry&&a>=S.nextJobTry&&a<62)return'job';
+  if(S.job&&a>=S.job.ret)return'retire';
+  if(!S.married&&!S.single&&a>=S.loveAge&&a<48)return'love';
+  if(!S.house&&a>=S.houseAge&&a<56&&S.age>=25)return'house';
+  return once('kids',a>=35&&a<46&&S.married)||once('midcareer',a>=43&&a<55&&S.job)||once('health',a>=52)||once('oldlife',a>=70);
+}
+function setPending(S,id){S.pending=id;S.snapNeeded=true;PREP[id]&&PREP[id](S)}
+function advance(S){yearly(S);if(S.dead)return;const c=nextChoice(S);if(c)setPending(S,c)}
+
+const PREP={
+  college:S=>{
+    const luck=Math.round(rnd(-7,7)),g=Math.round((S.grind||0)*.8+(S.grit||0)*.3),fam=Math.round(S.income*2.5+REGIONS[S.region].edu*.4-7);
+    const jeong=S.know*.85+fam+S.edu.hs+g+luck;
+    const local=['metro','city','rural'].includes(S.region)?5:0,gen=S.edu.high==='일반고'?6:['자사고','과학고','외고'].includes(S.edu.high)?-4:0;
+    const susi=S.know*.72+(S.rel-50)*.15+S.income*1.2+gen+local+g+luck*.5+8;
+    const ns=S.know*.75+fam*.5+g+rnd(-16,16)+6;
+    const tr=S.track||'jeong',v=tr==='susi'?susi:tr==='both'?Math.max(jeong,susi)-2:tr==='essay'?ns:jeong;
+    S.score=Math.round(clamp(v,1,99));
+    S.scoreParts={know:Math.round(S.know*(tr==='susi'?.72:.85)),fam:tr==='susi'?Math.round(S.income*1.2):fam,hs:tr==='susi'?gen+local:S.edu.hs,g,luck:tr==='essay'?'±16':luck,tr};
+  },
+  house:S=>{S.housePrice=Math.round(REGIONS[S.region].house*rnd(.85,1.15))}
+};
+
+function setJob(S,id,quiet){
+  const j=JOB[id];
+  S.job={id,sal:Math.round(j.s*(1+(S.edu.tier-2)*.04)*rnd(.9,1.1)),start:S.age,ret:Math.max(S.age+3,j.ret+ri(-2,2))};
+  if(!S.jobsDone.includes(id))S.jobsDone.push(id);
+  saveDex(id);S.nextWev=S.age+ri(2,3);S.jobHunt=null;S.stressMod=0;
+  if(!quiet)lg(S,`${j.e} ${j.n}(으)로 일을 시작했다. 첫해 연봉 ${fmt(S.job.sal)}원.`,'job');
+}
+function prepPass(S,id){
+  const j=JOB[id],P=PREPS[prepOf(id)],el=elig(S,j);if(!el.ok)return 0;
+  if(prepOf(id)==='hunt')return clamp(el.c*.7,.03,.85);
+  let r=Math.sqrt(clamp(el.c/j.o,.35,1.8));
+  if(P.body)r*=clamp(S.health/70,.6,1.2);
+  r*=clamp(1-Math.max(0,S.age-32)*.04,.15,1);
+  return clamp(P.pass*r,.02,.97);
+}
+function expYears(S,id){const P=PREPS[prepOf(id)],p=prepPass(S,id);if(!p)return null;return(P.fix||0)+Math.min(P.max||8,1/p)}
+function startPrep(S,id){
+  const k=prepOf(id),P=PREPS[k];
+  S.prep={id,k,yrs:0,att:0,spent:0,fixLeft:P.fix||0};
+  lg(S,`${JOB[id].e} ${JOB[id].n}이(가) 되기 위해 ${P.n} 준비를 시작했다. (${P.how})`,'choice');
+}
+function prepYear(S){
+  const P=PREPS[S.prep.k],j=JOB[S.prep.id],pr=S.prep;
+  pr.yrs++;S.money-=P.cost;pr.spent+=P.cost;if(P.cost<0)S.lifeIncome-=P.cost;
+  S.health+=(P.hp||-1)*rnd(.5,1.2);S.know+=rnd(1,3);
+  if(R()<.6)lg(S,`${P.label||P.n} ${pr.yrs}년 차 — ${pick([...(P.ev||[]),...(P.cost<0?[]:PREP_EV)])}`,'prep');
+  if(pr.fixLeft>0)pr.fixLeft--;
+  if(pr.fixLeft>0)return;
+  pr.att++;
+  if(R()<prepPass(S,pr.id)){
+    S.prep=null;eff(S,{p:12});S.stress-=20;
+    lg(S,`${pr.yrs}년의 준비 끝에 ${P.n} 합격! (${pr.att}회 응시 · 준비 비용 ${fmt(Math.max(0,pr.spent))})`,'good');
+    setJob(S,pr.id);
+  }else{eff(S,{p:-6});S.stress+=6;lg(S,`${P.n} 불합격 (${pr.att}회차).`,'bad');S.examFail=true}
+}
+function tryJob(S,id){
+  if(prepOf(id)){startPrep(S,id);return true}
+  const el=elig(S,JOB[id]);if(el.ok&&R()<el.c){setJob(S,id);return true}
+  return false;
+}
+function aiOut(S,sev){const a=S.age;eff(S,{m:Math.round(S.job.sal*sev),p:-8});endJob(S);S.stress+=6;if(a>=58)S.retired=true;else S.nextJobTry=a+1}
+function startHunt(S){S.jobHunt={yrs:0};lg(S,'몰래 이직 준비를 시작했다. 퇴근 후엔 자소서, 점심시간엔 면접.','choice')}
+function huntYear(S){
+  const h=S.jobHunt;h.yrs++;
+  const p=clamp(.4+(S.spec||0)*.03+(S.know-60)*.004-Math.max(0,S.age-45)*.03,.1,.7);
+  if(R()<p){const before=S.job.sal;S.job.sal=Math.round(S.job.sal*rnd(1.08,1.25));S.job.ret+=1;S.job.delay=0;S.jobHunt=null;S.stress-=10;eff(S,{p:6});
+    lg(S,`${h.yrs}년의 이직 준비 끝에 다른 회사로 옮겼다. 연봉 ${fmt(before)} → ${fmt(S.job.sal)}.`,'good')}
+  else if(h.yrs>=2){S.jobHunt=null;eff(S,{p:-5});lg(S,'이직 준비를 접었다. 최종 면접까지 갔다가 두 번 떨어졌다.','bad')}
+  else lg(S,'이직 면접에서 떨어졌다. 내일도 아무렇지 않게 출근해야 한다.','bad');
+}
+function endJob(S){
+  const j=S.job&&JOB[S.job.id];
+  if(j){S.pension=Math.max(S.pension,j.pub?Math.min(3600,S.workYears*95):Math.min(2000,300+S.workYears*30))}
+  S.job=null;
+}
+function elig(S,j){
+  if(j.id==='officer'&&S.mil==='rotc')return{ok:true,c:clamp(.45+(S.know-60)*.005,.2,.7)};
+  if(j.f&&S.edu.flag!==j.f)return{ok:false,why:`${FLAG_N[j.f]} 졸업 필요`};
+  if(S.edu.tier<j.t)return{ok:false,why:`학력: ${TIER_N[j.t]} 이상`};
+  if(j.lockIt&&S.interest!==j.it)return{ok:false,why:j.it==='art'?'예술 관심 필요':'운동에 재능·관심 필요'};
+  if(j.ma&&S.age>j.ma)return{ok:false,why:`응시 연령 ${j.ma}세 이하`};
+  if(LATE_CAP.has(j.id)&&S.age>48)return{ok:false,why:'48세 이상 신규 입사 사실상 불가'};
+  let c=j.o+(S.know-j.k)*.012+(S.edu.tier-j.t)*.05+(S.rel-50)*.003;
+  if(j.voc&&S.edu.voc)c+=j.voc;
+  if(S.spec&&j.t>=1)c+=Math.min(3,S.spec)*.04;
+  if(j.id==='nco'&&S.mil==='rntc')c+=.4;
+  if(S.mil==='rotc'&&(j.c==='기업'||j.id==='police'||j.id==='fire'))c+=.06;
+  if(S.mil==='research'&&['devBig','data','corpEng','prof'].includes(j.id))c+=.1;
+  if(j.fb&&S.edu.flag===j.fb)c+=.35;
+  if(j.mj&&S.edu.major!==j.mj&&!(j.mj==='eng'&&S.interest==='sci'))c-=.25;
+  if(j.it&&S.interest===j.it)c+=S.skillPrep?.25:.15;
+  if(S.skillPrep&&!j.it&&j.t===0)c+=.05;else if(j.it)c-=.1;
+  c-=Math.max(0,S.age-30)*(S.workYears>3?.012:.03); // 경력 없는 늦깎이 신입은 크게 불리
+  c-=(AI[j.id]||0)*.07*aiYear(S.year);
+  if(['기업','IT','연구·과학'].includes(j.c)&&S.age>40){const exp=S.jobsDone.some(id=>JOB[id].c===j.c);c-=(S.age-40)*(exp?.045:.08)} // AI 도입으로 신규 채용 감소
+  if(j.f==='med'&&S.age<45)c=Math.max(c,.93);
+  return{ok:true,c:Math.max(.03,Math.min(.97,c))};
+}
+
+/* ---------- choices ---------- */
+const CHOICES={
+ elementary:S=>({title:'초등학교 입학',desc:'여덟 살. 방과 후 시간을 어떻게 보낼까요? 한국 초등학생 사교육 참여율은 약 87%, 1인당 월평균 사교육비는 40만 원이 넘습니다.',options:[
+  {label:'학원 뺑뺑이',sub:'영어·수학·논술·피아노. 지식↑ 행복↓ 관계↓',w:S.income>=3?3:1,apply:S=>{S.studyRate+=.55;eff(S,{p:-8,r:-3});if(S.income<=2)lg(S,'부모님이 학원비를 위해 야간 일을 늘렸다.','bad')}},
+  {label:'동네에서 뛰어놀기',sub:'행복↑ 관계↑ 건강↑',w:2,apply:S=>{S.studyRate+=.1;S.grit=(S.grit||0)+3;eff(S,{p:8,r:6,h:5})}},
+  {label:'운동·예체능 학원',sub:'건강↑ 재능을 발견할지도',w:2,apply:S=>{S.studyRate+=.3;eff(S,{h:5,p:3})}},
+  {label:'돌봄교실·지역아동센터',sub:'무료 돌봄. 관계↑ 지식↑',w:S.income<=2?3:.5,apply:S=>{S.studyRate+=.4;eff(S,{r:4})}}]}),
+ interest:S=>({title:'중학생이 된 당신',desc:'가장 마음이 끌리는 것은? 관심사는 고등학교 선택과 나중의 직업 합격률에 영향을 줍니다.',options:[
+  {label:'수학·과학',sub:'과학고·이공계·개발자',apply:S=>{S.interest='sci';eff(S,{k:3})}},
+  {label:'언어·사회',sub:'외고·법·언론',apply:S=>{S.interest='hum';eff(S,{k:3,r:1})}},
+  {label:'그림·음악·글쓰기',sub:'예술고·웹툰·디자인',apply:S=>{S.interest='art';eff(S,{p:4})}},
+  {label:'운동',sub:'체육고·프로 선수·코치',apply:S=>{S.interest='sport';eff(S,{h:6})}},
+  {label:'만들고 고치기',sub:'마이스터고·기술직',apply:S=>{S.interest='tech';eff(S,{p:2})}},
+  {label:'사람 만나기',sub:'서비스·마케팅·교육',apply:S=>{S.interest='people';eff(S,{r:6})}}]}),
+ highschool:S=>{const k=S.know;return{title:'고등학교 선택',desc:`지금 당신의 지식 지수는 ${Math.round(k)}. 어떤 고등학교에 갈까요?`,options:[
+  {label:'일반고',sub:'전국 고교생의 약 70%',w:4,apply:S=>{S.edu.high='일반고'}},
+  {label:'자율형사립고',sub:'연 학비 수백만 원 · 수능 +4',lock:!(k>=60&&S.income>=4)&&'지식 60+ & 소득 상위 40%',w:2,apply:S=>{S.edu.high='자사고';S.edu.hs=4;S.studyRate+=.4;eff(S,{p:-3})}},
+  {label:'과학고·영재고',sub:'수능 +7 · 이공계 직행',lock:(k<80||S.interest!=='sci')&&'수학·과학 관심 & 지식 80+',w:3,apply:S=>{S.edu.high='과학고';S.edu.hs=7;S.studyRate+=.6;eff(S,{p:-4})}},
+  {label:'외고·국제고',sub:'수능 +4 · 어학 특화',lock:k<70&&'지식 70+',w:2,apply:S=>{S.edu.high='외고';S.edu.hs=4;eff(S,{p:-2})}},
+  {label:'특성화고·마이스터고',sub:'고졸 취업 우대 · 대기업 생산직 +45%p',w:S.interest==='tech'?4:1,apply:S=>{S.edu.high='마이스터고';S.edu.voc=true;S.edu.hs=-12;S.studyRate-=.8;eff(S,{p:3})}},
+  {label:'예술고·체육고',sub:'실기 중심 · 예체능 전형 유리',lock:!['art','sport'].includes(S.interest)&&'예술·운동 관심 필요',w:3,apply:S=>{S.edu.high=S.interest==='art'?'예술고':'체육고';S.edu.artsHs=true;S.edu.hs=-3}},
+  {label:'자퇴 후 검정고시',sub:'자유와 고립 사이',w:.3,apply:S=>{S.edu.high='검정고시';S.edu.hs=-4;eff(S,{p:2,r:-6})}}]}},
+ college:S=>{const sc=S.score;const male=S.gender==='M';
+  const U=[['의과대학',96,5,'med',6,'의사·치과의사·한의사의 문'],['SKY',91,5,'',4,'최상위 명문대'],['교육대학·사범대',80,4,'edu',4,'교사 임용 루트'],
+   ['사관학교',78,4,'army',4,'장교 임관 · 군 복무 대체',S.health<60&&'건강 60+'],['인서울 4년제',72,4,'',4,'서울 소재 대학'],['간호학과',58,3,'nurse',4,'취업률 최상위'],
+   ['지거국·수도권 대학',52,3,'',4,'지방거점국립대 / 경기·인천'],['지방 사립대',30,2,'',4,'학령인구 감소로 존폐 위기'],
+   ['예체능 실기 전형',40,2,'art',4,'실기 70% + 수능',!(['art','sport'].includes(S.interest)||S.edu.artsHs)&&'예술·운동 관심 필요'],['전문대',0,1,'',2,'실무 중심 2~3년제']];
+  const opts=U.map(([n,min,tier,flag,yrs,sub,lk])=>({label:n,sub:`${sub} · 컷 ${min}`,lock:(sc<min&&`수능 백분위 ${min}+`)||lk,w:tier*tier+1,
+   apply:S=>{Object.assign(S.edu,{univ:n,tier,flag,major:flag==='med'||flag==='nurse'?'sci':flag==='art'?'art':flag==='edu'?'hum':''});
+    S.eduDone=true;S.uniEnd=S.age+yrs;S.jobSeekAge=S.age+yrs+(male&&flag!=='army'?2:0);S.nextJobTry=S.jobSeekAge;
+    if(male&&flag!=='army')S.militaryAge=S.age+1;else S.militaryDone=true;
+    if(!male&&!['army','med'].includes(flag))S.militaryAgeF=S.age+1;
+    if(S.income<=2){S.debt+=yrs*400;lg(S,`학자금 대출 ${fmt(yrs*400)}원을 받았다.`,'bad')}
+    lg(S,`${n}에 입학했다.`,'choice');if(!flag)S.next='major'}}));
+  if(!S.retook)opts.push({label:'재수하기',sub:'1년 더. 수능 점수 재도전',w:sc>70?1.5:.4,apply:S=>{S.retook=true;S.collegeAge=S.age+1;S.edu.hs+=3;S.know+=ri(2,8);eff(S,{p:-6,m:-1500});lg(S,'재수 학원에 등록했다.','bad')}});
+  opts.push({label:'바로 취업 (고졸)',sub:S.edu.voc?'마이스터고 졸업생 우대 공채':'지금 바로 사회로',w:S.edu.voc?6:1,apply:S=>{S.edu.univ='—';S.edu.tier=0;S.eduDone=true;
+    S.jobSeekAge=S.age+(male?2:0);S.nextJobTry=S.jobSeekAge;if(male)S.militaryAge=S.age+1;if(!male)S.next='job'}});
+  return{title:'수능, 그리고 대학',desc:(()=>{const P=S.scoreParts||{},sg=v=>typeof v==='number'?(v>=0?'+':'')+v:v,TR={jeong:'정시 · 수능',susi:'수시 · 학생부종합',both:'수시 + 정시',essay:'논술 전형'};
+   return`${TR[P.tr]||'정시'} 기준 환산 백분위 <b>${sc}</b><br><span style="font-size:13px;color:var(--ink3)">= 실력 ${P.know} · 가정 환경 ${sg(P.fam)} · ${P.tr==='susi'?'내신·지역균형':'고교 유형'} ${sg(P.hs)} · 고2~3 노력 ${sg(P.g)} · 시험 당일 운 ${sg(P.luck)}</span><br>재수도 할 수 있어요. 참고로 서울대 신입생 중 강남3구 출신 비율은 인구 비율의 3배가 넘습니다.`})(),options:opts}},
+ campus:S=>({title:'대학 생활, 무엇에 시간을 쓸까',desc:`졸업까지 약 ${S.jobSeekAge-S.age}년. 취업 시장에선 학점·어학·인턴·대외활동을 "스펙"이라 부릅니다. 지금의 선택이 구직 기간과 합격률을 바꿉니다. (현재 스펙 ${Math.round((S.spec||0)*10)/10})`,options:[
+  {label:'학점 관리 + 어학 점수',sub:'스펙 +1 · 지식↑',w:2,apply:S=>{S.spec=(S.spec||0)+1;eff(S,{k:4,p:-2});S.stress+=5;lg(S,'도서관 자리를 잡으려고 아침 7시에 등교했다.','choice')}},
+  {label:'인턴 · 대외활동 · 공모전',sub:'스펙 +2 · 관계↑ · 스트레스↑',w:2,apply:S=>{S.spec=(S.spec||0)+2;eff(S,{r:4,p:-2});S.stress+=8;lg(S,'여름방학 인턴과 대외활동을 병행했다.','choice')}},
+  {label:'교환학생 1년',sub:'비용 1,500만 · 스펙 +1 · 행복↑ · 졸업 1년 늦어짐',lock:S.income<=2&&'비용 부담 (소득 하위 40%)',w:S.income>=4?1.5:.5,apply:S=>{S.spec=(S.spec||0)+1;eff(S,{p:8,r:3,m:-1500});S.jobSeekAge++;S.nextJobTry=S.jobSeekAge;lg(S,'교환학생으로 1년간 해외에서 지냈다.','good')}},
+  {label:'동아리 · 연애 · 여행',sub:'행복↑ 관계↑ · 스펙 그대로',w:1.5,apply:S=>{eff(S,{p:8,r:7})}},
+  {label:'휴학하고 아르바이트',sub:'+1,500만 · 졸업 1년 늦어짐',w:S.income<=2?2.5:.4,apply:S=>{eff(S,{m:1500,h:-2,p:-2});S.jobSeekAge++;S.nextJobTry=S.jobSeekAge;lg(S,'1년 휴학하고 등록금을 벌었다.','choice')}}]}),
+ grind:S=>({title:'고2, 승부의 시간',desc:`지금 지식 지수 <b>${Math.round(S.know)}</b>. 아직 늦지 않았습니다. 고2·고3 2년 동안 얼마나, 어떻게 공부할지에 따라 결과가 크게 달라집니다.`,options:[
+  {label:'독서실 올인',sub:'하루 14시간 · 지식↑↑↑ · 스트레스↑↑ 건강↓',w:1.5,apply:S=>{S.grind=10;eff(S,{k:4,p:-6,h:-4});S.stress+=15;lg(S,'독서실 문 닫을 때까지 공부하는 생활을 시작했다.','choice')}},
+  {label:'인강 + 자기주도 학습',sub:'돈 거의 안 듦 · 지식↑↑',w:2,apply:S=>{S.grind=7;eff(S,{k:3,p:-2,m:-100});S.stress+=7}},
+  {label:'학원 · 과외 풀코스',sub:'월 150만 원 · 지식↑↑↑',lock:S.income<=2&&'가정 형편상 어려움',w:S.income>=4?3:1,apply:S=>{S.grind=8;eff(S,{k:4,p:-4});S.stress+=10;lg(S,'대치동 학원가를 오가는 생활이 시작됐다.','choice')}},
+  {label:'적당히, 친구들과 추억도',sub:'행복↑ 관계↑ · 지식 조금',w:2,apply:S=>{S.grind=3;eff(S,{p:6,r:6})}},
+  {label:'공부 대신 진로 준비',sub:'자격증 · 포트폴리오 · 운동 · 관심 분야 직업 합격률↑',w:S.edu.voc||S.edu.artsHs?3:.6,apply:S=>{S.grind=0;S.skillPrep=true;eff(S,{p:4,k:-2})}}]}),
+ strategy:S=>({title:'고3, 입시 전략',desc:`수시와 정시 중 어디에 걸까요? 대학 신입생의 약 70%는 수시로 뽑힙니다. 수시는 내신·학교생활·지역균형이, 정시는 수능 실력이 중요합니다.${['metro','city','rural'].includes(S.region)?' 지방 학생은 지역균형·지역인재 전형 가산이 있어요.':''}`,options:[
+  {label:'정시 (수능 올인)',sub:'실력 + 당일 운 · 고교 유형 유리',w:2,apply:S=>{S.track='jeong'}},
+  {label:'수시 학생부종합',sub:'내신·관계·학교생활 · 일반고·지방 유리',w:S.edu.high==='일반고'?2.5:1,apply:S=>{S.track='susi';eff(S,{r:2})}},
+  {label:'수시 + 정시 병행',sub:'둘 중 높은 쪽 −2 · 스트레스↑',w:1.5,apply:S=>{S.track='both';S.stress+=8}},
+  {label:'논술 전형',sub:'변수 큼 · 역전 가능성',w:.5,apply:S=>{S.track='essay'}}]}),
+ major:S=>({title:'전공 선택',desc:`${S.edu.univ}에서 무엇을 공부할까요? 전공은 직업별 합격률에 영향을 줍니다.`,options:[
+  {label:'공학·IT',sub:'개발자·엔지니어 우대',w:S.interest==='sci'||S.interest==='tech'?4:1,apply:S=>{S.edu.major='eng'}},
+  {label:'자연과학',sub:'약대·연구직 루트',w:S.interest==='sci'?2:.5,apply:S=>{S.edu.major='sci'}},
+  {label:'상경 (경영·경제)',sub:'은행·회계사 우대',w:S.interest==='people'||S.interest==='hum'?3:1,apply:S=>{S.edu.major='biz'}},
+  {label:'인문·사회',sub:'법·언론·공무원',w:S.interest==='hum'?3:1,apply:S=>{S.edu.major='hum'}}]}),
+ military:S=>{
+  const e=S.edu,med=e.flag==='med',univ4=e.tier>=2&&e.univ!=='전문대'&&!med,junior=e.univ==='전문대',hsVoc=e.tier===0&&e.voc,
+   sciEng=['eng','sci'].includes(e.major)&&e.tier>=4&&S.know>=75;
+  const pay=milPay(S.year),M=(k,o)=>Object.assign(o,{apply:S=>{S.mil=k;o.fx(S)}});
+  return{title:'입영 통지서',desc:`대한민국 남성의 병역 의무. ${S.year}년 기준 육군 18개월, 복무 중 모을 수 있는 돈은 약 <b>${fmt(pay)}원</b>. 학력·전공·건강에 따라 갈 수 있는 길이 달라집니다.`,options:[
+  M('army',{label:'육군 현역',sub:'18개월 · 가장 일반적',w:4,fx:S=>eff(S,{h:3,r:3,p:-4,m:pay})}),
+  M('navy',{label:'해군',sub:'20개월 · 함정 근무',w:1,fx:S=>eff(S,{h:3,r:3,p:-4,m:pay*1.1})}),
+  M('airforce',{label:'공군',sub:'21개월 · 자격증 공부 여유',w:2,fx:S=>eff(S,{k:3,p:-2,m:pay*1.15})}),
+  M('marine',{label:'해병대',sub:'18개월 · 혹독한 훈련 · 끈끈한 전우애',w:.8,fx:S=>{eff(S,{h:6,r:6,p:-6,m:pay});S.stress+=10}}),
+  M('katusa',{label:'카투사',sub:'18개월 · 주한미군 · 어학 성적 + 추첨',lock:S.know<70&&'지식 70+',w:1.5,fx:S=>eff(S,{k:5,r:3,m:pay})}),
+  M('rotc',{label:'ROTC 학군장교',sub:'4년제 3·4학년 군사훈련 → 소위 임관 · 28개월 · 장교 급여 · 장기복무 가능 · 기업 채용 가산',lock:!univ4&&'4년제 재학생만',w:univ4?1.5:0,
+   fx:S=>{eff(S,{r:5,k:2,p:-3,m:4500});S.stress+=6;lg(S,'ROTC 후보생으로 선발됐다. 3·4학년 내내 제복을 입고 다녔다.','choice')}}),
+  M('rntc',{label:'RNTC 부사관 학군단',sub:'전문대 부사관과 → 하사 임관 · 4년 복무 · 장기복무 시 직업군인',lock:!junior&&'전문대 재학생만',w:junior?2:0,
+   fx:S=>{S.jobSeekAge+=2;S.nextJobTry=S.jobSeekAge;eff(S,{r:4,h:3,m:7000});lg(S,'RNTC 후보생이 됐다. 졸업 후 하사로 임관한다.','choice')}}),
+  M('industry',{label:'산업기능요원',sub:'특성화고·마이스터고 출신 · 중소·중견기업에서 34개월 근무로 대체',lock:!hsVoc&&'특성화고·마이스터고 고졸만',w:hsVoc?4:0,
+   fx:S=>{S.jobSeekAge=S.nextJobTry=S.age;S.next='job';lg(S,'병역특례 산업기능요원으로 일하며 군 복무를 대신하게 됐다.','choice')}}),
+  M('research',{label:'전문연구요원',sub:'이공계 석사 + 연구기관 36개월 근무 · 연구 경력 인정',lock:!sciEng&&'이공계 · 인서울 이상 · 지식 75+',w:sciEng?2:0,
+   fx:S=>{eff(S,{k:8,m:3000});lg(S,'석사 과정 후 전문연구요원으로 병역을 대신하게 됐다.','choice')}}),
+  M('medic',{label:'군의관',sub:'의사 면허 후 대위 임관 · 38개월',lock:!med&&'의대생만',w:med?2:0,fx:S=>{S.jobSeekAge+=1;S.nextJobTry=S.jobSeekAge;eff(S,{r:3,m:6000})}}),
+  M('phd',{label:'공중보건의사',sub:'의사 면허 후 농어촌 보건소 · 36개월',lock:!med&&'의대생만',w:med?2:0,fx:S=>{S.jobSeekAge+=1;S.nextJobTry=S.jobSeekAge;eff(S,{p:3,m:6000})}}),
+  M('social',{label:'사회복무요원',sub:'신체등급 4급 · 21개월 · 출퇴근',lock:S.health>=55&&'건강 55 미만만',fx:S=>eff(S,{p:1,m:pay*.8})})],
+  after:S=>{S.militaryDone=true;lg(S,MIL_DONE[S.mil]||'군 복무를 마쳤다.')}}},
+ militaryF:S=>{const e=S.edu,univ4=e.tier>=2&&e.univ!=='전문대';return{title:'군 복무 지원 (선택)',desc:'여성은 병역 의무가 없지만 장교나 부사관으로 지원할 수 있습니다. 여군은 전체 간부의 약 10%를 차지합니다.',options:[
+  {label:'지원하지 않는다',sub:'학업 · 취업 준비 계속',w:12,apply:S=>{}},
+  {label:'여성 ROTC 학군장교',sub:'3·4학년 군사훈련 → 소위 임관 · 28개월 · 장기복무 가능',lock:!univ4&&'4년제 재학생만',w:univ4?1:0,
+   apply:S=>{S.mil='rotc';S.jobSeekAge+=2;S.nextJobTry=S.jobSeekAge;eff(S,{r:5,k:2,m:4500});S.stress+=6;lg(S,'여성 ROTC 후보생으로 선발됐다.','choice')}},
+  {label:'여군 부사관 (RNTC 포함)',sub:'졸업 후 하사 임관 · 4년 복무',w:.6,
+   apply:S=>{S.mil='rntc';S.jobSeekAge+=3;S.nextJobTry=S.jobSeekAge;eff(S,{r:4,h:3,m:7000});lg(S,'부사관 후보생이 됐다.','choice')}}]}},
+ love:S=>({title:`${S.age}세, 결혼`,desc:'한국인 평균 초혼 연령은 남 33.9세, 여 31.6세. 혼인 건수는 30년 새 절반 가까이 줄었습니다.',options:[
+  {label:'결혼한다',sub:'관계↑ 행복↑ · 결혼 비용 약 3천만',lock:S.rel<35&&'관계 지수 35+',w:S.job?3:1,apply:S=>{S.married=true;S.spouseInc=Math.round(rnd(2200,6500));eff(S,{p:8,r:8,m:-3000});
+    lg(S,'결혼했다.','choice');if(S.income>=4){S.money+=5000;lg(S,'부모님이 신혼집 자금 5천만 원을 보태주셨다.','good')}}},
+  {label:'조금 더 지켜본다',sub:'4년 뒤 다시',lock:S.age>=44&&'44세 이후 불가',w:1.5,apply:S=>{S.loveAge=S.age+4}},
+  {label:'비혼으로 산다',sub:'자유와 고독',w:1,apply:S=>{S.single=true;eff(S,{p:2})}}]}),
+ house:S=>{const P=S.housePrice,m=S.money;return{title:'내 집 마련',desc:`${REGIONS[S.region].n}의 평균적인 집값은 약 <b>${fmt(P)}원</b>. 지금 가진 현금은 ${fmt(m)}원.`,options:[
+  {label:'자력 매수',sub:'자기자본 40% 이상',lock:m<P*.4&&`현금 ${fmt(P*.4)} 필요`,w:3,apply:S=>{S.money-=P*.4;S.debt+=P*.6;S.house=true;S.houseValue=P;eff(S,{p:6});lg(S,`집을 샀다. (${fmt(P)})`,'choice')}},
+  {label:'영끌 매수',sub:'자기자본 15% · 대출 85%',lock:(m<P*.15||!S.job)&&`현금 ${fmt(P*.15)} + 직장`,w:1.5,apply:S=>{S.money-=P*.15;S.debt+=P*.85;S.house=true;S.houseValue=P;eff(S,{p:-3});lg(S,'영끌로 집을 샀다. 월급의 절반이 대출 상환으로 나간다.','choice')}},
+  {label:'부모님 도움으로 매수',sub:'증여 + 대출',lock:S.income<4&&'부모님 소득 상위 40%',w:3,apply:S=>{S.money-=Math.min(Math.max(m,0),P*.2);S.debt+=P*.3;S.house=true;S.houseValue=P;eff(S,{p:5});lg(S,'부모님 도움으로 집을 샀다.','choice')}},
+  {label:'청약 도전',sub:`당첨 확률 약 ${Math.round((.06+(S.married?.06:0)+S.kids*.05)*100)}%`,w:1,apply:S=>{if(R()<.06+(S.married?.06:0)+S.kids*.05){S.house=true;S.houseValue=P;S.debt+=P*.7;S.money-=P*.1;eff(S,{p:12});lg(S,'청약에 당첨됐다!','good')}else{S.houseAge=S.age+3;eff(S,{p:-3});lg(S,'청약에 떨어졌다. 3년 뒤 재도전.','bad')}}},
+  {label:'전·월세로 산다',sub:'6년 뒤 다시 생각',w:2,apply:S=>{S.houseAge=S.age+6}},
+  {label:'지방으로 이주해 매수',sub:`집값 약 ${fmt(REGIONS.city.house)}`,lock:m<REGIONS.city.house*.3&&`현금 ${fmt(REGIONS.city.house*.3)}`,w:.8,apply:S=>{const p=REGIONS.city.house;S.money-=p*.3;S.debt+=p*.7;S.house=true;S.houseValue=p;S.region='city';eff(S,{p:3,r:-3});lg(S,'지방 도시로 이사해 집을 샀다.','choice')}}]}},
+ kids:S=>({title:'아이',desc:'2024년 한국의 합계출산율은 0.75명 — 세계 최저 수준입니다. 아이 한 명을 대학까지 키우는 데 약 3억 원이 든다고 합니다.',options:[0,1,2,3].map(n=>({label:n?`${n}명`:'아이 없이',sub:n?`행복·관계↑ · 연 ${fmt(n*900)} 지출`:'둘만의 삶',w:[2,3,2,.4][n],
+   apply:S=>{S.kids=n;S.kidsAge=S.age;if(n){eff(S,{p:6+n,r:6+n*2});lg(S,`아이 ${n}명의 부모가 됐다.`,'choice')}}}))}),
+ midcareer:S=>{const j=JOB[S.job.id];return{title:'마흔셋, 갈림길',desc:`${j.e} ${j.n} ${S.age-S.job.start}년 차, 연봉 ${fmt(S.job.sal)}원. 인생 2막을 고민할 때입니다.`,options:[
+  {label:'승진에 올인',sub:'성공 45% · 연봉 +35% · 건강↓',w:2,apply:S=>{eff(S,{h:-5});if(R()<.45){S.job.sal*=1.35;eff(S,{p:6});lg(S,'승진했다!','good')}else{eff(S,{p:-6});lg(S,'승진에서 밀렸다.','bad')}}},
+  {label:'이직 준비',sub:'재직 중 1~2년 · 스트레스↑ · 성공 시 연봉 +10~25%',lock:S.jobHunt&&'이미 이직 준비 중',w:2,apply:S=>startHunt(S)},
+  {label:'퇴사 후 치킨집 창업',sub:'퇴직금 + 대출 1억',w:.6,apply:S=>{endJob(S);S.debt+=10000;setJob(S,'founder')}},
+  {label:'전혀 다른 직업에 도전',sub:'직업 목록에서 다시 선택',w:.5,apply:S=>{lg(S,`${j.n}을(를) 그만두고 새 길을 찾기로 했다.`,'choice');endJob(S);S.nextJobTry=S.age;S.next='job'}},
+  {label:'지금처럼',sub:'워라밸과 가족',w:3,apply:S=>{eff(S,{p:2,r:3})}}]}},
+ health:S=>({title:'쉰둘, 건강검진 결과지',desc:'한국인 사망 원인 1위는 암, 2위는 심장질환입니다.',options:[
+  {label:'매년 정밀검진 + 운동',sub:'건강 +10 · 비용 300만',w:2,apply:S=>{eff(S,{h:10,m:-300})}},
+  {label:'술·담배 끊기',sub:'건강 +7 · 행복 −2',w:2,apply:S=>{eff(S,{h:7,p:-2})}},
+  {label:'지금처럼 산다',sub:'인생 뭐 있나',w:1,apply:S=>{eff(S,{p:2})}}]}),
+ retire:S=>{const j=JOB[S.job.id];const early=S.age<50;
+  const o=[];
+  if(early)o.push({label:'제2의 직업 찾기',sub:'직업 목록에서 다시 선택',w:4,apply:S=>{endJob(S);S.nextJobTry=S.age;S.next='job'}});
+  o.push({label:'완전 은퇴',sub:'65세부터 연금 수령',w:early?.3:2,apply:S=>{endJob(S);S.retired=true;lg(S,`은퇴했다. 예상 연금 연 ${fmt(S.pension)}원.`,'choice')}});
+  if(!early&&S.age<68){
+   o.push({label:'재취업 (경비·시설관리)',sub:'연 2,200만 · 72세까지',w:2,apply:S=>{endJob(S);setJob(S,'senior')}});
+   o.push({label:'치킨집 창업',sub:'퇴직금 올인',w:.8,apply:S=>{endJob(S);setJob(S,'founder')}});
+   o.push({label:'귀농',sub:'시골에서 농사',w:.6,apply:S=>{endJob(S);setJob(S,'farmer');S.job.ret=78}});
+  }
+  return{title:`${j.n}에서 물러날 때`,desc:`${S.age}세. ${S.age-S.job.start}년간 일했습니다. 한국 직장인이 주된 일자리에서 퇴직하는 평균 나이는 49.4세입니다.`,options:o}},
+ oldlife:S=>({title:'일흔, 노후',desc:'한국의 노인 빈곤율은 약 38% — OECD 1위입니다. 남은 시간을 어디서 보낼까요?',options:[
+  {label:'자녀 곁으로 이사',sub:'관계↑',lock:!S.kids&&'자녀 필요',w:2,apply:S=>{eff(S,{r:8,p:3})}},
+  {label:'귀촌',sub:'건강↑ 관계↓',w:1,apply:S=>{eff(S,{h:5,p:3,r:-3})}},
+  {label:'실버타운 입주',sub:'입주금 2억',lock:net(S)<50000&&'순자산 5억+',w:1.5,apply:S=>{eff(S,{h:4,r:3,m:-20000})}},
+  {label:'살던 집에서',sub:'익숙함',w:2,apply:S=>{eff(S,{p:1})}}]}),
+ prepFail:S=>{
+  const pr=S.prep,P=PREPS[pr.k],j=JOB[pr.id],p=prepPass(S,pr.id);let fb=FALLBACK[pr.id];if(!fb&&pr.k==='hunt'&&pr.id!=='smallCo')fb='smallCo';const maxed=P.max&&pr.att>=P.max;
+  const o=[{label:`한 번 더 도전 (${pr.att+1}회차)`,sub:`다음 합격률 약 ${Math.round(p*100)}% · 1년 ${P.cost<0?'더 수련':fmt(P.cost)+' 더'}`,lock:(maxed&&`응시 제한 ${P.max}회 소진`)||(j.ma&&S.age>=j.ma&&`응시 연령 ${j.ma}세 초과`),w:pr.att<3?2:.4,apply:S=>{eff(S,{p:-2});lg(S,'다시 책상 앞에 앉았다.','prep')}}];
+  if(fb){const fj=JOB[fb],fe=elig(S,fj);
+   o.push({label:`${fj.e} ${fj.n}(으)로 방향 전환`,sub:pr.id==='judge'?'변시 합격자로 바로 개업':prepOf(fb)?`${PREPS[prepOf(fb)].n} 시작`:`바로 지원 · 합격 ${Math.round((fe.c||0)*100)}%`,lock:pr.id!=='judge'&&!fe.ok&&fe.why,w:1.5,
+    apply:S=>{const from=S.prep.id;S.prep=null;if(from==='judge'){setJob(S,'lawyer');return}if(!tryJob(S,fb)){lg(S,`${fj.n} 지원에서도 떨어졌다.`,'bad');S.nextJobTry=S.age;S.next='job'}}})}
+  o.push({label:'완전히 다른 길 찾기',sub:'직업 목록으로',w:.6,apply:S=>{S.prep=null;S.nextJobTry=S.age;S.next='job'}});
+  return{title:`${P.n} 불합격`,desc:`${j.e} ${j.n}을(를) 향한 ${pr.yrs}년째. 지금까지 쓴 돈 <b>${fmt(Math.max(0,pr.spent))}원</b>, 스트레스 <b>${Math.round(S.stress)}</b>, 행복 <b>${Math.round(S.happy)}</b>. ${P.comp?`경쟁률 ${P.comp} — `:''}대부분이 같은 결과를 받습니다.`,options:o}},
+ aiLayoff:S=>{const j=JOB[S.job.id],cut=ri(20,50);return{title:'AI가 내 일을 가져갔다',desc:`${S.year}년. 회사가 ${j.n} 업무에 AI를 도입하며 인력을 ${cut}% 줄이기로 했습니다. 당신도 대상자 명단에 올랐습니다. (AI 대체 위험 ${AI_N[AI[j.id]||0]})`,options:[
+  {label:'사내 재교육 → 직무 전환',sub:'60% 성공 · 연봉 −10% · 이후 위험 감소',w:1.5,apply:S=>{eff(S,{k:6});S.stress+=8;if(R()<.6){S.job.sal*=.9;S.aiSafe=(S.aiSafe||0)+1;lg(S,'AI를 다루는 직무로 전환해 살아남았다.','good')}else{lg(S,'재교육 후에도 자리가 없었다. 결국 회사를 나왔다.','bad');aiOut(S,.5)}}},
+  {label:'희망퇴직 (위로금 연봉 1.5배)',sub:'목돈 · 다시 구직',w:1.2,apply:S=>{lg(S,'희망퇴직 서류에 서명했다.','choice');aiOut(S,1.5)}},
+  {label:'국비 AI 전환 교육 후 이직',sub:'지식 +8 · 스펙 +1 · 다시 구직',w:1,apply:S=>{eff(S,{k:8});S.spec=(S.spec||0)+1;lg(S,'국비 지원 AI 전환 교육 과정에 등록했다.','choice');aiOut(S,.8)}},
+  {label:'끝까지 버틴다',sub:'스트레스 +12 · 50% 해고',w:1,apply:S=>{S.stress+=12;if(R()<.5){lg(S,'버텼지만 결국 해고 통보를 받았다.','bad');aiOut(S,.5)}else lg(S,'이번엔 명단에서 빠졌다. 다음은 모른다.','bad')}}]}},
+ workEvent:S=>{const e=WEV_MAP[S.wev],j=JOB[S.job.id];
+  return{title:e.t,desc:`${typeof e.d==='function'?e.d(S):e.d}<br><span style="font-size:13px;color:var(--ink3)">${j.e} ${j.n} · ${S.job.rank||rankOf(S)} · 스트레스 ${Math.round(S.stress)}${S.jobHunt?' · 이직 준비 중':''}</span>`,
+   options:e.o.map(o=>({label:o.l,sub:o.s,w:o.w||1,lock:o.lock&&o.lock(S),apply:S=>{S.wevSeen=S.wevSeen||{};S.wevSeen[e.id]=(S.wevSeen[e.id]||0)+1;o.f(S)}}))}},
+ burnout:S=>{const j=JOB[S.job.id];return{title:'번아웃',desc:`${j.e} ${j.n} ${S.age-S.job.start}년 차, ${S.job.rank||''}. 스트레스 지수 <b>${Math.round(S.stress)}</b>. 아침에 눈을 뜨는 게 두렵습니다. 한국 직장인 10명 중 7명이 번아웃을 겪었다고 답했습니다.`,options:[
+  {label:'1년 휴직',sub:'1년 급여 없음 · 스트레스 크게↓',w:1.5,apply:S=>{S.onLeave=true;lg(S,'휴직계를 냈다.','choice')}},
+  {label:'정신건강의학과 상담',sub:'비용 200만 · 스트레스 −18',w:1.5,apply:S=>{eff(S,{m:-200,p:4});S.stress-=18;lg(S,'상담을 받기 시작했다.','good')}},
+  {label:'참고 버틴다',sub:'건강 −8 · 스트레스 그대로',w:2,apply:S=>{eff(S,{h:-8});S.stress-=4;lg(S,'이를 악물고 버텼다.','bad')}},
+  {label:'퇴사한다',sub:'직업 목록으로',w:.7,apply:S=>{lg(S,`${j.n}을(를) 그만뒀다.`,'choice');endJob(S);S.stress-=30;if(S.age>=58)S.retired=true;else S.nextJobTry=S.age+1}}]}},
+ job:S=>{
+  const opts=JOBS.filter(j=>!j.hidden).map(j=>{const el=elig(S,j);const failed=S.failed.includes(j.id);
+   const pr=prepOf(j.id),pp=pr&&el.ok?prepPass(S,j.id):0;
+   return{job:j,label:j.n,lock:!el.ok&&el.why,chance:pr?pp:el.c,prep:pr,failed,w:el.ok&&!failed?Math.pow(pr?Math.min(1,pp*2.2):el.c,1.5)*Math.pow(j.s/3000,.8)*(j.id==='parttime'?.15:1):0,
+    apply:S=>{if(pr){startPrep(S,j.id)}else if(R()<el.c){setJob(S,j.id)}else{S.failed.push(j.id);eff(S,{p:-4});lg(S,`${j.n} 지원에서 떨어졌다.`,'bad');return{fail:true,msg:`${j.e} ${j.n} — 불합격입니다. 다른 길을 고르거나 1년 더 준비할 수 있어요.`}}}}});
+  opts.push({label:'1년 더 준비하기',sub:'지식 +6 · 내년에 다시',special:1,w:.3,apply:S=>{S.nextJobTry=S.age+1;eff(S,{k:6,p:-4});lg(S,'1년 더 취업 준비를 하기로 했다.','bad')}});
+  return{kind:'jobs',title:S.workYears?'새로운 직업 찾기':'첫 직장',desc:`한국직업사전에 오른 직업은 1만 6천여 개. 그중 대표 직업 ${JOBS.filter(x=>!x.hidden).length}개입니다.${S.age>=35&&S.workYears<3?' <b>30대 중반 이후 경력 없는 신입 지원은 합격률이 크게 떨어집니다.</b>':''}<br>${S.age}세 · 학력 ${S.edu.univ&&S.edu.univ!=='—'?S.edu.univ:'고졸'}${S.edu.major?' ('+({eng:'공학',sci:'자연',biz:'상경',hum:'인문',art:'예체능'})[S.edu.major]+')':''} · 지식 ${Math.round(S.know)}. 카드를 누르면 준비 과정과 일하는 환경을 먼저 볼 수 있어요. 시험 직업은 시험을, 회사는 서류·면접을, 가게는 창업 준비를 거치며 1년 단위로 결과가 나옵니다. 아르바이트·배달처럼 바로 시작할 수 있는 일도 있어요.`,options:opts}}
+};
+
+function resolve(S,i){
+  const c=CHOICES[S.pending](S),o=c.options[i];
+  if(!o||o.lock||o.failed)return{fail:true,msg:''};
+  const res=o.apply(S)||{};
+  if(res.fail)return res;
+  c.after&&c.after(S);
+  S.history.push({age:S.age,title:c.title,label:o.label});
+  S.pending=null;
+  if(S.next){const n=S.next;S.next=null;setPending(S,n)}
+  for(const k of['health','happy','know','rel','stress'])S[k]=clamp(S[k]);
+  return{ok:true};
+}
+function autoResolve(S){
+  let g=0;
+  while(S.pending&&g++<20){
+    const c=CHOICES[S.pending](S);
+    const av=c.options.map((o,i)=>[i,(o.lock||o.failed)?0:(o.w??1)]).filter(x=>x[1]>0);
+    const i=av.length?wpick(av):c.options.length-1;
+    resolve(S,i);
+    if(S.pending==='job'&&S.failed.length>4){const k=CHOICES.job(S).options.findIndex(o=>o.job&&o.job.id==='parttime');resolve(S,k)}
+  }
+}
+function simulate(o){const S=newLife(o);let g=0;while(!S.dead&&g++<130){if(S.pending){autoResolve(S);continue}advance(S)}return S}
+
+/* ---------- dex ---------- */
+function loadDex(){try{return JSON.parse(localStorage.getItem('kls-dex')||'[]')}catch(e){return[]}}
+function saveDex(id){if(window.__headless)return;try{const d=loadDex();if(!d.includes(id)){d.push(id);localStorage.setItem('kls-dex',JSON.stringify(d))}}catch(e){}}
+
+/* =========================================================
+   UI
+   ========================================================= */
+const $=s=>document.querySelector(s);
+const cfg={mode:'random',region:'capital',income:'3',gender:'random',year:'2026'};
+let S=null,snaps=[],timer=null,speed=1,running=false,auto=false;
+
+function show(id){document.querySelectorAll('.screen').forEach(e=>e.classList.toggle('on',e.id===id));window.scrollTo(0,0)}
+function title(y){return `${births(y)}만 분의 1`}
+
+function initLanding(){
+  $('#segRegion').innerHTML=Object.entries(REGIONS).map(([k,v])=>`<button data-v="${k}" class="${k==='capital'?'on':''}">${v.n}</button>`).join('');
+  document.querySelectorAll('.seg').forEach(seg=>seg.addEventListener('click',e=>{
+    const b=e.target.closest('button');if(!b)return;seg.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    cfg[seg.dataset.k]=b.dataset.v;if(seg.dataset.k==='mode')$('#customBox').classList.toggle('on',b.dataset.v==='custom');
+    if(seg.dataset.k==='year')setYear(b.dataset.v);
+  }));
+  $('#yearRange').addEventListener('input',e=>setYear(e.target.value));
+  setYear(cfg.year);
+  renderDex();
+}
+function setYear(y){
+  cfg.year=String(y);$('#yearRange').value=y;$('#yearVal').textContent=y+'년';
+  $('#yearMeta').textContent=`${generation(y)} · 그해 출생아 약 ${births(y)}만 명`;
+  document.querySelectorAll('.seg[data-k="year"] button').forEach(b=>b.classList.toggle('on',b.dataset.v===String(y)));
+  $('#heroTitle').firstChild.textContent=title(y);
+}
+function renderDex(){
+  const d=loadDex(),list=JOBS.filter(j=>!j.hidden);
+  $('#jobCountF').textContent=`${list.length}개 직업 체험`;
+  $('#dexCount').textContent=`${list.filter(j=>d.includes(j.id)).length} / ${list.length} 체험함`;
+  $('#dexGrid').innerHTML=list.map(j=>`<div class="d ${d.includes(j.id)?'got':''}"><em>${j.e}</em>${j.n}<small>${j.c} · 초봉 ${fmt(j.s)}</small></div>`).join('');
+}
+
+function startLife(){
+  const o={year:cfg.year};if(cfg.gender!=='random')o.gender=cfg.gender;if(cfg.mode==='custom')Object.assign(o,{region:cfg.region,income:cfg.income});
+  S=newLife(o);snaps=[];
+  const Rg=REGIONS[S.region];
+  const share=Math.round(Rg.w);
+  const lines=[`${S.birthYear}년 ${ri(1,12)}월 ${ri(1,28)}일 ${pick(['새벽','아침','오후','밤'])} ${ri(1,11)}시,`,`${S.town}의 한 산부인과에서`,`${INC_LABEL[S.income]}, ${S.family} 가정의 ${S.sib==='외동'?'외동'+(S.gender==='M'?'아들':'딸'):S.sib+' '+(S.gender==='M'?'아들':'딸')}로`,`<span class="name">${S.name}</span>`];
+  $('#birthLines').innerHTML=lines.map((l,i)=>`<p class="${i===3?'name':''}">${l.replace(/<span class="name">|<\/span>/g,'')}${i===3?'이(가) 태어났습니다.':''}</p>`).join('');
+  $('#birthStat').innerHTML=`같은 해 태어난 약 ${births(S.birthYear)}만 명 중 약 ${share}%가 ${Rg.n}에서 태어났어요. 부모님의 직업은 ${S.parentJob}.`;
+  show('birth');
+  const ps=[...document.querySelectorAll('#birthLines p')];ps.forEach((p,i)=>setTimeout(()=>p.classList.add('show'),300+i*900));
+  setTimeout(()=>$('#birthStat').classList.add('show'),300+ps.length*900);
+  setTimeout(()=>$('#liveBtn').classList.add('show'),800+ps.length*900);
+}
+function beginSim(){
+  ['#birthStat','#liveBtn'].forEach(s=>$(s).classList.remove('show'));
+  $('#gBrand').textContent=title(S.birthYear);
+  show('game');renderAll();running=true;setPauseLabel();loop();
+}
+function loop(){
+  clearTimeout(timer);if(!running||!S)return;
+  if(S.dead)return finish();
+  if(S.pending)return handlePending();
+  advance(S);renderAll();
+  if(S.dead){timer=setTimeout(finish,1400);return}
+  if(S.pending)return handlePending();
+  timer=setTimeout(loop,900/speed);
+}
+function handlePending(){
+  if(S.snapNeeded){S.snapNeeded=false;snaps.push({age:S.age,title:CHOICES[S.pending](S).title,data:JSON.stringify(S)})}
+  if(auto){timer=setTimeout(()=>{autoResolve(S);renderAll();timer=setTimeout(loop,500/speed)},500/speed)}
+  else openChoice();
+}
+
+function openChoice(msg){
+  const c=CHOICES[S.pending](S);
+  let h=`<div class="q-age">${S.age}세 · ${S.year}년</div><h2>${c.title}</h2><p class="desc">${c.desc}</p><div class="banner ${msg?'on':''}">${msg||''}</div>`;
+  if(c.kind==='jobs'){
+    const groups={};c.options.forEach((o,i)=>{const cat=o.job?o.job.c:'기타';(groups[cat]=groups[cat]||[]).push([o,i])});
+    const avail=c.options.filter(o=>o.job&&!o.lock).length;
+    h+=`<div class="tabs" id="jobTabs"><button class="on" data-f="all">전체</button><button data-f="ok">지원 가능 ${avail}</button>${CATS.map(x=>`<button data-f="${x}">${x}</button>`).join('')}</div><div id="jobBody">`;
+    for(const cat of [...CATS,'기타']){if(!groups[cat])continue;
+      h+=`<div class="catgroup" data-cat="${cat}"><div class="catname">${cat}</div><div class="opts">`+groups[cat].map(([o,i])=>jobCard(o,i)).join('')+`</div></div>`}
+    h+='</div>';
+  }else{
+    h+='<div class="opts">'+c.options.map((o,i)=>`<button class="opt ${o.lock?'lock':''}" data-i="${i}">${o.lock?`<span class="ch">🔒 ${o.lock}</span>`:''}<b>${o.label}</b><span>${o.sub||''}</span></button>`).join('')+'</div>';
+  }
+  $('#sheet').innerHTML=h;$('#modal').classList.add('on');$('#sheet').scrollTop=0;
+  $('#sheet').querySelectorAll('.opt').forEach(b=>b.addEventListener('click',()=>{
+    const i=+b.dataset.i,o=c.options[i];
+    if(c.kind==='jobs'&&o.job)return jobDetail(c,i);
+    if(b.classList.contains('lock')||b.classList.contains('failed'))return;
+    choose(i);
+  }));
+  const tabs=$('#jobTabs');if(tabs)tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;tabs.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b));
+    const f=b.dataset.f;document.querySelectorAll('.catgroup').forEach(g=>{g.style.display=(f==='all'||f==='ok'||g.dataset.cat===f||g.dataset.cat==='기타')?'':'none';
+      g.querySelectorAll('.opt').forEach(o=>o.style.display=f==='ok'&&(o.classList.contains('lock')||o.classList.contains('failed'))?'none':'')})});
+}
+function choose(i){
+  const r=resolve(S,i);
+  if(r.fail){renderAll();return openChoice(r.msg)}
+  $('#modal').classList.remove('on');renderAll();
+  if(S.pending)return handlePending();
+  timer=setTimeout(loop,700/speed);
+}
+function sbar(v){const c=v<50?'var(--good)':v<70?'#e0a400':'var(--bad)';return`<div class="sbar"><i style="width:${v}%;background:${c}"></i></div>`}
+function stressWord(v){return v<40?'낮음':v<60?'보통':v<75?'높음':v<85?'매우 높음':'극심'}
+function timeline(d){return`<div class="tl">${d.map(([t,x])=>`<div><span>${t}</span>${x}</div>`).join('')}</div>`}
+function jobDetail(c,i){
+  const o=c.options[i],j=o.job,k=prepOf(j.id),P=k&&PREPS[k],W=workOf(j.id),el=elig(S,j);
+  const pp=P&&el.ok?prepPass(S,j.id):0,ey=P&&el.ok?expYears(S,j.id):null;
+  const hp=j.hp||0;
+  let prep;
+  if(P){prep=`<h5>📚 어떻게 되나요 — ${P.n}</h5><ol>${P.steps.map(x=>`<li>${x}</li>`).join('')}</ol>
+    <div class="kvrow"><span>준비 방식</span><b>${P.how}</b></div>
+    ${P.comp?`<div class="kvrow"><span>경쟁률</span><b>${P.comp}</b></div>`:''}
+    ${P.fix?`<div class="kvrow"><span>시험 전 필수 기간</span><b>${P.fix}년</b></div>`:''}
+    <div class="kvrow"><span>당신의 1회 합격률</span><b>${el.ok?Math.round(pp*100)+'%':'—'}</b></div>
+    <div class="kvrow"><span>예상 준비 기간</span><b>${ey?'약 '+ey.toFixed(1)+'년':'—'}${P.max?` · 응시 ${P.max}회 제한`:''}</b></div>
+    <div class="kvrow"><span>${P.cost<0?'수련 중 급여':'연간 준비 비용'}</span><b>${P.cost<0?'연 '+fmt(-P.cost):'연 '+fmt(P.cost)}</b></div>
+    <div class="kvrow" style="display:block"><span>준비 중 스트레스 — ${stressWord(P.st)} (${P.st})</span>${sbar(P.st)}</div>`;
+  }else{prep=`<h5>⚡ 어떻게 되나요 — 바로 시작</h5><ol><li>앱 가입 · 간단한 면접 → 다음 주부터 근무</li></ol>
+    <div class="kvrow"><span>당신의 합격 확률</span><b>${el.ok?Math.round(el.c*100)+'%':'—'}</b></div>
+    <div class="kvrow"><span>준비 기간</span><b>없음 (올해 바로 결과)</b></div>`}
+  const work=`<h5>💼 일하면 어떤가요</h5>
+    <div class="kvrow"><span>주당 근무</span><b>약 ${W.h}시간</b></div>
+    <div class="kvrow"><span>연봉</span><b>${fmt(j.s)} → 최고 ${fmt(j.cap)}</b></div>
+    <div class="kvrow"><span>정년 · 워라밸</span><b>~${j.ret}세 · ${'●'.repeat(j.wlb)}${'○'.repeat(5-j.wlb)}</b></div>
+    <div class="kvrow"><span>AI 대체 위험</span><b style="color:${(AI[j.id]||0)>=2?'var(--bad)':'inherit'}">${AI_N[AI[j.id]||0]}${(AI[j.id]||0)>=2?' · 2030년대 채용·일자리 감소':''}</b></div>
+    ${j.ma?`<div class="kvrow"><span>연령 제한</span><b>${j.ma}세 이하</b></div>`:''}
+    <div class="kvrow"><span>건강 영향</span><b>${hp<0?'매년 −'+(-hp):hp>0?'매년 +'+hp:'보통'}${j.risk?' · 사고 위험':''}</b></div>
+    <div class="kvrow" style="display:block"><span>직장 스트레스 — ${stressWord(W.st)} (${W.st})</span>${sbar(W.st)}
+      <div class="chips">${W.tg.map(t=>`<span class="chip">${t}</span>`).join('')}</div></div>
+    <div style="margin-top:10px;font-size:12px;color:var(--ink3)">어느 하루</div>${timeline(dayOf(j.id))}`;
+  const can=!o.lock&&!o.failed;
+  $('#sheet').innerHTML=`<button class="jd-back" id="jdBack">← 직업 목록</button>
+   <div class="jd-head"><span class="emo">${j.e}</span><div><div class="q-age">${j.c}</div><h2 style="margin:0">${j.n}</h2><p class="desc">${j.d}</p></div></div>
+   <div class="jd-grid"><div class="jd-box">${prep}</div><div class="jd-box">${work}</div></div>
+   <div class="jd-actions"><button class="btn" id="jdGo" ${can?'':'disabled style="opacity:.4;cursor:not-allowed"'}>${P?`${P.label||'준비'} 시작하기`:'지원하기'} →</button>
+    <button class="btn ghost" id="jdBack2">다른 직업 보기</button>${o.lock?`<span class="why">🔒 ${o.lock}</span>`:o.failed?'<span class="why">올해 이미 불합격했어요</span>':''}</div>`;
+  $('#sheet').scrollTop=0;
+  $('#jdBack').onclick=$('#jdBack2').onclick=()=>openChoice();
+  if(can)$('#jdGo').onclick=()=>choose(i);
+}
+function jobCard(o,i){
+  if(!o.job)return`<button class="opt" data-i="${i}"><span class="emo">⏳</span><b>${o.label}</b><span>${o.sub}</span></button>`;
+  const j=o.job;const pct=Math.round((o.chance||0)*100);
+  const tag=o.lock?`<span class="ch">🔒 ${o.lock}</span>`:o.failed?`<span class="ch">올해 불합격</span>`:`<span class="ch ${pct<30?'lo':''}">${o.prep?'연 합격률':'합격'} ${pct}%</span>`;
+  const P=o.prep&&PREPS[o.prep],ey=P&&!o.lock?expYears(S,j.id):null;
+  return`<button class="opt ${o.lock?'lock':''} ${o.failed?'failed':''}" data-i="${i}">${tag}<span class="emo">${j.e}</span><b>${j.n}</b><span>${j.d}</span>
+   <div class="meta"><span>초봉 ${fmt(j.s)}</span><span>주 ${workOf(j.id).h}h</span><span>스트레스 ${stressWord(workOf(j.id).st)}</span>${AI[j.id]>=2?`<span style="color:var(--bad)">AI ${AI_N[AI[j.id]]}</span>`:''}</div>
+   <div class="prepline">${P?`📚 ${P.label||P.n}${ey?` · 약 ${ey.toFixed(1)}년`:''}`:'⚡ 바로 시작'}</div></button>`;
+}
+
+function statBar(n,v,c){return`<div class="stat"><div class="row"><span>${n}</span><b>${Math.round(v)}</b></div><div class="bar"><i style="width:${v}%;background:${c}"></i></div></div>`}
+function renderAll(){
+  const ph=phase(S);
+  $('#gAge').textContent=`${S.age}세`;$('#gYear').textContent=`${S.year}년`;
+  const pt=$('#gPhase');pt.textContent=PH[ph][0];pt.style.background=PH[ph][1];
+  const j=S.job&&JOB[S.job.id];
+  $('#pProfile').innerHTML=`<div class="who">${S.name}<small>${S.gender==='M'?'남':'여'} · ${S.birthYear}년생</small></div>
+   <dl class="kv"><dt>출생</dt><dd>${S.town}</dd><dt>가정</dt><dd>${INC_LABEL[S.income]} · ${S.family} · ${S.sib}</dd><dt>부모</dt><dd>${S.parentJob}</dd>
+   <dt>고교</dt><dd>${S.edu.high||'—'}</dd><dt>대학</dt><dd>${S.edu.univ||'—'}</dd>
+   <dt>직업</dt><dd>${j?`${j.e} ${j.n} · ${S.job.rank||''} · 연 ${fmt(S.job.sal)}`:S.prep?`📚 ${JOB[S.prep.id].n} 준비 ${S.prep.yrs}년 차`:S.retired?'은퇴':'—'}</dd>
+   <dt>가족</dt><dd>${S.married?'기혼':S.single?'비혼':'미혼'}${S.kids?` · 자녀 ${S.kids}`:''}${S.house?' · 자가':''}</dd></dl>`;
+  $('#pStats').innerHTML=statBar('건강',S.health,'#2f7d4f')+statBar('행복',S.happy,'#e0a400')+statBar('지식',S.know,'#2a6f97')+statBar('관계',S.rel,'#c2410c')+statBar('스트레스',S.stress,S.stress<50?'#7a9a7e':S.stress<70?'#d29a2c':'#b33a3a');
+  $('#pMoney').textContent=fmt(net(S))+'원';
+  $('#pMoneySub').innerHTML=`현금 ${fmt(S.money)} · 집 ${fmt(S.houseValue)} · 빚 ${fmt(S.debt)}<br>생애 소득 ${fmt(S.lifeIncome)}원`;
+  renderMap($('#lifemap'),S,true);
+  renderLog();
+  renderFuture();
+}
+let logView={s:null,n:0};
+function renderLog(){
+  const el=$('#log'),row=(e,nw)=>`<div class="e ${e.k}${nw?' new':''}"><div class="t">${e.a}세<br>${e.y}</div><div class="m">${e.t}</div></div>`;
+  if(logView.s!==S||S.log.length<logView.n)el.innerHTML=S.log.slice().reverse().slice(0,120).map(e=>row(e,0)).join('');
+  else if(S.log.length>logView.n){el.insertAdjacentHTML('afterbegin',S.log.slice(logView.n).reverse().map(e=>row(e,1)).join(''));while(el.children.length>120)el.lastChild.remove()}
+  logView={s:S,n:S.log.length};
+}
+function renderMap(el,S,live){
+  const total=Math.max(100,Math.ceil((S.age+1)/10)*10),choiceAges=new Set(S.history.map(h=>h.age));
+  while(el.children.length<total){const d=document.createElement('div');d.className='c';el.appendChild(d)}
+  while(el.children.length>total)el.lastChild.remove();
+  for(let a=0;a<total;a++){
+    const c=el.children[a],y=a===0?{ph:'child',p:S.years[0]?S.years[0].p:60}:S.years[a-1],on=!!(y&&a<=S.age);
+    const bg=on?PH[y.ph][1]:'',op=on?(.3+.7*(y.p/100)).toFixed(2):'';
+    if(c.dataset.bg!==bg){c.style.background=bg;c.dataset.bg=bg}
+    if(c.style.opacity!==op)c.style.opacity=op;
+    const cls='c'+(on&&y.s>=75?' hot':'')+(a%10===0?' dec':'')+(live&&a===S.age&&!S.dead?' now':'')+(choiceAges.has(a)?' choice':'');
+    if(c.className!==cls)c.className=cls;
+    const tt=`${a}세${on&&y.s!=null?` · 행복 ${y.p} · 스트레스 ${y.s}`:''}`;if(c.title!==tt)c.title=tt;
+  }
+}
+function projection(S){
+  const pts=[];let sal=S.job?S.job.sal:0,j=S.job&&JOB[S.job.id];
+  for(let a=S.age;a<=85;a++){
+    let v=0;if(j&&a<S.job.ret){v=sal;sal=Math.min(j.cap,sal*(1+j.g))}else if(a>=65)v=S.pension||(j?(j.pub?Math.min(3600,(S.workYears+S.job.ret-S.age)*95):Math.min(2000,300+(S.workYears+S.job.ret-S.age)*30)):400);
+    pts.push([a,v])}
+  return pts;
+}
+function chart(pts,w=290,h=110){
+  const max=Math.max(...pts.map(p=>p[1]),1),x0=pts[0][0],x1=pts[pts.length-1][0];
+  const X=a=>8+(a-x0)/(x1-x0||1)*(w-16),Y=v=>h-18-v/max*(h-30);
+  const d=pts.map((p,i)=>`${i?'L':'M'}${X(p[0]).toFixed(1)},${Y(p[1]).toFixed(1)}`).join('');
+  const area=d+`L${X(x1)},${h-18}L${X(x0)},${h-18}Z`;
+  return`<svg class="chart" viewBox="0 0 ${w} ${h}" width="100%"><path d="${area}" fill="var(--work)" opacity=".1"/><path d="${d}" fill="none" stroke="var(--work)" stroke-width="2"/>
+   <line x1="8" x2="${w-8}" y1="${h-18}" y2="${h-18}" stroke="var(--line)"/><text x="8" y="${h-4}">${x0}세</text><text x="${w-8}" y="${h-4}" text-anchor="end">${x1}세</text>
+   <text x="${w-8}" y="12" text-anchor="end">최고 ${fmt(max)}/년</text></svg>`;
+}
+function renderFuture(){
+  const le=Math.round(lifeExp(S));const avg=S.gender==='M'?80:86;
+  let h='<h4>미래 그리기 — 지금 경로라면</h4>';
+  if(S.job){const j=JOB[S.job.id],pts=projection(S);const rest=pts.filter(p=>p[0]<S.job.ret).reduce((s,p)=>s+p[1],0);
+    h+=`<div class="big">${S.job.ret}세에 ${j.n} 은퇴,<br>앞으로 ${fmt(rest)}원을 더 벌어요</div>${chart(pts)}
+     <div class="row"><span>예상 생애 소득</span><b>${fmt(S.lifeIncome+rest)}</b></div>
+     <div class="row"><span>65세 이후 연금</span><b>연 ${fmt(pts[pts.length-1][1])}</b></div>`;
+  }else if(S.prep){const P=PREPS[S.prep.k],j=JOB[S.prep.id],p=prepPass(S,S.prep.id);const left=S.prep.fixLeft>0?S.prep.fixLeft:Math.min(P.max?P.max-S.prep.att:8,1/Math.max(p,.01));
+    h+=`<div class="big">합격하면 ${S.age+Math.ceil(left)}세 무렵<br>${j.n} 연봉 ${fmt(j.s)}부터</div>
+     <div class="row"><span>남은 예상 기간</span><b>약 ${left.toFixed(1)}년</b></div>
+     <div class="row"><span>그 직업의 최고 연봉</span><b>${fmt(j.cap)}</b></div>`;
+  }else if(S.age<19){
+    const sc=Math.round(clamp(S.know*.85+S.income*2.5+S.edu.hs+REGIONS[S.region].edu*.4,1,100)+Math.max(0,(18-S.age))*S.studyRate*.85);
+    const tier=sc>=96?'의대':sc>=91?'SKY':sc>=72?'인서울 4년제':sc>=52?'지거국·수도권':sc>=30?'지방 사립대':'전문대';
+    h+=`<div class="big">이대로라면 수능 백분위 약 ${clamp(sc,1,99)},<br>${tier} 진학권</div>
+     <div class="row"><span>지금 지원 가능한 직업 (고졸 기준)</span><b>${JOBS.filter(j=>!j.hidden&&j.t===0).length}개</b></div>
+     <div class="row"><span>인서울 이상이면 열리는 직업</span><b>+${JOBS.filter(j=>!j.hidden&&j.t>=3&&!j.f).length}개</b></div>`;
+  }else if(S.retired){h+=`<div class="big">은퇴 후의 삶</div><div class="row"><span>연금 (65세~)</span><b>연 ${fmt(S.pension||400)}</b></div>`}
+  else{const open=JOBS.filter(j=>!j.hidden&&elig(S,j).ok).length;h+=`<div class="big">지원 가능한 직업 ${open}개</div><div class="row"><span>학력</span><b>${TIER_N[S.edu.tier]}</b></div><div class="row"><span>취업 시작 예정</span><b>${S.jobSeekAge||'—'}세</b></div>`}
+  h+=`<div class="row"><span>기대 수명</span><b>${le}세 <span class="muted">(${S.gender==='M'?'남':'여'} 평균 ${avg})</span></b></div>`;
+  $('#pFuture').innerHTML=h;
+  const pw=$('#pWork');
+  if(S.job){const j=JOB[S.job.id],W=workOf(S.job.id);
+    pw.innerHTML=`<h4>직장 생활</h4><div class="big">${j.e} ${S.job.rank||rankOf(S)}<br><span style="font-size:15px;font-weight:600">${j.n} · ${S.age-S.job.start+1}년 차</span></div>
+     <div class="row"><span>주당 근무</span><b>${S.onLeave?'휴직 예정':'약 '+W.h+'시간'}</b></div>
+     <div class="row"><span>올해 연봉</span><b>${fmt(S.job.sal)}</b></div>
+     <div class="row" style="display:block"><span>나의 스트레스 — ${stressWord(S.stress)} (${Math.round(S.stress)})</span>${sbar(S.stress)}</div>
+     <div class="chips">${W.tg.map(t=>`<span class="chip">${t}</span>`).join('')}</div>
+     <div style="margin-top:12px;font-size:12px;color:var(--ink3)">오늘의 하루</div>${timeline(dayOf(S.job.id))}`;pw.classList.add('on');
+  }else if(S.prep){const P=PREPS[S.prep.k],p=prepPass(S,S.prep.id);
+    pw.innerHTML=`<h4>${P.cost<0?'수련':'시험 준비'}</h4><div class="big">📚 ${P.label||P.n}<br><span style="font-size:15px;font-weight:600">${S.prep.yrs+1}년 차 · ${S.prep.att}회 응시</span></div>
+     <div class="row"><span>${S.prep.fixLeft>0?'시험까지':'올해 합격률'}</span><b>${S.prep.fixLeft>0?S.prep.fixLeft+'년':Math.round(p*100)+'%'}</b></div>
+     <div class="row"><span>${P.cost<0?'누적 수련 급여':'누적 준비 비용'}</span><b>${fmt(Math.abs(S.prep.spent))}</b></div>
+     <div class="row" style="display:block"><span>나의 스트레스 — ${stressWord(S.stress)} (${Math.round(S.stress)})</span>${sbar(S.stress)}</div>
+     <ol style="padding-left:18px;font-size:13px;color:var(--ink2);margin-top:8px">${P.steps.map(x=>`<li>${x}</li>`).join('')}</ol>`;pw.classList.add('on');
+  }else pw.classList.remove('on');
+  const now=wq(S),d=loadDex(),list=JOBS.filter(j=>!j.hidden);
+  $('#pLadder').innerHTML=`<h4>계층 사다리 — 태어난 곳 vs 지금</h4>
+   <div class="ladder">${[1,2,3,4,5].map(i=>`<div class="${i===S.income?'born':''} ${i===now?'now':''}">${i}분위</div>`).join('')}</div>
+   <div class="row" style="margin-top:8px"><span>출생</span><b>${INC_LABEL[S.income]}</b></div><div class="row"><span>현재 (순자산 기준)</span><b>${now}분위</b></div>
+   <h4 style="margin-top:16px">직업 도감</h4><div style="font-size:13.5px">${list.filter(j=>d.includes(j.id)).length} / ${list.length} 직업 체험</div><div class="pb"><i style="width:${list.filter(j=>d.includes(j.id)).length/list.length*100}%"></i></div>`;
+}
+
+function setPauseLabel(){$('#pauseBtn').textContent=running?'❚❚ 일시정지':'▶ 재생'}
+
+/* ---------- ending ---------- */
+function epitaph(S){
+  const jobs=S.jobsDone.map(id=>JOB[id].n);const mob=wq(S)-S.income;
+  let t=`${S.town}에서 ${INC_LABEL[S.income]} 가정에 태어나, `;
+  t+=S.edu.univ&&S.edu.univ!=='—'?`${S.edu.univ}에서 공부했다. `:`${S.edu.high||'고등학교'}를 마치고 바로 사회에 나왔다. `;
+  t+=jobs.length?`${jobs.join(', ')}(으)로 ${S.workYears}년을 일했다. `:'끝내 직업을 갖지 못했다. ';
+  if(S.married)t+=`결혼을 했고${S.kids?` 아이 ${S.kids}명을 키웠다`:' 아이 없이 살았다'}. `;else if(S.age>30)t+='혼자의 삶을 살았다. ';
+  t+=mob>0?`태어난 곳보다 ${mob}계단 위에서 삶을 마쳤다.`:mob<0?`태어난 곳보다 ${-mob}계단 아래에서 삶을 마쳤다.`:'태어난 계층에서 삶을 마쳤다.';
+  return t;
+}
+function finish(){
+  running=false;clearTimeout(timer);
+  window.__headless=true;const others=[0,1,2,3].map(()=>simulate({year:S.birthYear}));window.__headless=false;
+  const avgHappy=Math.round(S.years.reduce((s,y)=>s+y.p,0)/Math.max(1,S.years.length));
+  const hp=S.years.map(y=>[y.a,y.p]);
+  const d=loadDex(),list=JOBS.filter(j=>!j.hidden);
+  $('#ending').innerHTML=`
+   <div class="eyebrow">${title(S.birthYear)} · 한 사람의 일생</div>
+   <div class="tomb" style="margin-top:18px">
+     <div>
+       <h1>${S.name}</h1>
+       <div class="dates">${S.birthYear} — ${S.year} · 향년 ${S.age}세 · ${S.cause}</div>
+       <div class="epitaph">${epitaph(S)}</div>
+       <div class="numbers">
+         <div><small>생애 소득</small><b>${fmt(S.lifeIncome)}</b></div>
+         <div><small>마지막 순자산</small><b>${fmt(net(S))}</b></div>
+         <div><small>평균 행복</small><b>${avgHappy}</b></div>
+         <div><small>계층 이동</small><b>${S.income}→${wq(S)}분위</b></div>
+         <div><small>일한 해</small><b>${S.workYears}년</b></div>
+         <div><small>기대수명 대비</small><b>${S.age-(S.gender==='M'?80:86)>=0?'+':''}${S.age-(S.gender==='M'?80:86)}년</b></div>
+       </div>
+     </div>
+     <div class="panel"><h4>삶의 지도</h4><div class="lifemap" id="endMap"></div>
+       <h4 style="margin-top:18px">행복 곡선</h4>${chart(hp.length>1?hp:[[0,50],[1,50]],460,120).replace(/var\(--work\)/g,'#e0a400').replace(/최고 [^<]*/,'')}</div>
+   </div>
+
+   <div class="section-h"><h2>선택의 순간들 — 다시 골라보기</h2><span class="muted">그 시점으로 돌아가 다른 길을 걸어보세요</span></div>
+   <div class="timeline">${snaps.map((s,k)=>{const hh=S.history.find(x=>x.age===s.age&&x.title===s.title);return`<div class="ch"><span class="a">${s.age}세</span><div>${s.title}<small>${hh?'→ '+hh.label:''}</small></div><button class="btn ghost sm" data-k="${k}">↺ 여기서 다시</button></div>`}).join('')}</div>
+
+   <div class="section-h"><h2>같은 해 태어난 또 다른 4명</h2><span class="muted">모두 통계대로 무작위로 태어나 자동으로 살았습니다</span></div>
+   <div class="others">${others.map(o=>`<div class="o"><b>${o.name}</b><span class="muted">${o.town} · ${INC_LABEL[o.income]}</span>
+     <div class="ln">${o.edu.univ&&o.edu.univ!=='—'?o.edu.univ:(o.edu.high||'—')}<br>${o.jobsDone.map(id=>JOB[id].e+' '+JOB[id].n).join(' → ')||'직업 없음'}<br>${o.married?'기혼':'미혼'}${o.kids?` · 자녀 ${o.kids}`:''} · 순자산 ${fmt(net(o))}</div>
+     <div class="ag">${o.age}세</div><span class="muted">${o.cause}</span></div>`).join('')}</div>
+
+   <div class="section-h"><h2>직업 도감</h2><span class="muted">${list.filter(j=>d.includes(j.id)).length} / ${list.length} 체험함</span></div>
+   <div class="dex">${list.map(j=>`<div class="d ${d.includes(j.id)?'got':''}"><em>${j.e}</em>${j.n}<small>${j.c}</small></div>`).join('')}</div>
+
+   <div style="display:flex;gap:10px;margin-top:40px;flex-wrap:wrap"><button class="btn" id="againBtn">다시 태어나기</button><button class="btn ghost" id="homeBtn">처음으로</button></div>`;
+  renderMap($('#endMap'),S,false);
+  show('ending');
+  $('#againBtn').onclick=startLife;$('#homeBtn').onclick=()=>{renderDex();show('landing')};
+  document.querySelectorAll('.timeline button').forEach(b=>b.onclick=()=>replay(+b.dataset.k));
+}
+function replay(k){
+  const sn=snaps[k];S=JSON.parse(sn.data);snaps=snaps.slice(0,k);S.snapNeeded=true;
+  show('game');running=true;setPauseLabel();renderAll();handlePending();
+}
+
+/* ---------- wiring ---------- */
+initLanding();
+$('#goBtn').onclick=startLife;
+$('#liveBtn').onclick=beginSim;
+$('#pauseBtn').onclick=()=>{running=!running;setPauseLabel();if(running)loop();else clearTimeout(timer)};
+document.querySelectorAll('[data-sp]').forEach(b=>b.onclick=()=>{speed=+b.dataset.sp;document.querySelectorAll('[data-sp]').forEach(x=>x.classList.toggle('on',x===b))});
+$('#autoBtn').onclick=e=>{auto=!auto;e.target.classList.toggle('on',auto)};
+</script>
+</body>
+</html>
