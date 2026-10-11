@@ -406,7 +406,7 @@ const JOBS=[
  {id:'pharm',n:'약사',c:'의료',e:'💊',t:4,mj:'sci',k:82,o:.35,s:6000,g:.03,cap:9000,ret:70,wlb:4,sat:3,d:'약대 6년. 정년 없는 전문직.'},
  {id:'nurse',n:'간호사',c:'의료',e:'🏥',t:3,f:'nurse',k:45,o:.93,s:3800,g:.04,cap:7000,ret:60,wlb:1,sat:3,hp:-2,d:'3교대. 취업률 최상위, 이직률도 최상위.'},
  {id:'pt',n:'물리치료사',c:'의료',e:'🦴',t:1,mj:'sci',k:40,o:.6,s:3000,g:.03,cap:5000,ret:62,wlb:3,sat:3,d:'전문대 3년제로도 가능한 의료직.'},
- {id:'care',n:'요양보호사',c:'의료',e:'🤲',t:0,k:0,o:.92,s:2300,g:.01,cap:2800,ret:70,wlb:3,sat:2,hp:-1,d:'초고령사회 필수 인력. 낮은 임금, 높은 강도.'},
+ {id:'care',from:2008,n:'요양보호사',c:'의료',e:'🤲',t:0,k:0,o:.92,s:2300,g:.01,cap:2800,ret:70,wlb:3,sat:2,hp:-1,d:'초고령사회 필수 인력. 낮은 임금, 높은 강도.'},
  {id:'judge',n:'판사·검사',c:'법·공공',e:'⚖️',t:5,k:92,o:.18,s:6000,g:.04,cap:14000,ret:65,wlb:2,sat:4,pub:1,d:'로스쿨 → 변호사시험 → 임용. 최상위 경쟁.'},
  {id:'lawyer',n:'변호사',c:'법·공공',e:'📜',t:4,k:85,o:.4,s:7000,g:.05,cap:20000,v:.03,ret:70,wlb:2,sat:3,d:'변호사 3만 명 시대. 양극화가 크다.'},
  {id:'gov7',n:'7급 공무원',c:'법·공공',e:'🏛',t:2,k:65,o:.25,s:3300,g:.035,cap:7500,ret:60,wlb:4,sat:3,pub:1,d:'정책 실무의 허리. 순환보직.'},
@@ -430,33 +430,33 @@ const JOBS=[
  {id:'consult',n:'전략 컨설턴트',c:'기업',e:'📊',t:5,k:85,o:.15,s:7500,g:.07,cap:22000,ret:50,wlb:1,sat:3,hp:-2,d:'주 80시간. 빠른 성장, 빠른 소진.'},
  {id:'marketer',n:'마케터',c:'기업',e:'📣',t:2,k:50,o:.45,s:3800,g:.04,cap:8000,ret:52,wlb:3,sat:3,d:'트렌드를 좇는 직업.'},
  {id:'flight',n:'항공 승무원',c:'기업',e:'✈️',t:2,k:50,o:.12,s:4200,g:.04,cap:8000,ret:55,wlb:2,sat:4,hp:-1,d:'경쟁률 100대 1. 시차와 체력전.'},
- {id:'devBig',n:'빅테크 개발자',c:'IT',e:'💻',t:3,mj:'eng',k:70,o:.3,s:6000,g:.07,cap:17000,ret:48,wlb:3,sat:4,d:'네카라쿠배. 코딩테스트 관문.'},
+ {id:'devBig',from:1998,n:'빅테크 개발자',c:'IT',e:'💻',t:3,mj:'eng',k:70,o:.3,s:6000,g:.07,cap:17000,ret:48,wlb:3,sat:4,d:'네카라쿠배. 코딩테스트 관문.'},
  {id:'devStart',n:'스타트업 개발자',c:'IT',e:'🚀',t:1,mj:'eng',k:55,o:.6,s:4500,g:.06,cap:12000,v:.05,ret:50,wlb:2,sat:4,d:'스톡옵션 로또 혹은 폐업.'},
- {id:'data',n:'데이터 사이언티스트',c:'IT',e:'🧠',t:4,mj:'eng',k:78,o:.3,s:5800,g:.06,cap:15000,ret:52,wlb:3,sat:4,d:'AI 시대의 수혜 직군.'},
+ {id:'data',from:2012,n:'데이터 사이언티스트',c:'IT',e:'🧠',t:4,mj:'eng',k:78,o:.3,s:5800,g:.06,cap:15000,ret:52,wlb:3,sat:4,d:'AI 시대의 수혜 직군.'},
  {id:'game',n:'게임 기획자',c:'IT',e:'🎮',t:2,k:55,o:.4,s:3800,g:.04,cap:8500,v:.02,ret:48,wlb:2,sat:4,d:'크런치 모드와 출시의 희열.'},
  {id:'factory',n:'대기업 생산직',c:'기술·현장',e:'🏭',t:0,k:35,o:.1,voc:.45,s:5000,g:.04,cap:11000,ret:60,wlb:3,sat:3,hp:-1,d:'마이스터고 출신 우대. 고연봉 현장직.'},
  {id:'elec',n:'전기기사',c:'기술·현장',e:'🔧',t:0,k:40,o:.6,voc:.25,s:3500,g:.04,cap:7500,ret:67,wlb:3,sat:3,d:'자격증 하나로 평생 먹고 산다.'},
  {id:'mechanic',n:'자동차 정비사',c:'기술·현장',e:'🚗',t:0,it:'tech',k:25,o:.75,voc:.15,s:3000,g:.035,cap:6000,ret:65,wlb:3,sat:3,hp:-1,d:'전기차 시대, 기술 전환이 과제.'},
  {id:'welder',n:'조선소 용접공',c:'기술·현장',e:'🔥',t:0,k:20,o:.75,s:4200,g:.03,cap:7000,ret:62,wlb:2,sat:2,hp:-3,d:'수주 호황기엔 고소득. 몸이 자본.'},
- {id:'delivery',n:'택배기사',c:'기술·현장',e:'📦',t:0,k:0,o:.9,s:4500,g:.01,cap:5000,ret:62,wlb:1,sat:2,hp:-3,d:'하루 300개. 건당 수수료.'},
- {id:'rider',n:'배달 라이더',c:'기술·현장',e:'🛵',t:0,k:0,o:.95,s:3200,g:0,cap:3500,ret:55,wlb:2,sat:2,hp:-2,risk:.003,d:'자유로운 시간, 위험한 도로.'},
- {id:'chef',n:'요리사 → 셰프',c:'서비스·자영업',e:'🍳',t:0,k:20,o:.75,s:2800,g:.06,cap:8000,v:.02,ret:65,wlb:1,sat:4,hp:-1,d:'주방 막내에서 오너 셰프까지.'},
+ {id:'delivery',from:1993,n:'택배기사',c:'기술·현장',e:'📦',t:0,k:0,o:.9,s:4500,g:.01,cap:5000,ret:62,wlb:1,sat:2,hp:-3,d:'하루 300개. 건당 수수료.'},
+ {id:'rider',from:2012,n:'배달 라이더',c:'기술·현장',e:'🛵',t:0,k:0,o:.95,s:3200,g:0,cap:3500,ret:55,wlb:2,sat:2,hp:-2,risk:.003,d:'자유로운 시간, 위험한 도로.'},
+ {id:'chef',n:'요리사·셰프',c:'서비스·자영업',e:'🍳',t:0,k:20,o:.75,s:2800,g:.06,cap:8000,v:.02,ret:65,wlb:1,sat:4,hp:-1,d:'주방 막내에서 오너 셰프까지.'},
  {id:'hair',n:'미용사',c:'서비스·자영업',e:'💇',t:0,k:15,o:.8,s:2600,g:.05,cap:6500,ret:65,wlb:2,sat:3,d:'단골이 곧 자산.'},
  {id:'cafe',n:'카페 사장',c:'서비스·자영업',e:'☕',t:0,k:20,o:.9,s:2500,g:.02,cap:6000,v:.02,fail:.09,ret:70,wlb:2,sat:3,d:'인구 대비 카페 수 세계 최고 수준.'},
  {id:'founder',n:'치킨집 사장',c:'서비스·자영업',e:'🍗',t:0,k:10,o:.9,s:3500,g:.01,cap:5000,fail:.1,ret:72,wlb:1,sat:2,d:'은퇴자의 마지막 선택지. 5년 생존율 20%대.'},
- {id:'cvs',n:'편의점 점주',c:'서비스·자영업',e:'🏪',t:0,k:10,o:.9,s:3000,g:.01,cap:4000,fail:.04,ret:70,wlb:1,sat:2,d:'24시간 365일.'},
- {id:'giftshop',n:'소품샵 사장',c:'서비스·자영업',e:'🧸',t:0,k:15,o:.9,s:2200,g:.03,cap:6000,v:.03,fail:.1,ret:70,wlb:2,sat:4,d:'감성 소품과 인스타그램. 임대료와의 싸움.'},
+ {id:'cvs',from:1989,n:'편의점 점주',c:'서비스·자영업',e:'🏪',t:0,k:10,o:.9,s:3000,g:.01,cap:4000,fail:.04,ret:70,wlb:1,sat:2,d:'24시간 365일.'},
+ {id:'giftshop',from:2000,n:'소품샵 사장',c:'서비스·자영업',e:'🧸',t:0,k:15,o:.9,s:2200,g:.03,cap:6000,v:.03,fail:.1,ret:70,wlb:2,sat:4,d:'감성 소품과 인스타그램. 임대료와의 싸움.'},
  {id:'florist',n:'꽃집 · 플로리스트',c:'서비스·자영업',e:'💐',t:0,it:'art',k:15,o:.85,s:2300,g:.03,cap:5500,fail:.07,ret:72,wlb:2,sat:4,d:'졸업·입학·어버이날이 1년 매출의 절반.'},
  {id:'bakery',n:'동네 베이커리',c:'서비스·자영업',e:'🥐',t:0,k:15,o:.85,s:2800,g:.03,cap:7000,v:.02,fail:.08,ret:70,wlb:1,sat:4,hp:-1,d:'새벽 4시 반죽. 프랜차이즈와의 경쟁.'},
- {id:'nail',n:'네일·속눈썹샵 원장',c:'서비스·자영업',e:'💅',t:0,k:10,o:.85,s:2600,g:.04,cap:6500,fail:.07,ret:65,wlb:2,sat:3,d:'1인 샵 창업은 쉽지만 경쟁도 치열.'},
- {id:'ecommerce',n:'온라인 쇼핑몰 운영',c:'서비스·자영업',e:'🛒',t:0,k:30,o:.85,s:2000,g:.05,cap:8000,v:.05,fail:.08,ret:70,wlb:2,sat:3,d:'스마트스토어 · 광고비 · 반품과의 전쟁.'},
- {id:'unmanned',n:'무인 아이스크림 할인점',c:'서비스·자영업',e:'🍦',t:0,k:10,o:.9,s:1500,g:.01,cap:2500,fail:.12,ret:75,wlb:4,sat:2,d:'부업으로 시작하기 쉽지만 과포화.'},
+ {id:'nail',from:1995,n:'네일·속눈썹샵 원장',c:'서비스·자영업',e:'💅',t:0,k:10,o:.85,s:2600,g:.04,cap:6500,fail:.07,ret:65,wlb:2,sat:3,d:'1인 샵 창업은 쉽지만 경쟁도 치열.'},
+ {id:'ecommerce',from:1998,n:'온라인 쇼핑몰 운영',c:'서비스·자영업',e:'🛒',t:0,k:30,o:.85,s:2000,g:.05,cap:8000,v:.05,fail:.08,ret:70,wlb:2,sat:3,d:'스마트스토어 · 광고비 · 반품과의 전쟁.'},
+ {id:'unmanned',from:2018,n:'무인 아이스크림 할인점',c:'서비스·자영업',e:'🍦',t:0,k:10,o:.9,s:1500,g:.01,cap:2500,fail:.12,ret:75,wlb:4,sat:2,d:'부업으로 시작하기 쉽지만 과포화.'},
  {id:'banchan',n:'반찬가게 사장',c:'서비스·자영업',e:'🍱',t:0,k:10,o:.85,s:2600,g:.02,cap:5000,fail:.07,ret:72,wlb:1,sat:3,hp:-1,d:'1인 가구 시대의 동네 장사.'},
- {id:'realtor',n:'공인중개사',c:'서비스·자영업',e:'🏘',t:0,k:45,o:.5,s:3000,g:.03,cap:9000,v:.03,fail:.04,ret:75,wlb:3,sat:3,d:'개업 중개사만 11만 명. 거래량이 곧 소득.'},
- {id:'pilates',n:'필라테스 강사·원장',c:'스포츠·농업',e:'🧘',t:0,it:'sport',k:15,o:.75,s:2600,g:.05,cap:7000,fail:.04,ret:60,wlb:3,sat:4,d:'자격 과정 수백만 원. 시급제 프리랜서로 시작.'},
+ {id:'realtor',from:1985,n:'공인중개사',c:'서비스·자영업',e:'🏘',t:0,k:45,o:.5,s:3000,g:.03,cap:9000,v:.03,fail:.04,ret:75,wlb:3,sat:3,d:'개업 중개사만 11만 명. 거래량이 곧 소득.'},
+ {id:'pilates',from:2005,n:'필라테스 강사·원장',c:'스포츠·농업',e:'🧘',t:0,it:'sport',k:15,o:.75,s:2600,g:.05,cap:7000,fail:.04,ret:60,wlb:3,sat:4,d:'자격 과정 수백만 원. 시급제 프리랜서로 시작.'},
  {id:'parttime',n:'아르바이트·프리터',c:'서비스·자영업',e:'🧾',t:0,k:0,o:1,s:1800,g:.02,cap:2400,ret:65,wlb:3,sat:1,d:'언제든 가능. 언제든 끝날 수 있다.'},
- {id:'webtoon',n:'웹툰 작가',c:'문화·예술',e:'🖊',t:0,it:'art',k:20,o:.3,s:1500,g:.05,cap:5000,v:.06,ret:70,wlb:1,sat:5,d:'연재 한 편이 인생을 바꾼다.'},
- {id:'youtuber',n:'유튜버',c:'문화·예술',e:'🎥',t:0,k:10,o:.6,s:400,g:.1,cap:3000,v:.05,ret:70,wlb:2,sat:4,d:'상위 1%가 수익의 대부분.'},
+ {id:'webtoon',from:2004,n:'웹툰 작가',c:'문화·예술',e:'🖊',t:0,it:'art',k:20,o:.3,s:1500,g:.05,cap:5000,v:.06,ret:70,wlb:1,sat:5,d:'연재 한 편이 인생을 바꾼다.'},
+ {id:'youtuber',from:2008,n:'유튜버',c:'문화·예술',e:'🎥',t:0,k:10,o:.6,s:400,g:.1,cap:3000,v:.05,ret:70,wlb:2,sat:4,d:'상위 1%가 수익의 대부분.'},
  {id:'actor',n:'배우',c:'문화·예술',e:'🎭',t:0,it:'art',fb:'art',k:10,o:.2,s:800,g:.05,cap:3000,v:.04,ret:80,wlb:3,sat:5,d:'배우의 연 소득 중위값은 수백만 원.'},
  {id:'musician',n:'음악가',c:'문화·예술',e:'🎻',t:2,it:'art',fb:'art',k:30,o:.3,s:1800,g:.04,cap:5000,v:.02,ret:75,wlb:3,sat:5,d:'레슨과 공연 사이.'},
  {id:'designer',n:'디자이너',c:'문화·예술',e:'🎨',t:1,it:'art',fb:'art',k:30,o:.55,s:3000,g:.04,cap:7000,ret:55,wlb:2,sat:4,d:'포트폴리오가 학벌을 이긴다.'},
@@ -464,16 +464,16 @@ const JOBS=[
  {id:'pd',n:'방송 PD',c:'문화·예술',e:'🎬',t:4,k:72,o:.12,s:4500,g:.045,cap:10000,v:.02,ret:58,wlb:1,sat:4,d:'시청률이 곧 성적표.'},
  {id:'athlete',n:'프로 운동선수',c:'스포츠·농업',e:'⚽',t:0,it:'sport',lockIt:1,fb:'art',k:0,o:.15,s:4000,g:.12,cap:20000,v:.05,ret:33,wlb:3,sat:5,hp:1,d:'프로 입단은 극소수. 평균 은퇴는 30대 초반.'},
  {id:'coach',n:'스포츠 코치',c:'스포츠·농업',e:'🏋',t:0,it:'sport',k:10,o:.6,s:2800,g:.03,cap:6000,ret:62,wlb:3,sat:4,hp:1,d:'운동을 가르치는 삶.'},
- {id:'farmer',n:'청년 농부',c:'스포츠·농업',e:'🌾',t:0,k:15,o:.85,s:2200,g:.04,cap:6000,v:.02,ret:75,wlb:3,sat:4,d:'귀농 정착금 지원. 날씨가 사장님.'},
+ {id:'farmer',n:'농부',c:'스포츠·농업',e:'🌾',t:0,k:15,o:.85,s:2200,g:.04,cap:6000,v:.02,ret:75,wlb:3,sat:4,d:'귀농 정착금 지원. 날씨가 사장님.'},
 
  // ---- 전문 자격 ----
  {id:'taxacct',n:'세무사',c:'전문 자격',e:'🧾',t:2,k:78,o:.3,s:5000,g:.05,cap:15000,ret:70,wlb:2,sat:3,d:'연 700명 선발. AI 장부 자동화로 소규모 기장 시장이 줄고 있다.'},
  {id:'bookkeeper',n:'세무·회계 사무원',c:'전문 자격',e:'📒',t:1,k:40,o:.7,s:2800,g:.03,cap:4500,ret:60,wlb:3,sat:2,d:'경리·기장 대행. AI 자동화 1순위 직무.'},
- {id:'labor',n:'공인노무사',c:'전문 자격',e:'📑',t:3,k:80,o:.25,s:4500,g:.05,cap:12000,ret:70,wlb:3,sat:3,d:'노동 분쟁·4대보험. 연 300명 선발.'},
- {id:'customs',n:'관세사',c:'전문 자격',e:'🛃',t:2,k:75,o:.25,s:4500,g:.04,cap:11000,ret:70,wlb:3,sat:3,d:'수출입 통관. 연 90명 선발.'},
- {id:'appraiser',n:'감정평가사',c:'전문 자격',e:'🏠',t:3,k:82,o:.25,s:6000,g:.05,cap:15000,ret:70,wlb:3,sat:3,d:'부동산 가치 평가. AI 시세 산정과 경쟁 중.'},
+ {id:'labor',from:1987,n:'공인노무사',c:'전문 자격',e:'📑',t:3,k:80,o:.25,s:4500,g:.05,cap:12000,ret:70,wlb:3,sat:3,d:'노동 분쟁·4대보험. 연 300명 선발.'},
+ {id:'customs',from:1975,n:'관세사',c:'전문 자격',e:'🛃',t:2,k:75,o:.25,s:4500,g:.04,cap:11000,ret:70,wlb:3,sat:3,d:'수출입 통관. 연 90명 선발.'},
+ {id:'appraiser',from:1989,n:'감정평가사',c:'전문 자격',e:'🏠',t:3,k:82,o:.25,s:6000,g:.05,cap:15000,ret:70,wlb:3,sat:3,d:'부동산 가치 평가. AI 시세 산정과 경쟁 중.'},
  {id:'scrivener',n:'법무사',c:'전문 자격',e:'🖋',t:2,k:78,o:.2,s:5000,g:.03,cap:10000,ret:72,wlb:3,sat:3,d:'등기·소송서류. 전자등기 자동화로 위축.'},
- {id:'patent',n:'변리사',c:'전문 자격',e:'💡',t:4,mj:'eng',k:88,o:.25,s:7000,g:.06,cap:20000,ret:70,wlb:2,sat:4,d:'이공계 출신 지식재산 전문가.'},
+ {id:'patent',from:1961,n:'변리사',c:'전문 자격',e:'💡',t:4,mj:'eng',k:88,o:.25,s:7000,g:.06,cap:20000,ret:70,wlb:2,sat:4,d:'이공계 출신 지식재산 전문가.'},
  {id:'actuary',n:'보험계리사',c:'전문 자격',e:'🎲',t:4,mj:'biz',k:85,o:.3,s:6000,g:.05,cap:15000,ret:60,wlb:3,sat:3,d:'보험 상품의 수학. 인원이 적어 몸값이 높다.'},
  // ---- 기업 · 금융 ----
  {id:'analyst',n:'증권사 애널리스트',c:'기업',e:'📈',t:5,k:85,o:.15,s:7000,g:.06,cap:25000,v:.03,ret:55,wlb:1,sat:3,d:'새벽 6시 출근, 리포트와 숫자.'},
@@ -482,13 +482,13 @@ const JOBS=[
  {id:'hr',n:'인사·총무 담당',c:'기업',e:'👔',t:3,k:60,o:.35,s:4300,g:.04,cap:9000,ret:55,wlb:3,sat:3,d:'채용·급여·평가. HR 자동화가 빠르게 진행 중.'},
  {id:'secretary',n:'비서·사무보조',c:'기업',e:'📇',t:1,k:35,o:.6,s:2800,g:.02,cap:4200,ret:55,wlb:3,sat:2,d:'일정·문서 관리. AI 비서가 대체 중.'},
  // ---- IT ----
- {id:'aiEng',n:'AI 엔지니어',c:'IT',e:'🤖',t:4,mj:'eng',k:85,o:.25,s:7000,g:.08,cap:22000,ret:52,wlb:3,sat:4,d:'AI 시대 최대 수혜 직군. 석사 이상 선호.'},
- {id:'security',n:'보안 엔지니어',c:'IT',e:'🔐',t:3,mj:'eng',k:68,o:.35,s:5000,g:.06,cap:13000,ret:55,wlb:3,sat:3,d:'해킹은 쉬지 않는다.'},
- {id:'qa',n:'QA 테스터',c:'IT',e:'🧪',t:1,k:35,o:.65,s:3200,g:.03,cap:5500,ret:50,wlb:3,sat:2,d:'테스트 자동화로 수요 감소.'},
- {id:'ux',n:'UX/UI 디자이너',c:'IT',e:'🖌',t:2,it:'art',fb:'art',k:50,o:.4,s:3800,g:.05,cap:9000,ret:50,wlb:3,sat:4,d:'생성형 AI 디자인 도구와 경쟁.'},
- {id:'pm',n:'서비스 기획자 (PM)',c:'IT',e:'📋',t:3,k:65,o:.3,s:4500,g:.06,cap:12000,ret:50,wlb:2,sat:4,d:'개발·디자인·사업 사이의 통역사.'},
- {id:'si',n:'SI 개발자',c:'IT',e:'🖥',t:1,mj:'eng',k:45,o:.6,s:3500,g:.04,cap:7500,ret:50,wlb:1,sat:2,d:'하청 구조 · 파견 근무 · 야근.'},
- {id:'labeler',n:'데이터 라벨러',c:'IT',e:'🏷',t:0,k:10,o:.9,s:2000,g:.01,cap:2600,ret:60,wlb:3,sat:1,d:'AI 학습 데이터 작업. AI가 AI를 대신하며 줄어드는 중.'},
+ {id:'aiEng',from:2015,n:'AI 엔지니어',c:'IT',e:'🤖',t:4,mj:'eng',k:85,o:.25,s:7000,g:.08,cap:22000,ret:52,wlb:3,sat:4,d:'AI 시대 최대 수혜 직군. 석사 이상 선호.'},
+ {id:'security',from:2000,n:'보안 엔지니어',c:'IT',e:'🔐',t:3,mj:'eng',k:68,o:.35,s:5000,g:.06,cap:13000,ret:55,wlb:3,sat:3,d:'해킹은 쉬지 않는다.'},
+ {id:'qa',from:1995,n:'QA 테스터',c:'IT',e:'🧪',t:1,k:35,o:.65,s:3200,g:.03,cap:5500,ret:50,wlb:3,sat:2,d:'테스트 자동화로 수요 감소.'},
+ {id:'ux',from:2000,n:'UX/UI 디자이너',c:'IT',e:'🖌',t:2,it:'art',fb:'art',k:50,o:.4,s:3800,g:.05,cap:9000,ret:50,wlb:3,sat:4,d:'생성형 AI 디자인 도구와 경쟁.'},
+ {id:'pm',from:2005,n:'서비스 기획자 (PM)',c:'IT',e:'📋',t:3,k:65,o:.3,s:4500,g:.06,cap:12000,ret:50,wlb:2,sat:4,d:'개발·디자인·사업 사이의 통역사.'},
+ {id:'si',from:1988,n:'SI 개발자',c:'IT',e:'🖥',t:1,mj:'eng',k:45,o:.6,s:3500,g:.04,cap:7500,ret:50,wlb:1,sat:2,d:'하청 구조 · 파견 근무 · 야근.'},
+ {id:'labeler',from:2018,n:'데이터 라벨러',c:'IT',e:'🏷',t:0,k:10,o:.9,s:2000,g:.01,cap:2600,ret:60,wlb:3,sat:1,d:'AI 학습 데이터 작업. AI가 AI를 대신하며 줄어드는 중.'},
  // ---- 연구·과학 ----
  {id:'researcher',n:'출연연 연구원',c:'연구·과학',e:'🔬',t:5,mj:'sci',k:88,o:.2,s:5500,g:.04,cap:12000,ret:61,wlb:4,sat:4,pub:1,d:'박사 학위 필요. 정년 보장, 연구비 경쟁.'},
  {id:'chemist',n:'화학·소재 연구원',c:'연구·과학',e:'⚗️',t:4,mj:'sci',k:75,o:.3,s:5000,g:.05,cap:12000,ret:55,wlb:3,sat:4,d:'배터리·반도체 소재 개발.'},
@@ -507,7 +507,7 @@ const JOBS=[
  {id:'pilot',n:'항공기 조종사',c:'건설·운송',e:'🧑‍✈️',t:2,k:70,o:.5,s:8000,g:.05,cap:25000,ret:65,wlb:3,sat:5,ma:45,d:'비행교육에 자비 약 1억. 기장이 되면 억대 연봉.'},
  {id:'sailor',n:'항해사',c:'건설·운송',e:'⚓',t:2,k:50,o:.6,s:6000,g:.04,cap:12000,ret:60,wlb:1,sat:2,d:'한 번 나가면 6개월. 고연봉, 고립.'},
  {id:'rail',n:'철도 기관사',c:'건설·운송',e:'🚆',t:1,k:60,o:.2,s:5000,g:.04,cap:9000,ret:60,wlb:3,sat:3,d:'공기업 채용 + 면허. 안정적.'},
- {id:'logistics',n:'물류센터 근무',c:'건설·운송',e:'🗃',t:0,k:0,o:.95,s:2800,g:.01,cap:3200,ret:60,wlb:2,sat:1,hp:-2,d:'로봇 자동화가 가장 빠른 현장.'},
+ {id:'logistics',from:2000,n:'물류센터 근무',c:'건설·운송',e:'🗃',t:0,k:0,o:.95,s:2800,g:.01,cap:3200,ret:60,wlb:2,sat:1,hp:-2,d:'로봇 자동화가 가장 빠른 현장.'},
  // ---- 의료 ----
  {id:'radiologist',n:'방사선사',c:'의료',e:'🩻',t:1,mj:'sci',k:45,o:.7,s:3500,g:.03,cap:6500,ret:60,wlb:3,sat:3,d:'AI 판독 보조가 빠르게 도입 중.'},
  {id:'hygienist',n:'치위생사',c:'의료',e:'🪥',t:1,k:35,o:.8,s:3000,g:.03,cap:5000,ret:60,wlb:3,sat:3,d:'취업률 높음. 임금 상승은 더딤.'},
@@ -516,13 +516,13 @@ const JOBS=[
  {id:'vet',n:'수의사',c:'의료',e:'🐾',t:5,mj:'sci',k:88,o:.3,s:5000,g:.05,cap:15000,ret:70,wlb:2,sat:4,d:'수의대 6년. 반려동물 1,500만 시대.'},
  {id:'pharmaSales',n:'제약 영업 (MR)',c:'의료',e:'🧳',t:2,k:45,o:.5,s:4500,g:.05,cap:10000,ret:55,wlb:2,sat:2,d:'병원 방문 영업. 실적 압박.'},
  // ---- 복지·돌봄 ----
- {id:'socialworker',n:'사회복지사',c:'복지·돌봄',e:'🤝',t:2,k:40,o:.7,s:2800,g:.03,cap:4500,ret:60,wlb:3,sat:3,d:'보람과 박봉 사이. 감정 소진.'},
- {id:'daycare',n:'어린이집 보육교사',c:'복지·돌봄',e:'🍼',t:1,k:25,o:.8,s:2500,g:.02,cap:3800,ret:60,wlb:2,sat:3,d:'저출생으로 어린이집이 줄고 있다.'},
- {id:'counselor',n:'상담심리사',c:'복지·돌봄',e:'🛋',t:4,k:75,o:.3,s:3000,g:.04,cap:7000,ret:70,wlb:3,sat:4,d:'석사 + 수련 3년. 정신건강 수요 급증.'},
- {id:'funeral',n:'장례지도사',c:'복지·돌봄',e:'⚱️',t:1,k:20,o:.75,s:3200,g:.03,cap:5500,ret:65,wlb:2,sat:3,d:'초고령사회의 필수 직업.'},
+ {id:'socialworker',from:1983,n:'사회복지사',c:'복지·돌봄',e:'🤝',t:2,k:40,o:.7,s:2800,g:.03,cap:4500,ret:60,wlb:3,sat:3,d:'보람과 박봉 사이. 감정 소진.'},
+ {id:'daycare',from:1991,n:'어린이집 보육교사',c:'복지·돌봄',e:'🍼',t:1,k:25,o:.8,s:2500,g:.02,cap:3800,ret:60,wlb:2,sat:3,d:'저출생으로 어린이집이 줄고 있다.'},
+ {id:'counselor',from:1997,n:'상담심리사',c:'복지·돌봄',e:'🛋',t:4,k:75,o:.3,s:3000,g:.04,cap:7000,ret:70,wlb:3,sat:4,d:'석사 + 수련 3년. 정신건강 수요 급증.'},
+ {id:'funeral',from:1980,n:'장례지도사',c:'복지·돌봄',e:'⚱️',t:1,k:20,o:.75,s:3200,g:.03,cap:5500,ret:65,wlb:2,sat:3,d:'초고령사회의 필수 직업.'},
  // ---- 교육 ----
  {id:'kinder',n:'유치원 교사',c:'교육',e:'🎈',t:1,k:45,o:.6,s:2800,g:.03,cap:5000,ret:60,wlb:3,sat:3,d:'사립은 박봉, 공립은 임용시험.'},
- {id:'specialEd',n:'특수교사',c:'교육',e:'🧩',t:4,fb:'edu',k:65,o:.25,s:3300,g:.04,cap:8000,ret:62,wlb:3,sat:4,pub:1,d:'수요는 늘고 인력은 부족.'},
+ {id:'specialEd',from:1977,n:'특수교사',c:'교육',e:'🧩',t:4,fb:'edu',k:65,o:.25,s:3300,g:.04,cap:8000,ret:62,wlb:3,sat:4,pub:1,d:'수요는 늘고 인력은 부족.'},
  {id:'lecturer',n:'대학 시간강사',c:'교육',e:'📚',t:5,k:85,o:.3,s:1800,g:.02,cap:3000,ret:65,wlb:3,sat:3,d:'박사 학위, 연봉 2천만 원 미만.'},
  {id:'engTutor',n:'영어 강사·과외',c:'교육',e:'🗣',t:2,k:60,o:.6,s:3000,g:.04,cap:8000,v:.02,ret:60,wlb:2,sat:3,d:'AI 회화 튜터와 경쟁.'},
  // ---- 문화·예술 ----
@@ -530,19 +530,19 @@ const JOBS=[
  {id:'translator',n:'번역가',c:'문화·예술',e:'🈂️',t:4,k:70,o:.45,s:3000,g:.02,cap:5000,ret:70,wlb:3,sat:3,d:'기계 번역 이후 단가가 급락.'},
  {id:'photographer',n:'사진작가',c:'문화·예술',e:'📷',t:0,it:'art',k:20,o:.6,s:2500,g:.03,cap:6000,v:.02,ret:65,wlb:2,sat:4,d:'웨딩·상업 촬영. 생성형 이미지와 경쟁.'},
  {id:'dancer',n:'무용수',c:'문화·예술',e:'🩰',t:2,it:'art',fb:'art',k:20,o:.15,s:1500,g:.03,cap:4000,ret:35,wlb:3,sat:5,hp:-1,ma:28,d:'국립 단체 입단은 극소수.'},
- {id:'idol',n:'아이돌',c:'문화·예술',e:'🎤',t:0,it:'art',lockIt:1,k:0,o:.03,s:1000,g:.2,cap:30000,v:.08,ret:32,wlb:1,sat:4,hp:-1,ma:22,d:'연습생 수천 명 중 데뷔는 수십 명.'},
+ {id:'idol',from:1996,n:'아이돌',c:'문화·예술',e:'🎤',t:0,it:'art',lockIt:1,k:0,o:.03,s:1000,g:.2,cap:30000,v:.08,ret:32,wlb:1,sat:4,hp:-1,ma:22,d:'연습생 수천 명 중 데뷔는 수십 명.'},
  {id:'voice',n:'성우',c:'문화·예술',e:'🎙',t:0,it:'art',k:30,o:.1,s:2000,g:.03,cap:6000,ret:70,wlb:3,sat:4,d:'AI 음성 합성의 직격탄.'},
  {id:'curator',n:'큐레이터',c:'문화·예술',e:'🖼',t:4,it:'art',k:65,o:.2,s:3000,g:.03,cap:6000,ret:60,wlb:3,sat:4,d:'학예사 자격 + 계약직 반복.'},
  {id:'copywriter',n:'카피라이터',c:'문화·예술',e:'✍️',t:3,k:60,o:.3,s:3800,g:.04,cap:8000,ret:50,wlb:2,sat:3,d:'생성형 AI가 가장 먼저 대체한 글쓰기.'},
- {id:'editor',n:'영상 편집자',c:'문화·예술',e:'🎞',t:1,k:30,o:.6,s:3000,g:.03,cap:6000,ret:50,wlb:1,sat:3,d:'AI 자동 편집 도구 확산.'},
+ {id:'editor',from:1995,n:'영상 편집자',c:'문화·예술',e:'🎞',t:1,k:30,o:.6,s:3000,g:.03,cap:6000,ret:50,wlb:1,sat:3,d:'AI 자동 편집 도구 확산.'},
  {id:'announcer',n:'아나운서',c:'문화·예술',e:'📺',t:4,k:75,o:.04,s:4500,g:.04,cap:10000,ret:58,wlb:2,sat:4,ma:30,d:'공채 경쟁률 1,000 : 1.'},
  {id:'illustrator',n:'일러스트레이터',c:'문화·예술',e:'🖍',t:0,it:'art',k:20,o:.4,s:2000,g:.03,cap:5000,v:.02,ret:70,wlb:3,sat:4,d:'이미지 생성 AI로 외주 단가 하락.'},
  // ---- 서비스 ----
- {id:'cs',n:'콜센터 상담원',c:'서비스·자영업',e:'🎧',t:0,k:10,o:.9,s:2500,g:.01,cap:3200,ret:60,wlb:3,sat:1,d:'감정노동 1위. AI 상담봇이 빠르게 대체 중.'},
+ {id:'cs',from:1995,n:'콜센터 상담원',c:'서비스·자영업',e:'🎧',t:0,k:10,o:.9,s:2500,g:.01,cap:3200,ret:60,wlb:3,sat:1,d:'감정노동 1위. AI 상담봇이 빠르게 대체 중.'},
  {id:'hotel',n:'호텔리어',c:'서비스·자영업',e:'🛎',t:1,k:35,o:.6,s:3000,g:.03,cap:6000,ret:55,wlb:2,sat:3,d:'교대 근무와 서비스 정신.'},
  {id:'guide',n:'관광 가이드',c:'서비스·자영업',e:'🗺',t:2,k:45,o:.6,s:2800,g:.03,cap:5000,ret:65,wlb:3,sat:4,d:'관광통역안내사 자격. 관광객 수에 따라 출렁.'},
  {id:'schoolCook',n:'급식 조리실무사',c:'서비스·자영업',e:'🍲',t:0,k:10,o:.7,s:2800,g:.02,cap:3800,ret:60,wlb:3,sat:2,hp:-2,d:'폐암 산재 이슈. 학교 비정규직.'},
- {id:'groomer',n:'반려동물 미용사',c:'서비스·자영업',e:'🐶',t:0,k:10,o:.8,s:2500,g:.04,cap:5500,ret:65,wlb:2,sat:4,d:'펫 산업 성장.'},
+ {id:'groomer',from:1995,n:'반려동물 미용사',c:'서비스·자영업',e:'🐶',t:0,k:10,o:.8,s:2500,g:.04,cap:5500,ret:65,wlb:2,sat:4,d:'펫 산업 성장.'},
  {id:'cleaner',n:'청소·방역',c:'서비스·자영업',e:'🧹',t:0,k:0,o:.95,s:2400,g:.01,cap:2800,ret:70,wlb:3,sat:2,hp:-1,d:'고령층 일자리의 큰 비중.'},
  // ---- 법·공공 ----
  {id:'gov5',n:'5급 공무원 (행정고시)',c:'법·공공',e:'✒️',t:4,k:92,o:.04,s:4500,g:.045,cap:11000,ret:60,wlb:2,sat:4,pub:1,d:'평균 수험 기간 3~4년. 정책 결정의 중심.'},
@@ -552,15 +552,15 @@ const JOBS=[
  {id:'socialGov',n:'사회복지직 공무원',c:'법·공공',e:'🗃',t:2,k:50,o:.25,s:2900,g:.035,cap:6000,ret:60,wlb:3,sat:2,pub:1,d:'민원 강도 최상위 직렬.'},
  {id:'investigator',n:'검찰 수사관',c:'법·공공',e:'🕵',t:2,k:65,o:.12,s:3300,g:.04,cap:7500,ret:60,wlb:2,sat:3,pub:1,d:'7급 공채. 수사 실무.'},
  // ---- 기술·현장 ----
- {id:'semiOp',n:'반도체 설비 엔지니어',c:'기술·현장',e:'🔌',t:1,k:40,o:.35,voc:.3,s:4500,g:.04,cap:9000,ret:57,wlb:2,sat:3,hp:-1,d:'클린룸 4조 3교대.'},
+ {id:'semiOp',from:1983,n:'반도체 설비 엔지니어',c:'기술·현장',e:'🔌',t:1,k:40,o:.35,voc:.3,s:4500,g:.04,cap:9000,ret:57,wlb:2,sat:3,hp:-1,d:'클린룸 4조 3교대.'},
  {id:'elevator',n:'승강기 기사',c:'기술·현장',e:'🛗',t:0,k:30,o:.6,s:4000,g:.03,cap:6500,ret:62,wlb:3,sat:3,d:'노후 아파트 증가로 수요 꾸준.'},
  {id:'aircraftMech',n:'항공 정비사',c:'기술·현장',e:'🛩',t:1,k:50,o:.4,s:4500,g:.04,cap:9000,ret:60,wlb:2,sat:4,d:'면허 + 야간 정비.'},
  // ---- 스포츠·농업 ----
- {id:'smartfarm',n:'스마트팜 운영',c:'스포츠·농업',e:'🌱',t:0,k:35,o:.7,s:3000,g:.05,cap:8000,v:.03,fail:.05,ret:70,wlb:3,sat:4,d:'시설 투자 수억. 데이터 농업.'},
+ {id:'smartfarm',from:2015,n:'스마트팜 운영',c:'스포츠·농업',e:'🌱',t:0,k:35,o:.7,s:3000,g:.05,cap:8000,v:.03,fail:.05,ret:70,wlb:3,sat:4,d:'시설 투자 수억. 데이터 농업.'},
  {id:'fisher',n:'어부',c:'스포츠·농업',e:'🎣',t:0,k:0,o:.8,s:3500,g:.02,cap:6000,ret:75,wlb:2,sat:3,hp:-2,risk:.002,d:'어촌 고령화. 외국인 선원 의존.'},
- {id:'trainer',n:'퍼스널 트레이너',c:'스포츠·농업',e:'💪',t:0,it:'sport',k:10,o:.7,s:2800,g:.04,cap:6000,ret:50,wlb:3,sat:4,d:'회원 수가 곧 월급.'},
+ {id:'trainer',from:1995,n:'퍼스널 트레이너',c:'스포츠·농업',e:'💪',t:0,it:'sport',k:10,o:.7,s:2800,g:.04,cap:6000,ret:50,wlb:3,sat:4,d:'회원 수가 곧 월급.'},
  {id:'golfpro',n:'골프 프로·레슨',c:'스포츠·농업',e:'⛳',t:0,it:'sport',lockIt:1,k:10,o:.1,s:4000,g:.04,cap:12000,v:.03,ret:60,wlb:3,sat:4,d:'프로 테스트 합격률 한 자릿수.'},
- {id:'esports',n:'프로게이머',c:'스포츠·농업',e:'🕹',t:0,k:20,o:.04,s:2000,g:.2,cap:20000,v:.06,ret:27,wlb:2,sat:5,ma:23,d:'평균 은퇴 20대 중반.'},
+ {id:'esports',from:2000,n:'프로게이머',c:'스포츠·농업',e:'🕹',t:0,k:20,o:.04,s:2000,g:.2,cap:20000,v:.06,ret:27,wlb:2,sat:5,ma:23,d:'평균 은퇴 20대 중반.'},
  {id:'senior',n:'경비·시설관리',c:'서비스·자영업',e:'🧓',t:0,k:0,o:.9,s:2200,g:0,cap:2200,ret:72,wlb:3,sat:2,hidden:1,d:'은퇴 후 재취업.'}
 ];
 const JOB=Object.fromEntries(JOBS.map(j=>[j.id,j]));
@@ -786,10 +786,13 @@ PREPS.hunt={n:'구직 활동',label:'구직 활동',how:'서류 → 면접',step
 PREPS.startup={n:'창업 준비',label:'창업 준비',how:'상권 분석 · 대출 · 인테리어',steps:['상권 분석 · 점포 계약 (보증금·권리금)','인테리어 · 장비 · 초도 물품 (3천만~1억)','가오픈 → 정식 오픈 (자영업 5년 생존율 약 30%)'],pass:.9,cost:3500,refund:2500,st:70,
  ev:['권리금 협상에 진땀을 뺐다.','소상공인 정책자금 대출을 받았다.','인테리어 공사가 한 달 밀렸다.']};
 PREPS.ecom={n:'온라인 창업 준비',label:'온라인 창업',how:'사업자등록 · 상품 소싱',steps:['사업자등록 · 통신판매업 신고','상품 소싱 · 상세페이지 제작','광고비 집행 → 첫 주문'],pass:.85,cost:1000,refund:500,st:62,ev:['첫 주문 알림에 소리를 질렀다.','광고비만 쓰고 한 달 매출이 0원이었다.']};
+PREPS.sasi={n:'사법시험',how:'1차 객관식 → 2차 논술 → 사법연수원 2년',steps:['1차: 헌법 · 민법 · 형법 등 객관식','2차: 6과목 논술 (과락 엄격)','3차 면접 → 사법연수원 2년'],pass:.05,cost:1300,st:90,comp:'연 300~1,000명 선발 · 평균 수험 5년',ev:['신림동 고시촌 독서실에서 한 해를 보냈다.','2차에서 한 과목 과락이 났다.']};
+PREPS.sasiJ={n:'사법시험 → 연수원 상위권 → 판·검사 임용',how:'사법시험 + 연수원 성적',steps:['사법시험 합격','사법연수원 2년 (상위권 성적)','판사·검사 임용'],pass:.03,cost:1300,st:92,comp:'연수원 상위 약 30%',ev:['신림동 고시촌 독서실에서 한 해를 보냈다.']};
+EXAM_K.add('sasi');EXAM_K.add('sasiJ');AGE_PEN.add('sasi');AGE_PEN.add('sasiJ');LICENSE.add('sasi');
 PREPS.realtor={n:'공인중개사 시험',how:'1차 · 2차 (연 1회)',steps:['1차: 부동산학개론 · 민법','2차: 공법 · 세법 · 중개사법','합격 후 실무교육 → 개업'],pass:.22,cost:600,st:66,comp:'최종 합격률 약 20%대'};
 const INSTANT=new Set(['parttime','rider','delivery','senior','youtuber','cleaner','logistics','labeler','insurance']);
 const STARTUP=new Set(['cafe','cvs','founder','giftshop','florist','bakery','nail','unmanned','banchan']);
-const prepOf=id=>PREP_OF[id]||(INSTANT.has(id)?null:STARTUP.has(id)?'startup':id==='ecommerce'?'ecom':id==='realtor'?'realtor':id==='pilates'?'cert':'hunt');
+const prepOf=(id,S)=>S&&S.year<2009&&id==='lawyer'?'sasi':S&&S.year<2009&&id==='judge'?'sasiJ':PREP_OF[id]||(INSTANT.has(id)?null:STARTUP.has(id)?'startup':id==='ecommerce'?'ecom':id==='realtor'?'realtor':id==='pilates'?'cert':'hunt');
 const FALLBACK={gov7:'gov9',judge:'lawyer',diplomat:'gov7',teachS:'tutor',prof:'tutor',corpOffice:'midCo',corpEng:'midCo',bank:'midCo',publicCo:'midCo',consult:'corpOffice',devBig:'devStart',data:'devStart',cpa:'midCo',reporter:'marketer',pd:'marketer',flight:'smallCo',actor:'youtuber',musician:'tutor',athlete:'coach',webtoon:'designer',lawyer:'smallCo',gov9:'smallCo',police:'smallCo',fire:'smallCo',elec:'smallCo',designer:'smallCo'};
 
 /* ---------- 일하는 환경 ---------- */
@@ -867,8 +870,8 @@ const RANKS={
  '기업':[[0,'사원'],[4,'대리'],[8,'과장'],[13,'차장'],[18,'부장'],[24,'임원']],
  'IT':[[0,'주니어'],[3,'미들'],[7,'시니어'],[12,'리드'],[17,'디렉터']],
  '교육':[[0,'신규 교사'],[5,'1급 정교사'],[15,'부장 교사'],[25,'교감']],
- '의료':[[0,'신입'],[5,'중견'],[12,'과장·실장'],[20,'원장급']],
- default:[[0,'신입'],[3,'주니어'],[8,'시니어'],[15,'베테랑'],[25,'장인']]
+ '의료':[[0,'신입'],[5,'주임'],[12,'실장'],[20,'기사장']],
+ default:[[0,'신입'],[3,'경력 3년 차'],[8,'숙련자'],[15,'베테랑'],[25,'최고참']]
 };
 const RANK_ID={
  gov9:[[0,'9급 서기보'],[4,'8급 서기'],[9,'7급 주사보'],[16,'6급 주사'],[26,'5급 사무관']],
@@ -882,19 +885,28 @@ const RANK_ID={
  doctor:[[0,'전문의 (봉직의)'],[5,'과장'],[10,'개원의 · 부장']],
  cpa:[[0,'스태프'],[3,'시니어'],[7,'매니저'],[12,'파트너']],
  consult:[[0,'애널리스트'],[2,'컨설턴트'],[5,'매니저'],[9,'파트너']],
- chef:[[0,'막내'],[3,'라인 쿡'],[7,'수셰프'],[12,'헤드 셰프']]
+ chef:[[0,'막내'],[3,'라인 쿡'],[7,'수셰프'],[12,'헤드 셰프']],
+ dentist:[[0,'봉직의'],[5,'과장'],[10,'개원의']],kmd:[[0,'봉직의'],[5,'과장'],[10,'개원의']],vet:[[0,'수의사'],[5,'진료부장'],[10,'개원 수의사']],
+ pharm:[[0,'근무약사'],[8,'관리약사'],[12,'약국 개업']],nurse:[[0,'신규 간호사'],[5,'책임 간호사'],[12,'수간호사'],[22,'간호부장']],
+ coastguard:[[0,'순경'],[4,'경장'],[9,'경사'],[16,'경위'],[25,'경감']],correction:[[0,'교도'],[5,'교위'],[12,'교감'],[22,'교정관']],
+ investigator:[[0,'7급 수사관'],[8,'6급 수사관'],[17,'5급 수사사무관']],postman:[[0,'9급 집배원'],[6,'8급'],[14,'7급']],socialGov:[[0,'9급 사회복지 서기보'],[5,'8급'],[11,'7급'],[20,'6급']],
+ gov5:[[0,'5급 사무관'],[9,'4급 서기관'],[18,'3급 부이사관']],diplomat:[[0,'외무 사무관'],[8,'1등 서기관'],[15,'참사관'],[22,'공사·대사']],
+ teachE:[[0,'신규 교사'],[5,'1급 정교사'],[15,'부장 교사'],[25,'교감']],prof:[[0,'조교수'],[6,'부교수'],[12,'정교수']],
+ daycare:[[0,'보육교사'],[6,'주임 교사'],[15,'원장']],kinder:[[0,'교사'],[6,'부장 교사'],[15,'원감']],
+ researcher:[[0,'선임연구원'],[8,'책임연구원'],[16,'수석연구원']],chemist:[[0,'연구원'],[5,'선임연구원'],[12,'책임연구원']],bio:[[0,'연구원'],[5,'선임연구원'],[12,'책임연구원']]
 };
 function rankOf(S){if(FLAT[S.job.id])return FLAT[S.job.id];const id=S.job.id,y=S.age-S.job.start-(S.job.delay||0),L=RANK_ID[id]||RANKS[JOB[id].c]||RANKS.default;let r=L[0][1];for(const[t,n]of L)if(y>=t)r=n;return r}
 
 /* ---------- 직장 생활의 순간들 (선택) ---------- */
 const delay=S=>{S.job.delay=(S.job.delay||0)+1};
-const JH={l:'이직 준비 시작',s:'재직 중 1~2년 · 스트레스 +8/년',lock:S=>S.jobHunt&&'이미 이직 준비 중',w:.8,f:S=>startHunt(S)};
+const PUBLIC=S=>!!JOB[S.job.id].pub||['officer','nco'].includes(S.job.id);
+const JH={l:'이직 준비 시작',s:'재직 중 1~2년 · 스트레스 +8/년',lock:S=>(PUBLIC(S)&&'공무원·군인은 같은 일로 옮겨도 연봉이 오르지 않음')||(S.jobHunt&&'이미 이직 준비 중'),w:.8,f:S=>startHunt(S)};
 const OFFICE=['기업','IT','법·공공','교육','의료','문화·예술','기술·현장','전문 자격','연구·과학','건설·운송','복지·돌봄'];
 const WEV=[
  {id:'boss',cats:OFFICE,t:'상사의 폭언',d:S=>(ONSITE(S)?'작업 중 ':DRIVE(S)?'출근 점호 때 ':'회의 중 ')+bossOf(S)+'이(가) 모두 앞에서 당신에게 소리를 질렀습니다. '+(S.year>=2019?'2019년부터 직장 내 괴롭힘 금지법이 시행 중이지만, 신고자의 상당수가 불이익을 겪었다고 답합니다.':'아직 직장 내 괴롭힘을 막는 법이 없던 시절입니다.'),o:[
   {l:'참는다',s:'스트레스 +12 · 행복 −4',w:2,f:S=>{S.stress+=12;eff(S,{p:-4});lg(S,'아무 말도 하지 못하고 화장실에서 숨을 골랐다.','bad')}},
   {l:'녹음하고 인사팀에 신고',s:'50% 징계 / 50% 보복 인사',w:1,f:S=>{if(R()<.5){S.stress-=10;eff(S,{p:6});lg(S,`신고가 받아들여져 ${bossOf(S)}이(가) 징계를 받았다.`,'good')}else{S.stress+=15;S.job.sal*=.97;delay(S);lg(S,'신고 뒤 한직으로 발령이 났다. 보복 인사였다.','bad')}}},
-  {l:'노무사 상담 → 노동청 진정',s:'비용 100만 · 60% 인정',w:.7,f:S=>{eff(S,{m:-100});if(R()<.6){S.stress-=8;eff(S,{p:5});lg(S,'노동청이 직장 내 괴롭힘을 인정했다.','good')}else{S.stress+=10;lg(S,'증거 불충분으로 진정이 종결됐다.','bad')}}},
+  {l:'노무사 상담 → 노동청 진정',s:'비용 100만 · 60% 인정',w:.7,f:S=>{eff(S,{m:-100});if(R()<.6){S.stress-=8;eff(S,{p:5});lg(S,S.year>=2019?'노동청이 직장 내 괴롭힘을 인정했다.':'노동청이 폭언에 대해 회사에 시정을 권고했다.','good')}else{S.stress+=10;lg(S,'증거 불충분으로 진정이 종결됐다.','bad')}}},
   {l:'부서 이동 요청',s:'스트레스 −8 · 승진 1년 늦어짐',w:1,f:S=>{S.stress-=8;delay(S);lg(S,'다른 부서로 옮겼다. 처음부터 다시 시작이다.','choice')}},JH]},
  {id:'overtime',cats:['기업','IT','문화·예술','법·공공','의료','전문 자격','건설·운송'],t:'끝없는 야근',ok:jnot('flight'),d:S=>DRIVE(S)?'배차가 늘어 석 달째 쉬는 날 없이 운행하고 있습니다. 운수업 장시간 노동은 대형 사고로 이어지곤 합니다.':({'의료':'인력이 모자라 석 달째 근무가 끝나도 퇴근을 못 하고 있습니다.','법·공공':['police','fire','coastguard'].includes(S.job.id)?'인력 공백으로 석 달째 비번 날에도 비상 근무에 불려 나가고 있습니다.':'예산·감사 시즌이라 석 달째 밤 11시 퇴근입니다.','건설·운송':'공사 기한을 맞추느라 석 달째 야간·주말 작업이 이어집니다.','전문 자격':'마감이 겹쳐 석 달째 밤 11시 퇴근입니다.'})[JOB[S.job.id].c]||'이번 프로젝트는 석 달째 밤 11시 퇴근입니다.'+' 한국의 연간 노동시간은 OECD 평균보다 약 150시간 깁니다.',o:[
   {l:'끝까지 해낸다',s:'건강 −6 · 스트레스 +10 · 40% 성과 인정',w:2,f:S=>{eff(S,{h:-6});S.stress+=10;if(R()<.4){S.job.sal*=1.08;eff(S,{p:5});lg(S,'프로젝트를 성공시켜 특별 성과급을 받았다.','good')}else lg(S,'석 달을 갈아 넣었지만 아무도 기억하지 않았다.','bad')}},
@@ -908,16 +920,16 @@ const WEV=[
   {l:'시키는 대로 한다',s:'스트레스 +10 · 15% 적발 시 징계',w:1.5,f:S=>{S.stress+=10;if(R()<.15){S.job.sal*=.9;eff(S,{p:-10});lg(S,'감사에서 조작이 드러났다. 지시한 사람은 빠지고 당신이 징계를 받았다.','bad')}else lg(S,'찜찜했지만 아무 일도 없었다.','bad')}},
   {l:'거절한다',s:'관계 −4 · 50% 승진 불이익',w:1.5,f:S=>{eff(S,{r:-4,p:2});S.stress+=4;if(R()<.5)delay(S);lg(S,'지시를 거절했다. 그 뒤로 중요한 일에서 빠졌다.','choice')}},
   {l:'내부 고발',s:'스트레스 +18 · 50% 보복',w:.4,f:S=>{S.stress+=18;if(R()<.5){eff(S,{p:-8,r:-6});delay(S);lg(S,'공익신고 후 조직에서 고립됐다.','bad')}else{eff(S,{p:8});lg(S,'조사 끝에 문제가 바로잡혔다.','good')}}}]},
- {id:'complaint',who:['emp','flat','own'],cats:['법·공공','교육','의료','서비스·자영업','복지·돌봄'],ok:S=>!['judge','officer','nco','diplomat','schoolCook','pharmaSales'].includes(S.job.id),t:S=>isOwn(S)?'진상 손님':'악성 민원',d:S=>isOwn(S)?(S.job.id==='ecommerce'?'한 구매자가 다 쓴 물건을 환불해 달라며 별점 1점 리뷰를 줄줄이 남기고 있습니다.':'진상 손님이 별점 테러와 SNS 폭로를 예고했습니다.'):({'교육':'한 학부모가 아동학대로 신고하겠다며 매일 밤 전화합니다.','의료':S.job.id==='vet'?'반려동물 보호자가 진료 결과에 앙심을 품고 병원 앞에서 1인 시위를 예고했습니다.':S.job.id==='pharm'?'약을 잘못 줬다고 우기는 손님이 매일 약국에 찾아와 소리를 지릅니다.':'보호자가 진료실에서 폭언을 퍼붓고 소송을 예고했습니다.','서비스·자영업':'진상 손님이 별점 테러와 SNS 폭로를 예고했습니다.','복지·돌봄':'이용자 가족이 매일 찾아와 고성을 지릅니다.'})[JOB[S.job.id].c]||(S.job.id==='lawyer'?'패소한 의뢰인이 6개월째 사무실로 찾아와 욕설을 합니다.':S.job.id==='police'?'신고 처리에 불만을 품은 민원인이 6개월째 지구대로 찾아와 욕설을 합니다.':'같은 민원인이 6개월째 매일 찾아와 욕설을 합니다.'),o:[
-  {l:'혼자 감당한다',s:'스트레스 +12 · 행복 −5',w:1.5,f:S=>{S.stress+=12;eff(S,{p:-5});lg(S,'밤마다 휴대폰 진동에 깼다.','bad')}},
-  {l:'조직에 보호 요청',who:['emp','flat'],s:'50% 지원',w:1.5,f:S=>{if(R()<.5){S.stress-=6;lg(S,'기관이 대신 대응해줬다.','good')}else{S.stress+=4;lg(S,'"원만하게 해결하라"는 말만 돌아왔다.','bad')}}},
+ {id:'complaint',who:['emp','flat','own'],cats:['법·공공','교육','의료','서비스·자영업','복지·돌봄'],ok:S=>!['judge','officer','nco','diplomat','schoolCook','pharmaSales'].includes(S.job.id),t:S=>isOwn(S)?'진상 손님':'악성 민원',d:S=>S.job.id==='senior'?'한 입주민이 택배 분실을 경비 탓으로 돌리며 매일 관리사무소에 항의합니다.':S.job.id==='cleaner'?'건물 이용자가 청소 상태를 문제 삼아 매일 용역업체에 민원을 넣습니다.':S.job.id==='cs'?'같은 고객이 매일 전화해 욕설을 하고 상담원 이름을 대며 신고하겠다고 합니다.':isOwn(S)?(S.job.id==='ecommerce'?'한 구매자가 다 쓴 물건을 환불해 달라며 별점 1점 리뷰를 줄줄이 남기고 있습니다.':S.year<2012?'진상 손님이 동네에 나쁜 소문을 내겠다며 매일 찾아옵니다.':'진상 손님이 별점 테러와 SNS 폭로를 예고했습니다.'):({'교육':'한 학부모가 아동학대로 신고하겠다며 매일 밤 전화합니다.','의료':S.job.id==='vet'?'반려동물 보호자가 진료 결과에 앙심을 품고 병원 앞에서 1인 시위를 예고했습니다.':S.job.id==='pharm'?'약을 잘못 줬다고 우기는 손님이 매일 약국에 찾아와 소리를 지릅니다.':'보호자가 진료실에서 폭언을 퍼붓고 소송을 예고했습니다.','서비스·자영업':S.year<2012?'진상 손님이 매일 찾아와 소리를 지릅니다.':'진상 손님이 별점 테러와 SNS 폭로를 예고했습니다.','복지·돌봄':'이용자 가족이 매일 찾아와 고성을 지릅니다.'})[JOB[S.job.id].c]||(S.job.id==='lawyer'?'패소한 의뢰인이 6개월째 사무실로 찾아와 욕설을 합니다.':S.job.id==='police'?'신고 처리에 불만을 품은 민원인이 6개월째 지구대로 찾아와 욕설을 합니다.':'같은 민원인이 6개월째 매일 찾아와 욕설을 합니다.'),o:[
+  {l:'혼자 감당한다',s:'스트레스 +12 · 행복 −5',w:1.5,f:S=>{S.stress+=12;eff(S,{p:-5});lg(S,S.year<2000?'밤마다 전화벨 소리에 깼다.':'밤마다 휴대폰 진동에 깼다.','bad')}},
+  {l:'조직에 보호 요청',who:['emp','flat'],s:'50% 지원',w:1.5,f:S=>{if(R()<.5){S.stress-=6;lg(S,`${['법·공공','교육'].includes(JOB[S.job.id].c)?'기관':JOB[S.job.id].c==='의료'?'병원':'회사'}이(가) 대신 대응해줬다.`,'good')}else{S.stress+=4;lg(S,'"원만하게 해결하라"는 말만 돌아왔다.','bad')}}},
   {l:'법적으로 대응',s:'비용 300만 · 60% 해결',w:.8,f:S=>{eff(S,{m:-300});S.stress+=5;if(R()<.6){eff(S,{p:6});S.stress-=10;lg(S,'법적 대응 끝에 민원이 멈췄다.','good')}else lg(S,'소송은 길어졌다.','bad')}},
   {l:'병가 내고 쉰다',who:['emp','flat'],s:'스트레스 −10 · 연봉 −5%',w:1,f:S=>{S.stress-=10;S.job.sal*=.95;lg(S,'2주 병가를 냈다.','choice')}},
   {l:'플랫폼에 신고하고 리뷰에 소명',who:['own'],s:'50% 리뷰 삭제',w:1.5,f:S=>{if(R()<.5){S.stress-=6;lg(S,'플랫폼이 악성 리뷰를 내려줬다.','good')}else{S.stress+=4;S.job.sal*=.97;lg(S,'리뷰는 그대로 남았다. 한동안 손님이 줄었다.','bad')}}},
   {l:'며칠 문을 닫고 쉰다',who:['own'],s:'스트레스 −8 · 수입 −3%',w:.8,f:S=>{S.stress-=8;S.job.sal*=.97;lg(S,'사흘 동안 가게 문을 닫고 쉬었다.','choice')}}]},
  {id:'perf',cats:['기업','IT','문화·예술','서비스·자영업','전문 자격'],ok:S=>!['schoolCook','guide','hotel','flight','taxacct','labor','customs','appraiser','scrivener','patent','actuary','curator','announcer'].includes(S.job.id),t:'실적 압박',d:'분기 평가 팀 최하위. 다음에도 낮으면 대기발령이라는 말이 돕니다.',o:[
   {l:'주말 출근으로 만회',s:'건강 −5 · 55% 회복',w:1.5,f:S=>{eff(S,{h:-5});S.stress+=10;if(R()<.55){eff(S,{p:4});lg(S,'다음 분기 실적을 끌어올렸다.','good')}else{S.job.sal*=.9;lg(S,'대기발령을 받았다.','bad')}}},
-  {l:'자기계발 (자격증·야간 대학원)',s:'비용 800만 · 지식↑ · 스펙 +1',w:1,f:S=>{eff(S,{m:-800,k:6});S.spec=(S.spec||0)+1;S.stress+=4;lg(S,'퇴근 후 야간 대학원에 등록했다.','choice')}},
+  {l:S=>S.edu.tier>=2&&!S.gradSchool?'자기계발 (자격증·야간 대학원)':'자기계발 (자격증 학원)',s:S=>S.edu.tier>=2&&!S.gradSchool?'비용 800만 · 지식↑ · 스펙 +1':'비용 300만 · 지식↑ · 스펙 +1',w:1,f:S=>{const g=S.edu.tier>=2&&!S.gradSchool;eff(S,{m:g?-800:-300,k:g?6:4});S.spec=(S.spec||0)+1;S.stress+=4;if(g)S.gradSchool=1;lg(S,g?'퇴근 후 야간 대학원에 등록했다.':'퇴근 후 자격증 학원에 다니기 시작했다.','choice')}},
   {l:'그냥 버틴다',s:'스트레스 +6 · 30% 대기발령',w:1,f:S=>{S.stress+=6;if(R()<.3){S.job.sal*=.9;lg(S,'대기발령을 받았다.','bad')}}},JH]},
  {id:'coworker',cats:OFFICE,ok:S=>!DRIVE(S),t:'동료와의 갈등',d:'옆자리 동료가 당신의 성과를 자기 것처럼 보고했습니다.',o:[
   {l:'직접 이야기한다',s:'60% 해결',w:1.5,f:S=>{if(R()<.6){eff(S,{r:3});S.stress-=3;lg(S,'솔직하게 이야기했고, 사과를 받았다.','good')}else{eff(S,{r:-4});S.stress+=6;lg(S,'대화는 싸움이 됐다.','bad')}}},
@@ -931,11 +943,12 @@ const WEV=[
   {l:'계속 받는다',s:'건강 −5 · 스트레스 +10 · 평가↑',w:1.5,f:S=>{eff(S,{h:-5});S.stress+=10;S.job.sal*=1.04}},
   {l:'온콜 로테이션 개선 제안',s:'55% 수용 · 스트레스 −8',w:1.2,f:S=>{if(R()<.55){S.stress-=8;lg(S,'온콜 당번제가 도입됐다.','good')}else lg(S,'"다음 분기에 검토하자"는 답을 받았다.','bad')}},JH]},
  {id:'relocate',cats:['기업','법·공공','교육','건설·운송'],ok:jnot('lawyer','bus','rail','pilot','sailor','plumber','carpenter','crane','flight','prof','lecturer','cpa','analyst','secretary','kinder'),t:S=>JOB[S.job.id].c==='교육'?'원거리 전보':'지방 발령',d:S=>({'교육':'인사 발령으로 출퇴근 2시간 거리의 학교로 옮기게 됐습니다.','법·공공':['officer','nco'].includes(S.job.id)?'격오지 부대로 2년간 전출 명령이 났습니다.':S.job.id==='judge'?'2년간 지방 법원으로 발령이 났습니다. 법관은 몇 년마다 전국을 순환 근무합니다.':'2년간 지방 근무 발령이 났습니다. 공무원은 순환 근무가 원칙입니다.','건설·운송':'회사가 지방 현장으로 2년간 근무지를 옮기라고 합니다.'})[JOB[S.job.id].c]||'회사가 2년간 지방 사업장 근무를 명령했습니다.',o:[
-  {l:'가족과 함께 이사',s:'관계 −2 · 행복 −2',w:1,f:S=>{eff(S,{r:-2,p:-2});lg(S,'짐을 싸서 지방으로 내려갔다.','choice')}},
-  {l:'주말부부 · 혼자 내려간다',s:'관계 −6 · 스트레스 +6',w:1.2,f:S=>{eff(S,{r:-6});S.stress+=6;lg(S,'금요일 밤마다 고속버스를 탔다.','choice')}},
+  {l:'가족과 함께 이사',if:S=>S.married,s:'관계 −2 · 행복 −2',w:1,f:S=>{eff(S,{r:-2,p:-2});lg(S,'짐을 싸서 가족과 함께 이사했다.','choice')}},
+  {l:'주말부부로 지낸다',if:S=>S.married,s:'관계 −6 · 스트레스 +6',w:1.2,f:S=>{eff(S,{r:-6});S.stress+=6;lg(S,'금요일 밤마다 고속버스를 탔다.','choice')}},
+  {l:'혼자 짐을 싸서 옮긴다',if:S=>!S.married,s:'관계 −3 · 행복 −2',w:1.5,f:S=>{eff(S,{r:-3,p:-2});lg(S,'혼자 짐을 싸서 새 근무지 근처 원룸을 얻었다.','choice')}},
   {l:'거부한다',s:'40% 철회 / 60% 사직 압박',w:.5,f:S=>{if(R()<.4)lg(S,'발령이 철회됐다.','good');else{S.stress+=12;delay(S);lg(S,'발령 거부 뒤 사직 압박을 받았다.','bad')}}}]},
- {id:'promo',cats:OFFICE,ok:S=>!['교육','의료'].includes(JOB[S.job.id].c)&&!['judge','lawyer','officer','nco','diplomat','gov5','prof','bus','rail','pilot','sailor','flight'].includes(S.job.id),t:'승진 제안',d:S=>`${leadOf(S)} 자리를 제안받았습니다. 연봉은 오르지만 책임과 야근이 늘어납니다.`,o:[
-  {l:'수락한다',s:'연봉 +15% · 스트레스 계속 +8',w:2,f:S=>{S.job.sal*=1.15;S.stressMod=(S.stressMod||0)+8;S.job.delay=(S.job.delay||0)-2;lg(S,`${leadOf(S)}이(가) 됐다. 아래 사람들의 고민이 내 일이 됐다.`,'good')}},
+ {id:'promo',cats:OFFICE,ok:S=>!['교육','의료'].includes(JOB[S.job.id].c)&&!['judge','lawyer','officer','nco','diplomat','gov5','prof','bus','rail','pilot','sailor','flight'].includes(S.job.id),t:'승진 제안',ok2:S=>S.age-S.job.start>=8,d:S=>`${leadOf(S)} 자리를 제안받았습니다. 연봉은 오르지만 책임과 야근이 늘어납니다.`,o:[
+  {l:'수락한다',s:'연봉 +15% · 스트레스 계속 +8',w:2,f:S=>{S.job.sal*=1.15;S.stressMod=(S.stressMod||0)+8;S.job.delay=(S.job.delay||0)-4;lg(S,`${leadOf(S)}이(가) 됐다. 아래 사람들의 고민이 내 일이 됐다.`,'good')}},
   {l:'거절한다',s:'지금의 워라밸 유지',w:1,f:S=>{eff(S,{p:2});lg(S,'승진을 고사했다.','choice')}}]},
  // ── 자영업·프리랜서의 순간들 ──
  {id:'slump',who:['own'],cats:null,ok:S=>SHOP.has(S.job.id)||['ecommerce','interior'].includes(S.job.id),t:S=>S.job.id==='interior'?'수주 가뭄':'매출 부진',
@@ -981,10 +994,10 @@ const WEV=[
   {l:'이 일을 그만둔다',s:'다른 일 찾기',w:.4,f:S=>{lg(S,`${JOB[S.job.id].n} 일을 접기로 했다.`,'choice');endJob(S);S.nextJobTry=S.age}}]},
  {id:'relief',who:['emp','flat','own'],cats:null,t:S=>isEmp(S)&&JOB[S.job.id].c!=='스포츠·농업'?'퇴근 후':'일을 마치고',d:S=>`요즘 스트레스 지수 ${Math.round(S.stress)}. ${isEmp(S)&&JOB[S.job.id].c!=='스포츠·농업'?'퇴근 후':'일을 마친 뒤'} 무엇으로 스트레스를 푸나요?`,o:[
   {l:'운동',s:'건강 +6 · 스트레스 −10',w:1.5,f:S=>{eff(S,{h:6,m:-100});S.stress-=10;S.stressMod=(S.stressMod||0)-3;lg(S,'일이 끝나면 헬스장이나 러닝을 하는 게 루틴이 됐다.','good')}},
-  {l:'술',s:'스트레스 −8 · 건강 −6',w:1.2,f:S=>{eff(S,{h:-6});S.stress-=8;lg(S,'편의점 맥주가 하루의 마무리가 됐다.','bad')}},
+  {l:'술',s:'스트레스 −8 · 건강 −6',w:1.2,f:S=>{eff(S,{h:-6});S.stress-=8;lg(S,S.year<1995?'포장마차 소주 한 병이 하루의 마무리가 됐다.':'편의점 맥주가 하루의 마무리가 됐다.','bad')}},
   {l:'취미 (악기·그림·여행)',s:'행복 +4 · 스트레스 −8',w:1.2,f:S=>{eff(S,{p:4,m:-200});S.stress-=8;S.stressMod=(S.stressMod||0)-2}},
   {l:'심리 상담',s:'비용 300만 · 스트레스 −14',w:.8,f:S=>{eff(S,{m:-300});S.stress-=14;S.stressMod=(S.stressMod||0)-3;lg(S,'상담을 받기 시작했다.','good')}},
-  {l:'유튜브 · 게임',s:'스트레스 −4',w:1.5,f:S=>{S.stress-=4}}]}
+  {l:S=>S.year<2008?'TV · 비디오':'유튜브 · 게임',s:'스트레스 −4',w:1.5,f:S=>{S.stress-=4}}]}
 ];
 const WEV_MAP=Object.fromEntries(WEV.map(e=>[e.id,e]));
 const wkOf=S=>OWNER.has(S.job.id)?'own':FLAT[S.job.id]?'flat':'emp';
@@ -1003,7 +1016,7 @@ const WEV_ID_D={
 };
 function pickWev(S){
   const c=JOB[S.job.id].c,done=S.wevSeen||{},wk=wkOf(S);
-  let pool=WEV.filter(e=>(e.who||['emp']).includes(wk)&&(!e.cats||e.cats.includes(c))&&(!e.ok||e.ok(S)));
+  let pool=WEV.filter(e=>(e.who||['emp']).includes(wk)&&(!e.cats||e.cats.includes(c))&&(!e.ok||e.ok(S))&&(!e.ok2||e.ok2(S)));
   if(done.promo)pool=pool.filter(e=>e.id!=='promo');
   if(!pool.length)return null;
   return wpick(pool.map(e=>[e.id,(e.id==='relief'&&S.stress>65?3:1)/(1+(done[e.id]||0)*1.5)]));
@@ -1184,7 +1197,7 @@ function jevFor(S){const id=S.job.id,c=JOB[id].c;
   if((c==='서비스·자영업'&&!OWNER.has(id))||id==='senior'||id==='cleaner')return JEV_EMP;return JEV[c]}
 function randomEvent(S){
   const a=S.age;let pool;
-  const inService=(S.milEnd&&a<S.milEnd)||(S.rotcIn&&!S.rotcOut);
+  const inService=(S.milEnd&&a<S.milEnd&&['army','navy','airforce','marine','katusa'].includes(S.mil))||(S.rotcIn&&!S.rotcOut);
   if(inService)pool=EV.mil;
   else if(S.job&&R()<.45)pool=jevFor(S);
   else if(a>=19&&S.edu.tier>=1&&S.jobSeekAge&&a<S.jobSeekAge&&!S.job&&!S.prep&&S.uniEnd&&a<S.uniEnd)pool=EV.campus;
@@ -1204,32 +1217,35 @@ function yearly(S){
   if(a>40)S.health-=rnd(.2,.9)*(a/50);else S.health+=rnd(-1,1.2);
   if(a>65)S.rel-=rnd(0,1);
   famYear(S);
-  if(S.milEnd&&a===S.milEnd){S.milEnd=null;lg(S,S.mil==='social'?'사회복무요원 소집해제됐다.':S.mil==='marine'?'해병대 병장으로 전역했다. 빨간 명찰은 평생 간다.':'병장으로 전역했다.','choice')}
-  if(S.mil==='rotc'&&!S.rotcIn&&S.uniEnd&&a===S.uniEnd+1){S.rotcIn=true;lg(S,'대학을 졸업하고 소위로 임관했다. 28개월 동안 소대장으로 복무한다.','choice');eff(S,{m:3000,r:3})}
+  if(S.milEnd&&a===S.milEnd){const m=S.mil;S.milEnd=null;lg(S,m==='social'?`${S.year-2<1995?'방위병':S.year-2<2013?'공익근무요원':'사회복무요원'} 복무를 마치고 소집해제됐다.`:m==='marine'?'해병대 병장으로 전역했다. 빨간 명찰은 평생 간다.':m==='industry'?'산업기능요원 34개월 복무를 마쳤다.':m==='medic'?'군의관 복무를 마치고 대위로 전역했다.':m==='phd'?'공중보건의사 복무를 마쳤다.':'병장으로 전역했다.','choice')}
+  if(['medic','phd'].includes(S.mil)&&!S.medSvc&&S.uniEnd&&a===S.uniEnd){S.medSvc=1;S.milEnd=a+3;S.jobSeekAge=S.nextJobTry=Math.max(S.jobSeekAge||0,a+3);lg(S,S.mil==='medic'?'의사 면허를 따고 군의관(대위)으로 임관했다. 38개월 복무한다.':'의사 면허를 따고 농어촌 보건지소의 공중보건의사가 됐다. 3년 복무한다.','choice');eff(S,{m:2000})}
+  if(S.mil==='rotc'&&!S.rotcIn&&S.uniEnd&&a===S.uniEnd){S.rotcIn=true;S.jobSeekAge=S.nextJobTry=a+2;lg(S,'대학을 졸업하고 소위로 임관했다. 28개월 동안 소대장으로 복무한다.','choice');eff(S,{m:3000,r:3})}
   if(S.mil==='rotc'&&S.rotcIn&&!S.rotcOut&&S.jobSeekAge&&a===S.jobSeekAge){S.rotcOut=true;lg(S,'중위로 전역했다. 장교 출신 우대 채용을 노릴 수 있다.','choice')}
   if(a===7)lg(S,'초등학교에 입학했다.');if(a===13)lg(S,'중학교에 입학했다.');
 
   let inc=0,leave=false;
   if(S.prep)prepYear(S);
-  if(S.job&&S.onLeave){S.onLeave=false;leave=true;lg(S,isEmp(S)?'휴직 1년. 처음으로 아무것도 하지 않는 시간을 보냈다. <span class="fx">급여 없음</span>':'1년 동안 일을 쉬었다. <span class="fx">수입 없음</span>','good')}
+  if(S.job&&S.onLeave){leave=true;const par=S.onLeave==='parental';S.onLeave=false;lg(S,par?'육아휴직 1년. 밤낮없이 아이를 돌봤다. <span class="fx">육아휴직 급여 일부</span>':isEmp(S)?'휴직 1년. 처음으로 아무것도 하지 않는 시간을 보냈다. <span class="fx">급여 없음</span>':'1년 동안 일을 쉬었다. <span class="fx">수입 없음</span>','good')}
   else if(S.job){
     const j=JOB[S.job.id],g=S.job.sal;inc=g*(g<3000?.9:g<6000?.84:g<10000?.78:.7);S.workYears++;S.lifeIncome+=g; // 세금·4대보험 공제 후
     if(S.jobHunt)huntYear(S);
     const ai=AI[S.job.id]||0,yf=aiYear(S.year);
-    if(ai&&yf&&R()<ai*.03*yf/(1+(S.aiSafe||0))){S.aiPending=true}
+    if(ai&&yf&&a-S.job.start>=1&&a<63&&R()<ai*.03*yf/(1+(S.aiSafe||0))){S.aiPending=true}
     else if(ai&&yf>.3&&R()<.2){S.stress+=4;lg(S,pick(isEmp(S)?['AI 도구 도입으로 팀 인원이 줄었다. 남은 사람의 일이 늘었다.','회사가 AI로 대체 가능한 업무 목록을 만든다는 소문이 돌았다.','신입 채용이 2년째 없다. AI가 신입 일을 하고 있다.']:['AI 도구가 퍼지며 같은 일을 하는 사람들의 단가가 내려갔다.','손님들이 AI로 직접 해결하기 시작했다. 일감이 조금 줄었다.']),'bad')}
     if(S.job&&a>=(S.nextWev||S.job.start+2)&&a<S.job.ret){S.wevPending=pickWev(S);S.nextWev=a+ri(3,4)}
-    const rk=rankOf(S);if(S.job.rank&&rk!==S.job.rank){lg(S,`${rk}(으)로 승진했다.`,'good');eff(S,{p:4})}S.job.rank=rk;
+    const rk=rankOf(S),flatL=!RANK_ID[S.job.id]&&!RANKS[JOB[S.job.id].c];
+    if(S.job.rank&&rk!==S.job.rank){S.promoAge=a;lg(S,flatL?`${rk}이(가) 됐다.`:`${rk}(으)로 승진했다.`,'good');eff(S,{p:4})}S.job.rank=rk;
     if(S.job.sal<j.cap)S.job.sal=Math.min(j.cap,S.job.sal*(1+j.g*rnd(.5,1.5)));
     S.health+=(j.hp||0)*rnd(.5,1.2);
-    if(j.v&&R()<j.v){S.job.sal=Math.min(j.cap*4,S.job.sal*rnd(1.8,3.5));eff(S,{p:10});lg(S,`${j.n}(으)로 크게 성공했다! 연 소득이 ${fmt(S.job.sal)}원으로 뛰었다.`,'good')}
+    let boom=false;if(j.v&&R()<j.v){boom=true;S.job.sal=Math.min(j.cap*4,S.job.sal*rnd(1.8,3.5));eff(S,{p:10});lg(S,`${j.n}(으)로 크게 성공했다! 연 소득이 ${fmt(S.job.sal)}원으로 뛰었다.`,'good')}
     if(S.bizLast){S.bizLast=false;if(R()<.5){S.job.sal*=.95;lg(S,`대출로 1년을 버텼고, ${bizN(S)}이(가) 겨우 흑자로 돌아섰다.`,'good')}else closeBiz(S,4000,`대출까지 받아 버텼지만 결국 ${bizN(S)}을(를) 닫았다.`)}
-    else if(j.fail&&R()<j.fail)S.bizCrisis=true;
-    if(S.job&&!j.pub&&!OWNER.has(S.job.id)&&!FLAT[S.job.id]&&a-S.job.start>=1&&R()<(LATE_CAP.has(S.job.id)?.015:['smallCo','midCo'].includes(S.job.id)?.04:j.c==='서비스·자영업'?.05:j.c==='IT'?.03:.025)){
-      const why=pick(['회사 사정이 어려워져 권고사직을 받았다.','계약이 만료됐고 재계약이 되지 않았다.','조직 개편으로 팀이 없어지면서 회사를 나왔다.']);lg(S,why,'bad');S.jobEnd=why;endJob(S);if(a>=58)S.retired=true;else S.nextJobTry=a+1}
+    else if(j.fail&&!boom&&R()<j.fail)S.bizCrisis=true;
+    if(S.job&&!j.pub&&!OWNER.has(S.job.id)&&!FLAT[S.job.id]&&a-S.job.start>=1&&S.promoAge!==a&&S.job.id!=='schoolCook'&&R()<(LATE_CAP.has(S.job.id)?.015:['smallCo','midCo'].includes(S.job.id)?.04:j.c==='서비스·자영업'?.05:j.c==='IT'?.03:.025)){
+      const org=j.c==='의료'?'병원':j.c==='교육'?'학교법인':'회사',contract=a-S.job.start<2||['labtech','lecturer','parttime','cleaner','logistics','labeler','care','guide','secretary'].includes(S.job.id);
+      const why=pick([`${org} 사정이 어려워져 권고사직을 받았다.`,...(contract?['계약이 만료됐고 재계약이 되지 않았다.']:[]),...(j.c==='의료'?[]:['조직 개편으로 팀이 없어지면서 회사를 나왔다.'])]);lg(S,why,'bad');S.jobEnd=why;endJob(S);afterLoss(S)}
     if(S.job&&j.risk&&R()<j.risk*6){eff(S,{h:-20});lg(S,'업무 중 큰 사고를 당했다. <span class="fx">건강 −20</span>','bad')}
   }
-  if(!S.job&&a>=65)inc+=Math.max(S.pension||0,400); // 국민·공무원연금, 없으면 기초연금
+  if(!S.job&&(a>=65||(S.milPension&&a>=40)))inc+=Math.max(S.pension||0,a>=65?400:0); // 국민·공무원연금(군인연금은 전역 즉시), 없으면 기초연금
   if(S.married&&a<62&&!(S.spouseOff&&a<S.spouseOff)){inc+=S.spouseInc*.85;if(a<50)S.spouseInc*=1.015}
   if(S.spouseOff&&a===S.spouseOff){S.spouseOff=null;S.spouseInc=Math.round(S.spouseInc*.6);lg(S,'배우자가 다시 일을 시작했다. 예전보다 적은 월급이지만.')}
   if(S.job||S.retired||(S.jobSeekAge&&a>=S.jobSeekAge)){
@@ -1284,17 +1300,18 @@ function nextChoice(S){
   if(!S.asked.highschool&&a>=16&&a<18){S.asked.highschool=1;return'highschool'}
   if(!S.asked.grind&&S.asked.highschool&&a>=17&&a<19){S.asked.grind=1;return'grind'}
   if(!S.asked.campus&&S.eduDone&&S.edu.tier>=1&&S.uniEnd&&a>=Math.max(20,S.uniEnd-2)&&a<S.uniEnd&&S.militaryDone!==false&&!S.job&&!S.prep){S.asked.campus=1;return'campus'}
-  if(!S.asked.strategy&&S.asked.grind&&a>=18&&a<20&&!S.eduDone){S.asked.strategy=1;return'strategy'}
+  if(!S.asked.strategy&&S.asked.grind&&a>=18&&a<20&&!S.eduDone){S.asked.strategy=1;if(S.year<1996){S.track='jeong';return null}return'strategy'}
   if(!S.eduDone&&a>=S.collegeAge&&(S.asked.strategy||a>=20))return'college';
   if(!S.militaryDone&&S.militaryAge&&a>=S.militaryAge)return'military';
   if(S.gender==='F'&&S.militaryAgeF&&!S.asked.militaryF&&a>=S.militaryAgeF){S.asked.militaryF=1;return'militaryF'}
   if(!S.job&&!S.prep&&S.edu.flag==='army'&&!S.armyIn&&S.nextJobTry&&a>=S.nextJobTry){S.armyIn=true;setJob(S,'officer');S.job.ret=Math.max(S.job.ret,S.age+10);lg(S,'사관학교를 졸업하고 소위로 임관했다. 의무복무 10년.','choice')}
-  if(!S.job&&!S.prep&&!S.retired&&a>=62){S.retired=true}
+  if(!S.job&&!S.prep&&!S.retired&&a>=62){S.retired=true;if(S.workYears)lg(S,`더는 일자리를 구하지 않고 은퇴했다. 예상 연금 연 ${fmt(Math.max(S.pension||0,400))}원.`,'choice')}
   if(!S.job&&!S.prep&&!S.retired&&S.nextJobTry&&a>=S.nextJobTry&&a<62)return'job';
   if(S.job&&a>=S.job.ret)return'retire';
   if(!S.married&&!S.single&&a>=S.loveAge&&a<48)return'love';
   if(!S.house&&a>=S.houseAge&&a<56&&S.age>=25)return'house';
-  return once('kids',S.married&&S.marriedAge!=null&&a>=S.marriedAge+1&&a<45&&!S.kids&&!S.childfree)||once('kids2',S.kids===1&&S.kid1Age&&a>=S.kid1Age+2&&a<46)||once('midcareer',a>=43&&a<55&&S.job)||once('health',a>=52)||once('oldlife',a>=70);
+  const momAge=S.gender==='F'?a:a+(S.spouseAge0??-2);
+  return once('kids',S.married&&S.marriedAge!=null&&a>=S.marriedAge+1&&momAge<42&&!S.kids&&!S.childfree)||once('kids2',S.kids===1&&S.kid1Age&&a>=S.kid1Age+2&&a<=S.kid1Age+5&&momAge<43)||once('midcareer',a>=43&&a<55&&S.job&&a-S.job.start>=3)||once('health',a>=52)||once('oldlife',a>=70&&!S.job);
 }
 function setPending(S,id){S.pending=id;S.snapNeeded=true;PREP[id]&&PREP[id](S)}
 function advance(S){yearly(S);if(S.dead)return;const c=nextChoice(S);if(c)setPending(S,c)}
@@ -1302,14 +1319,18 @@ function advance(S){yearly(S);if(S.dead)return;const c=nextChoice(S);if(c)setPen
 const PREP={
   college:S=>{
     const luck=Math.round(rnd(-7,7)),g=Math.round((S.grind||0)*.8+(S.grit||0)*.3),fam=Math.round(S.fq*1.5+REGIONS[S.region].edu*.4-4);
-    const jeong=S.know*.85+fam+S.edu.hs+g+luck;
     const local=['metro','city','rural'].includes(S.region)?5:0,gen=S.edu.high==='일반고'?6:['자사고','과학고','외고'].includes(S.edu.high)?-4:0;
-    const susi=S.know*.72+(S.rel-50)*.15+S.fq*1.2+gen+local+g+luck*.5+8;
-    const ns=S.know*.75+fam*.5+g+rnd(-16,16)+6;
-    const tr=S.track||'jeong',v=tr==='susi'?susi:tr==='both'?Math.max(jeong,susi)-2:tr==='essay'?ns:jeong;
-    S.score=Math.round(clamp(v,1,99));
-    if(S.retook==null||!S.scoreOnce){S.scoreOnce=1;if(S.birthYear<1975&&S.fq<=2&&R()<.5)S.noCollege=true}
-    S.scoreParts={know:Math.round(S.know*(tr==='susi'?.72:.85)),fam:tr==='susi'?Math.round(S.fq*1.2):fam,hs:tr==='susi'?gen+local:S.edu.hs,g,luck:tr==='essay'?'±16':luck,tr};
+    const R0=Math.round,exam=S.year<1994?'학력고사':'수능';
+    // 각 전형의 점수 구성 (화면에 그대로 공개하고, 합계가 곧 점수)
+    const J=[['실력',R0(S.know*.85)],['가정 환경',fam],['고교 유형',S.edu.hs],['고2~3 노력',g],['시험 당일 운',luck]];
+    const SU=[['실력',R0(S.know*.72)],['가정 환경',R0(S.fq*1.2)],['내신·지역균형',gen+local],['학교생활·관계',R0((S.rel-50)*.15)],['고2~3 노력',g],['면접 운',R0(luck*.5)],['기본',8]];
+    const NS=[['실력',R0(S.know*.75)],['가정 환경',R0(fam*.5)],['고2~3 노력',g],['논술 당일 운',R0(rnd(-16,16))],['기본',6]];
+    const sum=L=>L.reduce((t,x)=>t+x[1],0);
+    const tr=S.track||'jeong';let items=tr==='susi'?SU:tr==='essay'?NS:J;
+    if(tr==='both'){items=sum(SU)>sum(J)?SU:J;items=[...items,['병행 부담',-2]]}
+    S.score=Math.round(clamp(sum(items),1,99));
+    if(S.retook==null||!S.scoreOnce){S.scoreOnce=1;if(S.birthYear<1975&&S.fq===1&&R()<.3)S.noCollege=true}
+    S.scoreParts={items,tr,exam,used:tr==='both'?(items[0]===SU[0]?'susi':'jeong'):tr};
   },
   house:S=>{S.housePrice=Math.round(REGIONS[S.region].house*housePI(S.year)*rnd(.92,1.08))},
   love:S=>{const male=S.gender==='M',by=S.birthYear,age=Math.max(20,S.age+(male?-ri(0,4):ri(0,4)));
@@ -1323,18 +1344,22 @@ const PREP={
     S.partner={age,job:j?j.n:'전업 (일하지 않음)',jid:j?j.id:null,inc,asset}}
 };
 
+// 주 40시간 최저임금 연봉 (2024년 화폐가치 근사, 1988년 도입)
+function minWage(y){const T=[[1988,800],[1995,1000],[2000,1100],[2005,1350],[2010,1500],[2015,1750],[2018,2050],[2020,2250],[2024,2470]];if(y<1988)return 0;let v=T[0][1];for(const[a,b]of T)if(y>=a)v=b;return v}
 function setJob(S,id,quiet){
   const j=JOB[id];S.jobEnd=null;
+  if(['medic','phd'].includes(S.mil)&&!S.medSvc&&!['doctor','dentist','kmd'].includes(id)){S.mil='army';S.medSvc=1;lg(S,'의사의 길을 접으면서 군의관·공보의 대상에서 빠졌다. 현역으로 복무를 마쳤다.','choice');S.age<40&&eff(S,{p:-3})}
   let sal=j.s*.88*(1+(S.edu.tier-2)*.04)*rnd(.9,1.1)*(S.gender==='F'?.93:1);
-  if(S.cb){S.cb=false;if(JOB[id].c===S.cbCat&&!LICENSE.has(prepOf(id))){sal*=.7;lg(S,'경력단절 뒤 다시 일을 시작했다. 예전 연봉의 70% 수준에서 다시 출발했다.','choice')}else lg(S,'경력단절 뒤 새 분야에서 다시 시작했다.','choice')}
+  if(!OWNER.has(id)&&!STAGE.has(id)&&!CREATOR.has(id)&&!['parttime','lecturer','labeler','athlete','esports'].includes(id))sal=Math.max(sal,minWage(S.year)); // 정규 일자리는 최저임금 아래로 내려가지 않는다
+  if(S.cb){S.cb=false;if(JOB[id].c===S.cbCat&&!LICENSE.has(prepOf(id,S))){sal*=.7;lg(S,'경력단절 뒤 다시 일을 시작했다. 예전 연봉의 70% 수준에서 다시 출발했다.','choice')}else lg(S,'경력단절 뒤 새 분야에서 다시 시작했다.','choice')}
   S.job={id,sal:Math.round(sal),start:S.age,ret:Math.max(S.age+3,j.ret+ri(-2,2))};
   if(!S.jobsDone.includes(id))S.jobsDone.push(id);
   saveDex(id);S.nextWev=S.age+ri(2,3);S.jobHunt=null;S.stressMod=0;
   if(!quiet)lg(S,`${j.e} ${j.n}(으)로 일을 시작했다. 첫해 연봉 ${fmt(S.job.sal)}원.`,'job');
 }
 function prepPass(S,id){
-  const j=JOB[id],P=PREPS[prepOf(id)],el=elig(S,j);if(!el.ok)return 0;
-  const k=prepOf(id);
+  const j=JOB[id],P=PREPS[prepOf(id,S)],el=elig(S,j);if(!el.ok)return 0;
+  const k=prepOf(id,S);
   if(k==='hunt'){let c=el.c*.7*clamp(1-Math.max(0,S.age-40)*.05,.15,1); // 40대 이후 신입 구직은 갈수록 어렵다
     if(S.age>=45&&!S.jobsDone.some(x=>JOB[x].c===j.c))c*=.5; // 다른 분야로의 늦은 전직
     return clamp(c,.03,.85)}
@@ -1344,9 +1369,9 @@ function prepPass(S,id){
   else r*=clamp(1-Math.max(0,S.age-55)*.03,.6,1); // 자격증·창업·귀농은 50~60대도 흔하다
   return clamp(P.pass*r,.02,.97);
 }
-function expYears(S,id){const P=PREPS[prepOf(id)],p=prepPass(S,id);if(!p)return null;return(P.fix||0)+Math.min(P.max||8,1/p)}
+function expYears(S,id){const P=PREPS[prepOf(id,S)],p=prepPass(S,id);if(!p)return null;return(P.fix||0)+Math.min(P.max||8,1/p)}
 function startPrep(S,id){
-  const k=prepOf(id),P=PREPS[k];S.jobEnd=null;
+  const k=prepOf(id,S),P=PREPS[k];S.jobEnd=null;
   S.prep={id,k,yrs:0,att:0,spent:0,fixLeft:P.fix||0};
   if(id==='elec'&&S.edu.tier<2&&!S.edu.voc)S.prep.fixLeft=3; // 고졸은 기능사 취득 후 실무 3년이 있어야 기사 응시
   (S.preps=S.preps||[]).push({n:P.n,start:S.age});
@@ -1371,12 +1396,14 @@ function prepYear(S){
     lg(S,PREP_NG[pr.k]?`${PREP_NG[pr.k]}.`:`${P.n} 불합격 (${pr.att}회차).`,'bad');S.examFail=true}
 }
 function tryJob(S,id){
-  if(S.jobsDone.includes(id)&&LICENSE.has(prepOf(id))){const el=elig(S,JOB[id]);if(el.ok&&R()<Math.max(el.c,.6)){lg(S,`예전에 딴 자격으로 다시 ${JOB[id].n} 일을 구했다.`,'choice');setJob(S,id);return true}return false}
-  if(prepOf(id)){startPrep(S,id);return true}
+  if(S.jobsDone.includes(id)&&LICENSE.has(prepOf(id,S))){const el=elig(S,JOB[id]);if(el.ok&&R()<Math.max(el.c,.6)){lg(S,`예전에 딴 자격으로 다시 ${JOB[id].n} 일을 구했다.`,'choice');setJob(S,id);return true}return false}
+  if(prepOf(id,S)){startPrep(S,id);return true}
   const el=elig(S,JOB[id]);if(el.ok&&R()<el.c){setJob(S,id);return true}
   return false;
 }
-function aiOut(S,sev){const a=S.age;S.jobEnd=isEmp(S)?`AI 도입으로 ${JOB[S.job.id].n} 일자리를 잃었다.`:`AI 때문에 ${JOB[S.job.id].n} 일감이 끊겼다.`;eff(S,{m:Math.round(S.job.sal*sev),p:-8});endJob(S);S.stress+=6;if(a>=58)S.retired=true;else S.nextJobTry=a+1}
+// 58세 이후 일을 잃으면: 62세 전엔 다시 구직, 그 뒤엔 은퇴 (기록을 남긴다)
+function afterLoss(S){if(S.age>=62){S.retired=true;lg(S,`다시 일자리를 구하지 않고 은퇴했다. 예상 연금 연 ${fmt(S.pension)}원.`,'choice')}else S.nextJobTry=S.age+1}
+function aiOut(S,sev){const a=S.age;S.jobEnd=isEmp(S)?`AI 도입으로 ${JOB[S.job.id].n} 일자리를 잃었다.`:`AI 때문에 ${JOB[S.job.id].n} 일감이 끊겼다.`;eff(S,{m:Math.round(S.job.sal*sev),p:-8});endJob(S);S.stress+=6;afterLoss(S)}
 function startHunt(S){S.jobHunt={yrs:0};lg(S,'몰래 이직 준비를 시작했다. 퇴근 후엔 자소서, 점심시간엔 면접.','choice')}
 function huntYear(S){
   const h=S.jobHunt;h.yrs++;
@@ -1387,19 +1414,24 @@ function huntYear(S){
   else lg(S,'이직 면접에서 떨어졌다. 내일도 아무렇지 않게 출근해야 한다.','bad');
 }
 const bizN=S=>({interior:'회사',ecommerce:'쇼핑몰',smartfarm:'농장',realtor:'사무소',pilates:'스튜디오',nail:'샵',hair:'미용실'})[S.job.id]||'가게';
-function closeBiz(S,loss,msg){eff(S,{p:-10,m:-loss});lg(S,`${msg} <span class="fx">돈 −${fmt(loss)} · 행복 −10</span>`,'bad');S.jobEnd=msg;endJob(S);if(S.age>=60)S.retired=true;else S.nextJobTry=S.age+1}
+function closeBiz(S,loss,msg){eff(S,{p:-10,m:-loss});lg(S,`${msg} <span class="fx">돈 −${fmt(loss)} · 행복 −10</span>`,'bad');S.jobEnd=msg;endJob(S);afterLoss(S)}
 function endJob(S){
   const j=S.job&&JOB[S.job.id];
-  if(j){S.pension=Math.max(S.pension,j.pub?Math.min(3600,S.workYears*95):Math.min(2000,300+S.workYears*30))}
+  if(j){const yrs=Math.min(40,S.workYears),avg=S.lifeIncome/Math.max(1,S.workYears);
+    // 공무원연금은 근속 기준, 국민연금은 평균 소득 × 가입 연수의 약 1% (근사)
+    const pubY=S.age-S.job.start;S.pension=Math.max(S.pension,j.pub?Math.min(3600,pubY*95+Math.max(0,yrs-pubY)*avg*.01):Math.min(2300,Math.round(yrs*avg*.01)));
+    if(['officer','nco'].includes(S.job.id)&&S.age-S.job.start>=19)S.milPension=true}
   S.job=null;S.wevPending=null;S.aiPending=false;S.burnout=false;S.onLeave=false;S.jobHunt=null;
 }
+const IND_OK=new Set(['smallCo','midCo','factory','welder','mechanic','elec','semiOp','elevator','si','qa','devStart','carpenter','plumber','logistics','aircraftMech','crane']);
 function elig(S,j){
+  if(S.mil==='industry'&&S.milEnd&&S.age<S.milEnd&&!IND_OK.has(j.id))return{ok:false,why:'산업기능요원은 지정 업체(중소·중견 제조·IT)에서만 근무'};
   if(j.id==='officer'&&S.mil==='rotc'&&S.age<=j.ma)return{ok:true,c:clamp(.45+(S.know-60)*.005+(S.rotcLong?.2:0),.2,.85)};
   if(j.f&&S.edu.flag!==j.f)return{ok:false,why:`${FLAG_N[j.f]} 졸업 필요`};
   if(S.edu.tier<j.t)return{ok:false,why:`학력: ${TIER_N[j.t]} 이상`};
   if(j.lockIt&&S.interest!==j.it)return{ok:false,why:j.it==='art'?'예술 관심 필요':'운동에 재능·관심 필요'};
   if(j.ma&&S.age>j.ma)return{ok:false,why:`응시 연령 ${j.ma}세 이하`};
-  if(j.from&&S.year<j.from)return{ok:false,why:`${j.from}년 무렵부터 생긴 직업`};
+  if(j.from&&S.year<j.from)return{ok:false,why:`${j.from}년 무렵에 생긴 직업`};
   if(j.id==='pilot'&&S.fq<4&&S.money<10000)return{ok:false,why:'비행교육비 약 1억 필요'};
   if(LATE_CAP.has(j.id)&&S.age>48)return{ok:false,why:'48세 이상 신규 입사 사실상 불가'};
   let c=j.o+(S.know-j.k)*.012+(S.edu.tier-j.t)*.05+(S.rel-50)*.003;
@@ -1421,11 +1453,11 @@ function elig(S,j){
 
 /* ---------- choices ---------- */
 const CHOICES={
- elementary:S=>({title:'초등학교 입학',desc:'여덟 살. 방과 후 시간을 어떻게 보낼까요? 한국 초등학생 사교육 참여율은 약 87%, 1인당 월평균 사교육비는 40만 원이 넘습니다.',options:[
-  {label:'학원 뺑뺑이',sub:'영어·수학·논술·피아노. 지식↑ 행복↓ 관계↓',w:S.fq>=3?3:1,apply:S=>{S.studyRate+=.55;eff(S,{p:-8,r:-3});if(S.fq<=2)lg(S,'부모님이 학원비를 위해 야간 일을 늘렸다.','bad')}},
-  {label:'동네에서 뛰어놀기',sub:'행복↑ 관계↑ 건강↑',w:2,apply:S=>{S.studyRate+=.1;S.grit=(S.grit||0)+3;eff(S,{p:8,r:6,h:5})}},
+ elementary:S=>({title:S.year<1996?'국민학교 입학':'초등학교 입학',desc:`1학년. 방과 후 시간을 어떻게 보낼까요? ${S.year>=2015?'한국 초등학생 사교육 참여율은 약 87%, 1인당 월평균 사교육비는 40만 원이 넘습니다.':S.year>=1980&&S.year<1990?'과외와 교과 학원이 금지된 시절입니다(1980년 7·30 교육조치).':'동네마다 주산·피아노·속셈 학원이 있던 시절입니다.'}`,options:[
+  {label:S.year<1997?'학원 여러 곳 (속셈·피아노·태권도)':'학원 뺑뺑이',sub:S.year<1997?'지식↑ 행복↓ 관계↓':'영어·수학·논술·피아노. 지식↑ 행복↓ 관계↓',lock:S.year>=1980&&S.year<1989&&'교과 학원·과외 금지 시절',w:S.fq>=3?3:1,apply:S=>{S.elem='academy';S.studyRate+=.55;eff(S,{p:-8,r:-3});if(S.fq<=2)lg(S,'부모님이 학원비를 위해 야간 일을 늘렸다.','bad')}},
+  {label:'동네에서 뛰어놀기',sub:'행복↑ 관계↑ 건강↑',w:2,apply:S=>{S.elem='play';S.studyRate+=.1;S.grit=(S.grit||0)+3;eff(S,{p:8,r:6,h:5})}},
   {label:'운동·예체능 학원',sub:'건강↑ 재능을 발견할지도',w:2,apply:S=>{S.studyRate+=.3;eff(S,{h:5,p:3})}},
-  {label:'돌봄교실·지역아동센터',sub:'무료 돌봄. 관계↑ 지식↑',w:S.fq<=2?3:.5,apply:S=>{S.studyRate+=.4;eff(S,{r:4})}}]}),
+  {label:S.year<2004?'동네 공부방':'돌봄교실·지역아동센터',sub:'무료 돌봄. 관계↑ 지식↑',lock:S.fq>=4&&'소득 기준으로 대상이 아님',w:S.fq<=2?3:.5,apply:S=>{S.elem='care';S.studyRate+=.4;eff(S,{r:4})}}]}),
  interest:S=>({title:'중학생이 된 당신',desc:'가장 마음이 끌리는 것은? 관심사는 고등학교 선택과 나중의 직업 합격률에 영향을 줍니다.',options:[
   {label:'수학·과학',sub:'과학고·이공계·개발자',apply:S=>{S.interest='sci';eff(S,{k:3})}},
   {label:'언어·사회',sub:'외고·법·언론',apply:S=>{S.interest='hum';eff(S,{k:3,r:1})}},
@@ -1435,10 +1467,10 @@ const CHOICES={
   {label:'사람 만나기',sub:'서비스·마케팅·교육',apply:S=>{S.interest='people';eff(S,{r:6})}}]}),
  highschool:S=>{const k=S.know;return{title:'고등학교 선택',desc:`지금 당신의 지식 지수는 ${Math.round(k)}. 어떤 고등학교에 갈까요?`,options:[
   {label:'일반고',sub:'전국 고교생의 약 70%',w:4,apply:S=>{S.edu.high='일반고'}},
-  {label:'자율형사립고',sub:'연 학비 수백만 원 · 수능 +4',lock:!(k>=60&&S.fq>=4)&&'지식 60+ & 소득 상위 40%',w:2,apply:S=>{S.edu.high='자사고';S.edu.hs=4;S.studyRate+=.4;eff(S,{p:-3})}},
-  {label:'과학고·영재고',sub:'수능 +7 · 이공계 직행',lock:(k<80||S.interest!=='sci')&&'수학·과학 관심 & 지식 80+',w:3,apply:S=>{S.edu.high='과학고';S.edu.hs=7;S.studyRate+=.6;eff(S,{p:-4})}},
-  {label:'외고·국제고',sub:'수능 +4 · 어학 특화',lock:k<70&&'지식 70+',w:2,apply:S=>{S.edu.high='외고';S.edu.hs=4;eff(S,{p:-2})}},
-  {label:'특성화고·마이스터고',sub:'고졸 취업 우대 · 대기업 생산직 +45%p',w:S.interest==='tech'?4:1,apply:S=>{S.edu.high='마이스터고';S.edu.voc=true;S.edu.hs=-12;S.studyRate-=.8;eff(S,{p:3})}},
+  {label:S.year<2010?'사립 명문고':'자율형사립고',sub:'연 학비 수백만 원 · 수능 +4',lock:!(k>=60&&S.fq>=4)&&'지식 60+ & 소득 상위 40%',w:2,apply:S=>{S.edu.high='자사고';S.edu.hs=4;S.studyRate+=.4;eff(S,{p:-3})}},
+  {label:S.year<2003?'과학고':'과학고·영재고',sub:'수능 +7 · 이공계 직행',lock:(S.year<1983&&'아직 과학고가 없던 시절')||((k<80||S.interest!=='sci')&&'수학·과학 관심 & 지식 80+'),w:3,apply:S=>{S.edu.high='과학고';S.edu.hs=7;S.studyRate+=.6;eff(S,{p:-4})}},
+  {label:S.year<1998?'외국어고':'외고·국제고',sub:'수능 +4 · 어학 특화',lock:(S.year<1984&&'아직 외고가 없던 시절')||(k<70&&'지식 70+'),w:2,apply:S=>{S.edu.high='외고';S.edu.hs=4;eff(S,{p:-2})}},
+  {label:S.year<2010?'실업계 고교 (공고·상고)':'특성화고·마이스터고',sub:'고졸 취업 우대 · 대기업 생산직 +45%p',w:S.interest==='tech'?4:1,apply:S=>{S.edu.high='마이스터고';S.edu.voc=true;S.edu.hs=-12;S.studyRate-=.8;eff(S,{p:3})}},
   {label:'예술고·체육고',sub:'실기 중심 · 예체능 전형 유리',lock:!['art','sport'].includes(S.interest)&&'예술·운동 관심 필요',w:3,apply:S=>{S.edu.high=S.interest==='art'?'예술고':'체육고';S.edu.artsHs=true;S.edu.hs=-3}},
   {label:'자퇴 후 검정고시',sub:'자유와 고립 사이',w:.3,apply:S=>{S.edu.high='검정고시';S.edu.hs=-4;eff(S,{p:2,r:-6})}}]}},
  college:S=>{const sc=S.score;const male=S.gender==='M';
@@ -1447,7 +1479,7 @@ const CHOICES={
    ['사관학교',93,4,'army',4,'졸업 후 소위 임관 · 의무복무 10년',(S.health<60&&'건강 60+')||(!male&&S.year<1997&&'1997년 이전엔 여성 입학 불가')],['인서울 4년제',82,4,'',4,'서울 소재 대학'],['간호학과',70,3,'nurse',4,'취업률 최상위'],
    ['지거국·수도권 대학',60,3,'',4,'지방거점국립대 / 경기·인천'],['지방 사립대',35,2,'',4,by<1985?'지역 대학':'학령인구 감소로 존폐 위기'],
    ['예체능 실기 전형',45,2,'art',4,'실기 70% + 수능',!(['art','sport'].includes(S.interest)||S.edu.artsHs)&&'예술·운동 관심 필요'],['전문대',0,1,'',2,'실무 중심 2~3년제']];
-  const opts=U.map(([n,min,tier,flag,yrs,sub,lk])=>({label:n,sub:`${sub} · 컷 ${min}`,lock:(poorOld&&'가정 형편상 진학이 어려웠다')||(sc<min&&`수능 백분위 ${min}+`)||lk,w:({'의과대학':1.5,'SKY':2,'교육대학·사범대':1.5,'사관학교':.3,'인서울 4년제':3,'간호학과':male&&S.year<2005?.15:1,'지거국·수도권 대학':3,'지방 사립대':3,'예체능 실기 전형':1,'전문대':4})[n]||1,
+  const opts=U.map(([n,min,tier,flag,yrs,sub,lk])=>({label:n,sub:`${sub} · 컷 ${min}`,lock:(poorOld&&sc<80&&!['사관학교','교육대학·사범대','지거국·수도권 대학'].includes(n)&&'가정 형편상 등록금이 어려웠다 (국립대·교대·사관학교는 가능)')||(sc<min&&`수능 백분위 ${min}+`)||lk,w:({'의과대학':1.5,'SKY':2,'교육대학·사범대':1.5,'사관학교':.3,'인서울 4년제':3,'간호학과':male&&S.year<2005?.15:1,'지거국·수도권 대학':3,'지방 사립대':3,'예체능 실기 전형':1,'전문대':4})[n]||1,
    apply:S=>{Object.assign(S.edu,{univ:n,tier,flag,major:flag==='med'||flag==='nurse'?'sci':flag==='art'?'art':flag==='edu'?'hum':''});
     S.eduDone=true;S.uniEnd=S.age+yrs;S.jobSeekAge=S.age+yrs+(male&&flag!=='army'?milY(S.year):0);S.nextJobTry=S.jobSeekAge;
     if(male&&flag!=='army')S.militaryAge=S.age+1;else S.militaryDone=true;
@@ -1457,8 +1489,8 @@ const CHOICES={
   if(!S.retook&&!poorOld)opts.push({label:'재수하기',sub:'1년 더. 수능 점수 재도전',w:sc>75?1.2:.3,apply:S=>{S.retook=true;S.collegeAge=S.age+1;S.edu.hs+=3;S.know+=ri(2,8);eff(S,{p:-6,m:-1500});lg(S,'재수 학원에 등록했다.','bad')}});
   opts.push({label:'바로 취업 (고졸)',sub:S.edu.voc?'마이스터고 졸업생 우대 공채':by<1980?'이 시대엔 고졸 취업이 흔했다':'지금 바로 사회로',w:S.edu.voc?6:by<1970?10:by<1980?5:by<1990?2:1.5,apply:S=>{S.edu.univ='—';S.edu.tier=0;S.eduDone=true;
     S.jobSeekAge=S.age+(male?1+milY(S.year+1):0);S.nextJobTry=S.jobSeekAge;if(male)S.militaryAge=S.age+1;if(!male)S.next='job'}});
-  return{title:'수능, 그리고 대학',desc:(()=>{const P=S.scoreParts||{},sg=v=>typeof v==='number'?(v>=0?'+':'')+v:v,TR={jeong:'정시 · 수능',susi:'수시 · 학생부종합',both:'수시 + 정시',essay:'논술 전형'};
-   return`${TR[P.tr]||'정시'} 기준 환산 백분위 <b>${sc}</b><br><span style="font-size:13px;color:var(--ink3)">= 실력 ${P.know} · 가정 환경 ${sg(P.fam)} · ${P.tr==='susi'?'내신·지역균형':'고교 유형'} ${sg(P.hs)} · 고2~3 노력 ${sg(P.g)} · 시험 당일 운 ${sg(P.luck)}</span><br>재수도 할 수 있어요. 참고로 서울대 신입생 중 강남3구 출신 비율은 인구 비율의 3배가 넘습니다.`})(),options:opts}},
+  return{title:S.year<1994?'학력고사, 그리고 대학':'수능, 그리고 대학',desc:(()=>{const P=S.scoreParts||{},sg=v=>typeof v==='number'?(v>=0?'+':'')+v:v,TR={jeong:'정시 · 수능',susi:'수시 · 학생부종합',both:'수시 + 정시',essay:'논술 전형'};
+   return`${S.year<1996?(P.exam||'학력고사')+' 기준':(TR[P.used||P.tr]||'정시')+' 기준'} 환산 백분위 <b>${sc}</b><br><span style="font-size:13px;color:var(--ink3)">= ${(P.items||[]).map(([l,v],i)=>i?`${l} ${sg(v)}`:`${l} ${v}`).join(' · ')}</span><br>재수도 할 수 있어요. 참고로 서울대 신입생 중 강남3구 출신 비율은 인구 비율의 3배가 넘습니다.`})(),options:opts}},
  campus:S=>{
   const e=S.edu,left=Math.max(1,(S.uniEnd||S.jobSeekAge)-S.age),spec=Math.round((S.spec||0)*10)/10;
   const SP=(n,k,p,st,msg)=>S=>{S.spec=(S.spec||0)+n;eff(S,{k,p});S.stress+=st;if(msg)lg(S,msg,'choice')};
@@ -1492,16 +1524,16 @@ const CHOICES={
        {label:'휴학하고 아르바이트',sub:'+1,500만 · 졸업 1년 늦어짐',w:S.fq<=2?2.5:.4,apply:S=>{eff(S,{m:1500,h:-2,p:-2});S.jobSeekAge++;S.nextJobTry=S.jobSeekAge;lg(S,'1년 휴학하고 등록금을 벌었다.','choice')}},fun];
   }
   return{title,desc,options:o}},
- grind:S=>({title:'고2, 승부의 시간',desc:`지금 지식 지수 <b>${Math.round(S.know)}</b>. 아직 늦지 않았습니다. 고2·고3 2년 동안 얼마나, 어떻게 공부할지에 따라 결과가 크게 달라집니다.`,options:[
+ grind:S=>({title:S.edu.high==='검정고시'?'검정고시 이후, 대입 준비':'고2, 승부의 시간',desc:`지금 지식 지수 <b>${Math.round(S.know)}</b>. 아직 늦지 않았습니다. 고2·고3 2년 동안 얼마나, 어떻게 공부할지에 따라 결과가 크게 달라집니다.`,options:[
   {label:'독서실 올인',sub:'하루 14시간 · 지식↑↑↑ · 스트레스↑↑ 건강↓',w:1.5,apply:S=>{S.grind=10;eff(S,{k:4,p:-6,h:-4});S.stress+=15;lg(S,'독서실 문 닫을 때까지 공부하는 생활을 시작했다.','choice')}},
-  {label:'인강 + 자기주도 학습',sub:'돈 거의 안 듦 · 지식↑↑',w:2,apply:S=>{S.grind=7;eff(S,{k:3,p:-2,m:-100});S.stress+=7}},
-  {label:'학원 · 과외 풀코스',sub:'월 150만 원 · 지식↑↑↑',lock:S.fq<=2&&'가정 형편상 어려움',w:S.fq>=4?3:1,apply:S=>{S.grind=8;eff(S,{k:4,p:-4});S.stress+=10;lg(S,'대치동 학원가를 오가는 생활이 시작됐다.','choice')}},
+  {label:S.year<1997?'참고서 + 독학':S.year<2004?'EBS 방송 + 자기주도 학습':'인강 + 자기주도 학습',sub:'돈 거의 안 듦 · 지식↑↑',w:2,apply:S=>{S.grind=7;eff(S,{k:3,p:-2,m:-100});S.stress+=7}},
+  {label:'학원 · 과외 풀코스',sub:'월 150만 원 · 지식↑↑↑',lock:(S.year>=1980&&S.year<1989&&'과외·학원 금지 시절')||(S.fq<=2&&'가정 형편상 어려움'),w:S.fq>=4?3:1,apply:S=>{S.grind=8;eff(S,{k:4,p:-4});S.stress+=10;lg(S,['gangnam','seoul'].includes(S.region)&&S.year>=1995?'대치동 학원가를 오가는 생활이 시작됐다.':'밤늦게까지 입시학원과 과외를 오가는 생활이 시작됐다.','choice')}},
   {label:'적당히, 친구들과 추억도',sub:'행복↑ 관계↑ · 지식 조금',w:2,apply:S=>{S.grind=3;eff(S,{p:6,r:6})}},
   {label:'공부 대신 진로 준비',sub:'자격증 · 포트폴리오 · 운동 · 관심 분야 직업 합격률↑',w:S.edu.voc||S.edu.artsHs?3:.6,apply:S=>{S.grind=0;S.skillPrep=true;eff(S,{p:4,k:-2})}}]}),
- strategy:S=>({title:'고3, 입시 전략',desc:`수시와 정시 중 어디에 걸까요? 대학 신입생의 약 70%는 수시로 뽑힙니다. 수시는 내신·학교생활·지역균형이, 정시는 수능 실력이 중요합니다.${['metro','city','rural'].includes(S.region)?' 지방 학생은 지역균형·지역인재 전형 가산이 있어요.':''}`,options:[
+ strategy:S=>({title:'고3, 입시 전략',desc:`수시와 정시 중 어디에 걸까요? ${S.year>=2013?'대학 신입생의 약 70%는 수시로 뽑힙니다.':'수시 모집 비중이 해마다 커지고 있습니다.'} 수시는 내신·학교생활·지역균형이, 정시는 수능 실력이 중요합니다.${['metro','city','rural'].includes(S.region)?' 지방 학생은 지역균형·지역인재 전형 가산이 있어요.':''}`,options:[
   {label:'정시 (수능 올인)',sub:'실력 + 당일 운 · 고교 유형 유리',w:2,apply:S=>{S.track='jeong'}},
-  {label:'수시 학생부종합',sub:'내신·관계·학교생활 · 일반고·지방 유리',w:S.edu.high==='일반고'?2.5:1,apply:S=>{S.track='susi';eff(S,{r:2})}},
-  {label:'수시 + 정시 병행',sub:'둘 중 높은 쪽 −2 · 스트레스↑',w:1.5,apply:S=>{S.track='both';S.stress+=8}},
+  {label:S.year<2008?'수시 (내신·면접)':S.year<2014?'수시 입학사정관 전형':'수시 학생부종합',sub:'내신·관계·학교생활 · 일반고·지방 유리',lock:S.edu.high==='검정고시'&&'학생부가 없음',w:S.edu.high==='일반고'?2.5:1,apply:S=>{S.track='susi';eff(S,{r:2})}},
+  {label:'수시 + 정시 병행',sub:'둘 중 높은 쪽 −2 · 스트레스↑',lock:S.edu.high==='검정고시'&&'학생부가 없음',w:1.5,apply:S=>{S.track='both';S.stress+=8}},
   {label:'논술 전형',sub:'변수 큼 · 역전 가능성',w:.5,apply:S=>{S.track='essay'}}]}),
  major:S=>({title:'전공 선택',desc:`${S.edu.univ}에서 무엇을 공부할까요? 전공은 직업별 합격률에 영향을 줍니다.`,options:[
   {label:'공학·IT',sub:'개발자·엔지니어 우대',w:S.interest==='sci'||S.interest==='tech'?4:1,apply:S=>{S.edu.major='eng'}},
@@ -1523,16 +1555,16 @@ const CHOICES={
   M('rntc',{label:'RNTC 부사관 학군단',sub:'전문대 부사관과 → 하사 임관 · 4년 복무 · 장기복무 시 직업군인',lock:!junior&&'전문대 재학생만',w:junior?2:0,
    fx:S=>{S.jobSeekAge+=2;S.nextJobTry=S.jobSeekAge;eff(S,{r:4,h:3,m:7000});lg(S,'RNTC 후보생이 됐다. 졸업 후 하사로 임관한다.','choice')}}),
   M('industry',{label:'산업기능요원',sub:'특성화고·마이스터고 출신 · 중소·중견기업에서 34개월 근무로 대체',lock:!hsVoc&&'특성화고·마이스터고 고졸만',w:hsVoc?4:0,
-   fx:S=>{S.jobSeekAge=S.nextJobTry=S.age;S.next='job';lg(S,'병역특례 산업기능요원으로 일하며 군 복무를 대신하게 됐다.','choice')}}),
+   fx:S=>{S.jobSeekAge=S.nextJobTry=S.age;S.milEnd=S.age+3;S.next='job';lg(S,'병역특례 산업기능요원으로 일하며 군 복무를 대신하게 됐다. 34개월은 지정 업체에서만 일할 수 있다.','choice')}}),
   M('research',{label:'전문연구요원',sub:'이공계 석사 + 연구기관 36개월 근무 · 연구 경력 인정',lock:!sciEng&&'이공계 · 인서울 이상 · 지식 75+',w:sciEng?2:0,
    fx:S=>{eff(S,{k:8,m:3000});lg(S,'석사 과정 후 전문연구요원으로 병역을 대신하게 됐다.','choice')}}),
   M('medic',{label:'군의관',sub:'의사 면허 후 대위 임관 · 38개월',lock:!med&&'의대생만',w:med?2:0,fx:S=>{S.jobSeekAge+=1;S.nextJobTry=S.jobSeekAge;eff(S,{r:3,m:6000})}}),
   M('phd',{label:'공중보건의사',sub:'의사 면허 후 농어촌 보건소 · 36개월',lock:!med&&'의대생만',w:med?2:0,fx:S=>{S.jobSeekAge+=1;S.nextJobTry=S.jobSeekAge;eff(S,{p:3,m:6000})}}),
-  M('social',{label:'사회복무요원',sub:'신체등급 4급 · 21개월 · 출퇴근',lock:S.health>=55&&'건강 55 미만만',fx:S=>eff(S,{p:1,m:pay*.8})})],
+  M('social',{label:S.year<1995?'방위병':S.year<2013?'공익근무요원':'사회복무요원',sub:'신체등급 4급 · 21개월 · 출퇴근',lock:S.health>=55&&'건강 55 미만만',fx:S=>eff(S,{p:1,m:pay*.8})})],
   after:S=>{S.militaryDone=true;const enl=['army','navy','airforce','marine','katusa','social'].includes(S.mil);if(enl&&S.uniEnd&&S.age<S.uniEnd)S.uniEnd+=milY(S.year);if(enl)S.milEnd=S.age+milY(S.year);lg(S,MIL_DONE[S.mil]||'입대했다.','choice')}}},
- militaryF:S=>{const e=S.edu,univ4=e.tier>=2&&e.univ!=='전문대';return{title:'군 복무 지원 (선택)',desc:'여성은 병역 의무가 없지만 장교나 부사관으로 지원할 수 있습니다. 여군은 전체 간부의 약 10%를 차지합니다.',options:[
+ militaryF:S=>{const e=S.edu,univ4=e.tier>=2&&e.univ!=='전문대';return{title:'군 복무 지원 (선택)',desc:`여성은 병역 의무가 없지만 장교나 부사관으로 지원할 수 있습니다.${S.year>=2018?' 여군은 전체 간부의 약 10%를 차지합니다.':' 아직 여군은 소수입니다.'}`,options:[
   {label:'지원하지 않는다',sub:'학업 · 취업 준비 계속',w:12,apply:S=>{}},
-  {label:'여성 ROTC 학군장교',sub:'3·4학년 군사훈련 → 소위 임관 · 28개월 · 장기복무 가능',lock:!univ4&&'4년제 재학생만',w:univ4?1:0,
+  {label:'여성 ROTC 학군장교',sub:'3·4학년 군사훈련 → 소위 임관 · 28개월 · 장기복무 가능',lock:(S.year<2010&&'2010년부터 여학생 선발')||(!univ4&&'4년제 재학생만'),w:univ4&&S.year>=2010?1:0,
    apply:S=>{S.mil='rotc';S.jobSeekAge+=2;S.nextJobTry=S.jobSeekAge;eff(S,{r:5,k:2,m:4500});S.stress+=6;lg(S,'여성 ROTC 후보생으로 선발됐다.','choice')}},
   {label:'여군 부사관 (RNTC 포함)',sub:'졸업 후 하사 임관 · 4년 복무',w:.6,
    apply:S=>{S.mil='rntc';S.jobSeekAge+=3;S.nextJobTry=S.jobSeekAge;eff(S,{r:4,h:3,m:7000});lg(S,'부사관 후보생이 됐다.','choice')}}]}},
@@ -1559,25 +1591,26 @@ const CHOICES={
   {label:'영끌 매수',sub:`대출 최대 ${Math.round(ltvY*100)}%까지 · 현금 ${fmt(needY)} · 이자 부담 큼`,lock:(!S.job&&'직장 필요')||(m<needY&&`현금 ${fmt(needY)} 필요`)||(loanY<=loanN&&'소득이 낮아 대출을 더 받을 수 없음'),w:1.5,apply:S=>{buy(S,P,loanY,'영끌로 집을 샀다. 월급의 절반 가까이가 대출 상환으로 나간다.',-3);S.stress+=8}},
   {label:'부모님 도움으로 산다',sub:`증여 ${fmt(gift)}${giftTax?` (증여세 약 ${fmt(giftTax)})`:''} + 대출 · 내 현금 ${fmt(Math.max(0,needG))}`,lock:(!canHelp(S)&&'도와주실 부모님이 안 계심')||(gift<P*.1&&'부모님 여유 자산이 부족')||(m<needG&&`현금 ${fmt(needG)} 필요`),w:3,apply:S=>{S.fam.wealth-=gift;S.money+=gift-giftTax;buy(S,P,loanN,`부모님이 ${fmt(gift)}을(를) 보태주셔서 집을 샀다.`,5)}},
   {label:'청약 도전',sub:y<1978?'아직 청약 제도가 없던 시절':`당첨 확률 약 ${Math.round(pc*100)}% · 계약금 ${fmt(P*.2)} 필요`,lock:(y<1978&&'청약 제도 이전')||(m<P*.2&&`계약금 ${fmt(P*.2)} 필요`)||(P*.8>hi*8&&'잔금 대출을 받기엔 소득이 부족'),w:1,apply:S=>{if(R()<pc){buy(S,P,Math.round(P*.8),'청약에 당첨됐다! 계약금을 내고 입주까지 기다렸다.',12)}else{S.houseAge=S.age+3;eff(S,{p:-3});lg(S,'청약에 떨어졌다. 3년 뒤 재도전.','bad')}}},
-  {label:'전·월세로 산다',sub:'6년 뒤 다시 생각',w:2,apply:S=>{S.houseAge=S.age+6}},
+  {label:'전·월세로 산다',sub:'4년 뒤 다시 생각',w:2,apply:S=>{S.houseAge=S.age+4}},
   ...(local?[]:[{label:'지방으로 옮겨 집을 산다',sub:`집값 약 ${fmt(CP)} · 현금 ${fmt(CP-loanC)}`,lock:(!hi&&'소득이 없으면 대출이 안 됨')||(m<CP-loanC&&`현금 ${fmt(CP-loanC)} 필요`),w:.8,apply:S=>{S.region='city';S.town=pick(REGIONS.city.towns);buy(S,CP,loanC,`${S.town}(으)로 이사해 집을 샀다.`,3);eff(S,{r:-3})}}])]}},
- kids:S=>{const y=S.year,by=S.birthYear;return{title:'첫아이',desc:`${y<1990?'이 시기 합계출산율은 약 1.6명이었습니다.':y<2010?'합계출산율은 1.1~1.3명으로 떨어지고 있었습니다.':'2024년 한국의 합계출산율은 0.75명 — 세계 최저 수준입니다.'} 아이 한 명을 대학까지 키우는 데 약 3억 원이 든다고 합니다.`,options:[
+ kids:S=>{const y=S.year,by=S.birthYear;return{title:'첫아이',desc:`${y<1975?'이 무렵 합계출산율은 4명 안팎이었습니다.':y<1983?'"둘만 낳아 잘 기르자"는 표어가 붙던 시절. 합계출산율은 약 2.8명이었습니다.':y<1990?'합계출산율이 2명 아래로 떨어졌습니다.':y<2002?'합계출산율은 약 1.5명이었습니다.':y<2018?'합계출산율은 1.1~1.3명으로 떨어져 있었습니다.':y<2024?'합계출산율이 1명 아래로 떨어졌습니다.':'2024년 한국의 합계출산율은 0.75명 — 세계 최저 수준입니다.'} 아이 한 명을 대학까지 키우는 데 약 3억 원이 든다고 합니다.`,options:[
   {label:'아이를 낳는다',sub:'행복·관계↑ · 연 1,200만 지출',w:by<1975?8:by<1985?6:by<1995?3:2,apply:S=>{S.kids=1;S.kidsAge=S.kid1Age=S.age;eff(S,{p:8,r:8});lg(S,'첫아이가 태어났다.','good');
     if(S.gender==='F'&&S.job)S.next='careerBreak';
     else if(S.gender==='M'&&S.spouseInc&&R()<(by<1975?.6:by<1990?.4:.25)){S.spouseOff=S.age+ri(3,8);lg(S,'배우자가 육아를 위해 일을 그만뒀다.')}}},
   {label:'조금 더 미룬다',sub:'2년 뒤 다시',lock:S.age>=42&&'42세 이후',w:1,apply:S=>{S.asked.kids=0;S.marriedAge=S.age+1}},
   {label:'아이 없이 산다',sub:'둘만의 삶',w:by<1975?.1:by<1985?.2:by<1995?.6:1.2,apply:S=>{S.childfree=true}}]}},
- kids2:S=>{const by=S.birthYear;return{title:'둘째',desc:'첫째가 두 살이 됐습니다. 동생을 낳을까요?',options:[
+ kids2:S=>{const by=S.birthYear;return{title:'둘째',desc:`첫째가 ${S.age-S.kid1Age}살이 됐습니다. 동생을 낳을까요?`,options:[
   {label:'둘째를 낳는다',sub:'행복·관계↑ · 지출↑',w:by<1975?6:by<1985?4:by<1995?1.5:.6,apply:S=>{S.kids=2;eff(S,{p:6,r:6});lg(S,'둘째가 태어났다.','good')}},
-  {label:'셋째까지',sub:'다둥이 가정',w:by<1970?1.5:.08,apply:S=>{S.kids=3;eff(S,{p:7,r:8});lg(S,'둘째와 셋째가 차례로 태어났다. 다둥이 가정이 됐다.','good')}},
+  {label:'셋째까지',sub:'다둥이 가정',w:by<1970?1.5:.08,apply:S=>{S.kids=3;eff(S,{p:7,r:8});lg(S,'둘째가 태어났고, 몇 년 뒤 셋째도 태어났다. 다둥이 가정이 됐다.','good')}},
   {label:'한 명으로 충분하다',sub:'지금 그대로',w:2,apply:S=>{}}]}},
  careerBreak:S=>{const by=S.birthYear,j=JOB[S.job.id];return{title:'출산, 그리고 일',desc:`${j.e} ${j.n} ${S.age-S.job.start+1}년 차. 한국 기혼 여성의 약 6명 중 1명이 경력단절을 겪고, 가장 큰 이유는 육아입니다.`,options:[
-  {label:'육아휴직 1년 후 복직',sub:'1년간 급여 일부 · 복직',lock:(!isEmp(S)&&'자영업·프리랜서는 육아휴직 제도 밖')||(S.year<2001&&'2001년 이전엔 제도가 거의 없었음'),w:by<1985?.5:by<1995?1.5:2.5,apply:S=>{S.onLeave=true;eff(S,{m:Math.round(S.job.sal*.4)});lg(S,'육아휴직을 냈다.','choice')}},
+  {label:'육아휴직 1년 후 복직',sub:'1년간 급여 일부 · 복직',lock:(!isEmp(S)&&'자영업·프리랜서는 육아휴직 제도 밖')||(S.year<2001&&'2001년 이전엔 제도가 거의 없었음'),w:by<1985?.5:by<1995?1.5:2.5,apply:S=>{S.onLeave='parental';eff(S,{m:Math.round(S.job.sal*.4)});lg(S,'육아휴직을 냈다.','choice')}},
   {label:isEmp(S)?'퇴사하고 육아에 전념':'일을 접고 육아에 전념',sub:'3~8년 뒤 재취업 · 연봉 약 70%로 다시 시작',w:by<1970?3:by<1980?2:by<1990?1:.6,apply:S=>{S.cbCat=j.c;lg(S,`${j.n}을(를) 그만두고 아이를 키우기로 했다.`,'choice');endJob(S);S.cbUntil=S.age+ri(3,8);S.nextJobTry=S.cbUntil;S.cb=true}},
-  {label:isEmp(S)?'부모님께 맡기고 바로 복귀':'부모님께 맡기고 바로 일터로',sub:'스트레스↑ · 비용',w:1,apply:S=>{S.stress+=10;eff(S,{m:-1000,r:-2});lg(S,isEmp(S)?'출산 3개월 만에 복직했다. 아이는 부모님이 돌봐주셨다.':'출산 한 달 만에 다시 일을 시작했다. 아이는 부모님이 돌봐주셨다.','choice')}}]}},
+  {label:isEmp(S)?'부모님께 맡기고 바로 복귀':'부모님께 맡기고 바로 일터로',sub:'스트레스↑ · 비용',w:1,apply:S=>{S.stress+=10;eff(S,{m:-1000,r:-2});lg(S,isEmp(S)?'출산 3개월 만에 복직했다. 아이는 부모님이 돌봐주셨다.':'출산 한 달 만에 다시 일을 시작했다. 아이는 부모님이 돌봐주셨다.','choice')}},
+  ...(isEmp(S)?[]:[{label:'석 달 쉬고 다시 일한다',sub:'수입 −25% (올해) · 관계↑',w:1.5,apply:S=>{eff(S,{m:-Math.round(S.job.sal*.25),r:3});lg(S,'출산 뒤 석 달을 쉬고 다시 일을 시작했다.','choice')}}])]}},
  midcareer:S=>{const j=JOB[S.job.id];return{title:`${S.age}세, 갈림길`,desc:`${j.e} ${j.n} ${S.age-S.job.start}년 차, 연봉 ${fmt(S.job.sal)}원. 인생 2막을 고민할 때입니다.`,options:[
-  ...(isEmp(S)?[{label:'승진에 올인',sub:'성공 45% · 연봉 +35% · 건강↓',w:2,apply:S=>{eff(S,{h:-5});if(R()<.45){S.job.sal*=1.35;eff(S,{p:6});lg(S,'승진했다!','good')}else{eff(S,{p:-6});lg(S,'승진에서 밀렸다.','bad')}}},
-  {label:'이직 준비',sub:'재직 중 1~2년 · 스트레스↑ · 성공 시 연봉 +10~25%',lock:S.jobHunt&&'이미 이직 준비 중',w:2,apply:S=>startHunt(S)}]:[]),
+  ...(isEmp(S)?[{label:'승진에 올인',sub:'성공 45% · 연봉 +35% · 건강↓',w:2,apply:S=>{eff(S,{h:-5});if(R()<.45){S.job.sal*=1.35;S.job.delay=(S.job.delay||0)-5;eff(S,{p:6});const rk=rankOf(S);if(rk!==S.job.rank){S.job.rank=rk;S.promoAge=S.age;lg(S,`${rk}(으)로 승진했다! 동기 중 가장 빨랐다.`,'good')}else lg(S,'승진했다! 연봉이 크게 올랐다.','good')}else{eff(S,{p:-6});lg(S,'승진에서 밀렸다.','bad')}}},
+  {label:'이직 준비',sub:'재직 중 1~2년 · 스트레스↑ · 성공 시 연봉 +10~25%',lock:(PUBLIC(S)&&'공무원·군인은 같은 일로 옮겨도 연봉이 오르지 않음')||(S.jobHunt&&'이미 이직 준비 중'),w:PUBLIC(S)?0:2,apply:S=>startHunt(S)}]:[]),
   ...(SHOP.has(S.job.id)||['ecommerce','interior','smartfarm'].includes(S.job.id)?[{label:`${bizN(S)}을(를) 키운다 (2호점 · 직원 채용)`,sub:'대출 5,000만 · 50% 수입 +40% / 50% 손실',w:1,apply:S=>{S.debt+=5000;S.money+=5000;S.stress+=10;if(R()<.5){S.job.sal*=1.4;eff(S,{p:6});lg(S,`${bizN(S)}을(를) 넓혔고, 자리를 잡았다.`,'good')}else{eff(S,{m:-3000,p:-6});lg(S,'확장한 곳은 1년 만에 접었다. 빚만 남았다.','bad')}}}]:[]),
   ...(S.job.id==='founder'?[]:[{label:isEmp(S)?'퇴사 후 치킨집 창업':'지금 일을 접고 치킨집 창업',sub:isEmp(S)?'퇴직금 + 대출 1억':'대출 1억',w:.6,apply:S=>{lg(S,`${j.n}을(를) 그만두고 치킨집을 차렸다.`,'choice');endJob(S);S.debt+=10000;setJob(S,'founder')}}]),
   {label:'전혀 다른 직업에 도전',sub:'직업 목록에서 다시 선택',w:.5,apply:S=>{lg(S,`${j.n}을(를) 그만두고 새 길을 찾기로 했다.`,'choice');endJob(S);S.nextJobTry=S.age;S.next='job'}},
@@ -1589,23 +1622,23 @@ const CHOICES={
  retire:S=>{const j=JOB[S.job.id];const early=S.age<50;
   const o=[];
   if(early)o.push({label:'제2의 직업 찾기',sub:'직업 목록에서 다시 선택',w:4,apply:S=>{endJob(S);S.nextJobTry=S.age;S.next='job'}});
-  o.push({label:'완전 은퇴',sub:'65세부터 연금 수령',w:early?.3:2,apply:S=>{endJob(S);S.retired=true;lg(S,`은퇴했다. 예상 연금 연 ${fmt(S.pension)}원.`,'choice')}});
+  o.push({label:'완전 은퇴',sub:['officer','nco'].includes(S.job.id)&&S.age-S.job.start>=19?'군인연금 바로 수령':S.age>=65?'연금 수령 시작':'65세부터 연금 수령',w:early?.3:2,apply:S=>{endJob(S);S.retired=true;lg(S,`은퇴했다. 예상 연금 연 ${fmt(S.pension)}원.`,'choice')}});
   if(!early&&S.age<68){
-   if(S.job.id!=='senior')o.push({label:'재취업 (경비·시설관리)',sub:'연 2,200만 · 72세까지',w:2,apply:S=>{endJob(S);setJob(S,'senior')}});
+   if(S.job.id!=='senior')o.push({label:'재취업 (경비·시설관리)',sub:`연 ${fmt(Math.round(Math.max(JOB.senior.s*.85,minWage(S.year))/100)*100)} 안팎 · 70세 안팎까지`,w:2,apply:S=>{endJob(S);setJob(S,'senior')}});
    if(S.job.id!=='founder')o.push({label:'치킨집 창업',sub:'퇴직금 올인',w:.8,apply:S=>{endJob(S);setJob(S,'founder')}});
    if(!FARM.has(S.job.id))o.push({label:'귀농',sub:'시골에서 농사',w:.6,apply:S=>{endJob(S);setJob(S,'farmer');S.job.ret=78}});
   }
   return{title:`${j.n}에서 물러날 때`,desc:`${S.age}세. ${S.age-S.job.start}년간 일했습니다. ${isEmp(S)?'한국 직장인이 주된 일자리에서 퇴직하는 평균 나이는 49.4세입니다.':'정년은 없지만 몸이 먼저 신호를 보냅니다.'}`,options:o}},
  oldlife:S=>({title:`${S.age}세, 노후`,desc:'한국의 노인 빈곤율은 약 38% — OECD 1위입니다. 남은 시간을 어디서 보낼까요?',options:[
-  {label:'자녀 곁으로 이사',sub:'관계↑',lock:!S.kids&&'자녀 필요',w:2,apply:S=>{eff(S,{r:8,p:3})}},
-  {label:'귀촌',sub:'건강↑ 관계↓',w:1,apply:S=>{eff(S,{h:5,p:3,r:-3})}},
-  {label:'실버타운 입주',sub:'입주금 2억',lock:net(S)<50000&&'순자산 5억+',w:1.5,apply:S=>{eff(S,{h:4,r:3,m:-20000})}},
+  {label:'자녀 곁으로 이사',sub:'관계↑',lock:!S.kids&&'자녀 필요',w:2,apply:S=>{eff(S,{r:8,p:3});lg(S,'자녀가 사는 동네로 이사했다. 손주 얼굴을 자주 본다.','choice')}},
+  {label:'귀촌',sub:'건강↑ 관계↓',w:1,apply:S=>{eff(S,{h:5,p:3,r:-3});lg(S,'시골 마을로 내려가 텃밭을 가꾸기 시작했다.','choice')}},
+  {label:'실버타운 입주',sub:S.house?'살던 집을 팔아 입주금 2억':'입주금 2억',lock:net(S)<50000&&'순자산 5억+',w:1.5,apply:S=>{const had=S.house;if(had){S.money+=S.houseValue-S.debt;S.house=false;S.houseValue=0;S.debt=0}eff(S,{h:4,r:3,m:-20000});lg(S,had?'살던 집을 정리하고 실버타운에 들어갔다.':'실버타운에 들어갔다.','choice')}},
   {label:'살던 집에서',sub:'익숙함',w:2,apply:S=>{eff(S,{p:1})}}]}),
  prepFail:S=>{
   const pr=S.prep,P=PREPS[pr.k],j=JOB[pr.id],p=prepPass(S,pr.id);let fb=FALLBACK[pr.id];if(!fb&&pr.k==='hunt'&&pr.id!=='smallCo')fb='smallCo';const maxed=P.max&&pr.att>=P.max;
   const o=[{label:EXAM_K.has(pr.k)?`한 번 더 도전 (${pr.att+1}회차)`:'1년 더 해 본다',sub:`다음 합격률 약 ${Math.round(p*100)}% · 1년 ${P.cost<0?'더 수련':fmt(P.cost)+' 더'}`,lock:(p===0&&'지금은 지원 자격이 없음')||(S.age>=62&&'62세 이상')||(maxed&&`응시 제한 ${P.max}회 소진`)||(j.ma&&S.age>=j.ma&&`응시 연령 ${j.ma}세 초과`),w:pr.att<3?2:.4,apply:S=>{eff(S,{p:-2});lg(S,EXAM_K.has(S.prep.k)?'다시 책상 앞에 앉았다.':'한 해 더 해 보기로 했다.','prep')}}];
   if(fb){const fj=JOB[fb],fe=elig(S,fj);
-   o.push({label:`${fj.e} ${fj.n}(으)로 방향 전환`,sub:pr.id==='judge'?'변시 합격자로 바로 개업':prepOf(fb)?`${PREPS[prepOf(fb)].n} 시작`:`바로 지원 · 합격 ${Math.round((fe.c||0)*100)}%`,lock:pr.id!=='judge'&&!fe.ok&&fe.why,w:1.5,
+   o.push({label:`${fj.e} ${fj.n}(으)로 방향 전환`,sub:pr.id==='judge'?'변시 합격자로 바로 개업':prepOf(fb,S)?`${PREPS[prepOf(fb,S)].n} 시작`:`바로 지원 · 합격 ${Math.round((fe.c||0)*100)}%`,lock:pr.id!=='judge'&&!fe.ok&&fe.why,w:1.5,
     apply:S=>{const from=S.prep.id;S.prep=null;if(from==='judge'){setJob(S,'lawyer');return}if(!tryJob(S,fb)){lg(S,`${fj.n} 지원에서도 떨어졌다.`,'bad');S.nextJobTry=S.age;S.next='job'}}})}
   o.push(S.age>=62?{label:'준비를 접고 은퇴한다',sub:'연금으로 생활',w:1,apply:S=>{S.prep=null;S.retired=true;lg(S,'준비를 접고 은퇴했다.','choice')}}:{label:'완전히 다른 길 찾기',sub:'직업 목록으로',w:.6,apply:S=>{S.prep=null;S.nextJobTry=S.age;S.next='job'}});
   return{title:EXAM_K.has(pr.k)?`${P.n} 불합격`:`${P.n}, 올해는 안 됐다`,desc:`${j.e} ${j.n}을(를) 향한 ${pr.yrs}년째. 지금까지 쓴 돈 <b>${fmt(Math.max(0,pr.spent))}원</b>, 스트레스 <b>${Math.round(S.stress)}</b>, 행복 <b>${Math.round(S.happy)}</b>.${P.comp?` (${P.comp})`:''}${p<.4?' 대부분이 같은 결과를 받습니다.':''}`,options:o}},
@@ -1621,7 +1654,7 @@ const CHOICES={
   {label:'끝까지 버틴다',sub:'스트레스 +12 · 50% 해고',w:1,apply:S=>{S.stress+=12;if(R()<.5){lg(S,'버텼지만 결국 해고 통보를 받았다.','bad');aiOut(S,.5)}else lg(S,'이번엔 명단에서 빠졌다. 다음은 모른다.','bad')}}]}},
  workEvent:S=>{const e=WEV_MAP[S.wev],j=JOB[S.job.id];
   return{title:wevTxt(e.t,S),desc:`${(WEV_ID_D[e.id]||{})[S.job.id]||wevTxt(e.d,S)}<br><span style="font-size:13px;color:var(--ink3)">${j.e} ${j.n} · ${S.job.rank||rankOf(S)} · 스트레스 ${Math.round(S.stress)}${S.jobHunt?' · 이직 준비 중':''}</span>`,
-   options:e.o.filter(o=>!(o===JH&&wkOf(S)!=='emp')&&(!o.who||o.who.includes(wkOf(S)))).map(o=>({label:wevTxt(o.l,S),sub:wevTxt(o.s,S),w:o.w||1,lock:o.lock&&o.lock(S),apply:S=>{S.wevSeen=S.wevSeen||{};S.wevSeen[e.id]=(S.wevSeen[e.id]||0)+1;o.f(S)}}))}},
+   options:e.o.filter(o=>!(o===JH&&wkOf(S)!=='emp')&&(!o.who||o.who.includes(wkOf(S)))&&(!o.if||o.if(S))).map(o=>({label:wevTxt(o.l,S),sub:wevTxt(o.s,S),w:o.w||1,lock:o.lock&&o.lock(S),apply:S=>{S.wevSeen=S.wevSeen||{};S.wevSeen[e.id]=(S.wevSeen[e.id]||0)+1;o.f(S)}}))}},
  bizCrisis:S=>{const j=JOB[S.job.id],n=bizN(S),yrs=S.age-S.job.start;return{title:'적자의 늪',desc:`${j.e} ${j.n} ${yrs}년 차. 1년째 적자입니다. 매달 통장에서 돈이 빠져나가고, ${n} 유지비가 매출보다 큽니다. 한국 신생 기업의 5년 생존율은 약 3분의 1입니다.`,options:[
   {label:`${n}을(를) 정리한다`,sub:'돈 −3,000만 · 행복 −10 · 다른 일 찾기',w:2,apply:S=>closeBiz(S,3000,`적자를 견디지 못하고 ${n}을(를) 정리했다. 남은 건 빚과 권리금 손실.`)},
   {label:'대출을 받아 1년 더 버틴다',sub:'빚 +3,000만 · 50% 회복 / 실패 시 손실 더 커짐',w:1.2,apply:S=>{S.debt+=3000;S.money+=3000;S.bizLast=true;S.stress+=10;lg(S,`소상공인 대출 3,000만 원을 받아 ${n}을(를) 1년 더 끌고 가기로 했다.`,'choice')}},
@@ -1633,10 +1666,10 @@ const CHOICES={
   {label:'정신건강의학과 상담',sub:'비용 200만 · 스트레스 −18',w:1.5,apply:S=>{eff(S,{m:-200,p:4});S.stress-=18;lg(S,'상담을 받기 시작했다.','good')}},
   {label:'참고 버틴다',sub:'건강 −8 · 스트레스 그대로',w:2,apply:S=>{eff(S,{h:-8});S.stress-=4;lg(S,'이를 악물고 버텼다.','bad')}},
   shop?{label:`${bizN(S)}을(를) 정리한다`,sub:'돈 −1,500만 · 다른 일 찾기',w:.7,apply:S=>{S.stress-=30;closeBiz(S,1500,`지쳐서 ${bizN(S)}을(를) 정리했다.`)}}
-   :{label:emp?'퇴사한다':'그만둔다',sub:'직업 목록으로',w:.7,apply:S=>{lg(S,`${j.n}을(를) 그만뒀다.`,'choice');S.jobEnd=`번아웃으로 ${j.n}을(를) 그만뒀다.`;endJob(S);S.stress-=30;if(S.age>=58)S.retired=true;else S.nextJobTry=S.age+1}}]}},
+   :{label:emp?'퇴사한다':'그만둔다',sub:'직업 목록으로',w:.7,apply:S=>{lg(S,`${j.n}을(를) 그만뒀다.`,'choice');S.jobEnd=`번아웃으로 ${j.n}을(를) 그만뒀다.`;endJob(S);S.stress-=30;afterLoss(S)}}]}},
  job:S=>{
   const opts=JOBS.filter(j=>!j.hidden).map(j=>{const el=elig(S,j);const failed=S.failed.includes(j.id);
-   const pr=prepOf(j.id),pp=pr&&el.ok?prepPass(S,j.id):0;
+   const pr=prepOf(j.id,S),pp=pr&&el.ok?prepPass(S,j.id):0;
    return{job:j,label:j.n,lock:!el.ok&&el.why,chance:pr?pp:el.c,prep:pr,failed,w:el.ok&&!failed?Math.pow(pr?Math.min(1,pp*2.2):el.c,1.5)*Math.pow(j.s/3000,.5)*(POPW[j.id]||1)*(j.id==='parttime'?.15:1):0,
     apply:S=>{if(pr){startPrep(S,j.id)}else if(R()<el.c){setJob(S,j.id)}else{S.failed.push(j.id);eff(S,{p:-4});lg(S,`${j.n} 지원에서 떨어졌다.`,'bad');return{fail:true,msg:`${j.e} ${j.n} — 불합격입니다. 다른 길을 고르거나 1년 더 준비할 수 있어요.`}}}}});
   opts.push({label:'1년 더 준비하기',sub:'지식 +6 · 내년에 다시',special:1,w:.3,apply:S=>{S.nextJobTry=S.age+1;eff(S,{k:6,p:-4});lg(S,'1년 더 취업 준비를 하기로 했다.','bad')}});
@@ -1776,7 +1809,7 @@ function sbar(v){const c=v<50?'var(--good)':v<70?'#e0a400':'var(--bad)';return`<
 function stressWord(v){return v<40?'낮음':v<60?'보통':v<75?'높음':v<85?'매우 높음':'극심'}
 function timeline(d){return`<div class="tl">${d.map(([t,x])=>`<div><span>${t}</span>${x}</div>`).join('')}</div>`}
 function jobDetail(c,i){
-  const o=c.options[i],j=o.job,k=prepOf(j.id),P=k&&PREPS[k],W=workOf(j.id),el=elig(S,j);
+  const o=c.options[i],j=o.job,k=prepOf(j.id,S),P=k&&PREPS[k],W=workOf(j.id),el=elig(S,j);
   const pp=P&&el.ok?prepPass(S,j.id):0,ey=P&&el.ok?expYears(S,j.id):null;
   const hp=j.hp||0;
   let prep;

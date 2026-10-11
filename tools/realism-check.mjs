@@ -77,6 +77,8 @@ check(Object.keys(o.jobs).length >= o.totalJobs * 0.75, '경험되지 않는 직
 check(med(o.deaths) >= 78 && med(o.deaths) <= 88, `사망 나이 중앙값 ${med(o.deaths)} (기대 78~88)`);
 check(med(o.life.nw60) < 60000, `60세 순자산 중앙값 ${med(o.life.nw60)}만 — 현실(2~4억대)보다 과다`);
 check(med(o.life.dF) - med(o.life.dM) >= 3, '남녀 수명 차이가 너무 작음');
+check(L.own50/L.n50>.5&&L.own50/L.n50<.75, `50세 자가 보유 ${pct(L.own50,L.n50)} (기대 50~75%, 2022년 50대 가구 약 65%)`);
+check(med(o.life.nw60)>15000, `60세 순자산 중앙값 ${med(o.life.nw60)}만 — 너무 낮음`);
 
 if (fails.length) { console.log('\n❌ 기준 위반\n - ' + fails.join('\n - ')); process.exit(1); }
 console.log('\n✅ 모든 기준 통과');
