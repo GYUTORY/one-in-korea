@@ -31,7 +31,7 @@ for(let i=0;i<N;i++){try{
     if(m=t.match(/(\d+)년의 준비 끝에 (.+?) 합격/)){out.prepPass[m[2]]=(out.prepPass[m[2]]||0)+1;(out.prepYears[m[2]]=out.prepYears[m[2]]||[]).push(+m[1])}
     if(/희망퇴직 서류|해고 통보|자리가 없었다|AI 전환 교육 과정/.test(t))out.aiOut[S.birthYear]=(out.aiOut[S.birthYear]||0)+1;
   });
-  out.wev+=S.history.filter(h=>WEV.some(e=>e.t===h.title)).length;
+  out.wev+=S.history.filter(h=>h.id==='workEvent').length;
 }catch(e){out.err++;if(out.err<3)console.log(e.stack)}}
 out.totalJobs=JOBS.filter(j=>!j.hidden).length;
 globalThis.__out=out;`;

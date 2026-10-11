@@ -584,11 +584,20 @@ const milMonths=y=>y<1990?30:y<2003?26:y<2011?24:y<2020?21:18;
 const milY=y=>Math.ceil(milMonths(y)/12);
 // 자영업·프리랜서 (승진·이직·팀장 없음)
 const OWNER=new Set(['cafe','cvs','founder','giftshop','florist','bakery','nail','unmanned','banchan','realtor','interior','ecommerce','farmer','smartfarm','fisher',
- 'youtuber','webtoon','writer','illustrator','photographer','trucker','taxi','insurance','rider','delivery','groomer','hair','chef']);
+ 'youtuber','webtoon','writer','illustrator','photographer','trucker','taxi','insurance','rider','delivery','groomer','hair','chef','translator','pilates']);
+// 근무 형태별 묶음: 상황 선택·연간 사건이 직업에 맞게 뜨도록
+const SHOP=new Set(['cafe','cvs','founder','giftshop','florist','bakery','nail','unmanned','banchan','realtor','hair','chef','groomer','pilates']);
+const GIG=new Set(['rider','delivery','taxi','trucker']);
+const CREATOR=new Set(['youtuber','webtoon','writer','illustrator','photographer','translator']);
+const STAGE=new Set(['actor','idol','dancer','musician','voice']);
+const SITE=new Set(['factory','elec','mechanic','welder','semiOp','elevator','aircraftMech','carpenter','plumber','crane','civil','logistics']);
+const jis=(...a)=>S=>a.includes(S.job.id),jnot=(...a)=>S=>!a.includes(S.job.id);
+const isOwn=S=>!!S.job&&OWNER.has(S.job.id),isEmp=S=>!!S.job&&!OWNER.has(S.job.id)&&!FLAT[S.job.id];
 const FLAT={senior:'경비원',parttime:'아르바이트',cleaner:'직원',logistics:'작업자',labeler:'작업자',rider:'라이더',delivery:'택배기사',taxi:'택시 기사',trucker:'화물차주',
  youtuber:'크리에이터',webtoon:'작가',writer:'작가',illustrator:'작가',photographer:'작가',actor:'배우',idol:'아티스트',dancer:'무용수',musician:'연주자',voice:'성우',
  insurance:'설계사',tutor:'강사',engTutor:'강사',care:'요양보호사',farmer:'농장주',smartfarm:'농장주',fisher:'선원',cafe:'사장',cvs:'점주',founder:'사장',
- giftshop:'사장',florist:'사장',bakery:'사장',nail:'원장',unmanned:'점주',banchan:'사장',realtor:'대표',interior:'대표',ecommerce:'대표',groomer:'미용사',lecturer:'시간강사'};
+ giftshop:'사장',florist:'사장',bakery:'사장',nail:'원장',unmanned:'점주',banchan:'사장',realtor:'대표',interior:'대표',ecommerce:'대표',groomer:'미용사',lecturer:'시간강사',
+ translator:'번역가',pilates:'원장'};
 // 자동 진행 시 직업 선택 가중치 (종사자 규모 근사)
 const POPW=Object.assign({},...['smallCo','midCo','sales','cs','care','logistics','delivery','nurseAide','socialworker','bookkeeper','hotel','factory','semiOp','daycare','marketer','si']
  .map(k=>({[k]:3})),...['pilot','crane','elevator','fisher','sailor','aircraftMech','idol','esports','golfpro','announcer','diplomat','judge','actuary','patent','consult','analyst',
@@ -636,21 +645,57 @@ const EV={
   {t:'자녀가 사업 자금을 부탁했다.',e:{m:-3000,r:2},c:S=>S.kids>0&&S.money>5000},{t:'혼자 밥 먹는 날이 늘었다.',e:{p:-6,r:-4},c:S=>!S.married},
   {t:'평생학습관에서 그림을 배우기 시작했다.',e:{p:5,k:3}},{t:'가벼운 뇌경색이 왔다.',e:{h:-12},once:'stroke'}]
 };
+// 연간 직업 사건. c: 해당 직업에만 (jis/jnot). once: 한 번만
+const TAXW=jis('taxacct','bookkeeper'),MEDIA=jis('reporter','pd','announcer','curator','copywriter','editor','designer'),ARTIST=S=>CREATOR.has(S.job.id)||STAGE.has(S.job.id);
 const JEV_EXTRA={
- '전문 자격':[{t:'종합소득세 신고 시즌, 한 달 내내 야근했다.',e:{h:-3,p:-3}},{t:'AI 세무 앱 때문에 소규모 고객이 줄었다.',e:{p:-4,m:-500}},{t:'큰 고객사를 수임했다.',e:{p:6,m:1000}},{t:'보수교육 시간을 채웠다.',e:{k:3}}],
- '연구·과학':[{t:'연구 과제 예산이 삭감됐다.',e:{p:-6}},{t:'논문이 좋은 저널에 실렸다.',e:{p:8,k:3}},{t:'실험이 6개월째 재현되지 않는다.',e:{p:-5}},{t:'특허를 출원했다.',e:{p:5}}],
- '건설·운송':[{t:'폭염 속 현장에서 하루를 버텼다.',e:{h:-4}},{t:'일감이 끊겨 한 달을 쉬었다.',e:{m:-400,p:-4}},{t:'자재 값이 올라 공사가 밀렸다.',e:{p:-3}},{t:'큰 공사를 무사히 마쳤다.',e:{p:6}}],
- '복지·돌봄':[{t:'돌보던 분이 고맙다며 손을 잡아줬다.',e:{p:7}},{t:'인력 부족으로 혼자 두 사람 몫을 했다.',e:{h:-4,p:-4}},{t:'감정 소진으로 한동안 무기력했다.',e:{p:-6}},{t:'처우 개선 수당이 올랐다.',e:{p:3}}]
+ '전문 자격':[{t:'종합소득세 신고 시즌, 한 달 내내 야근했다.',e:{h:-3,p:-3},c:TAXW},{t:'AI 세무 앱 때문에 소규모 고객이 줄었다.',e:{p:-4,m:-500},c:TAXW},
+  {t:'큰 고객사를 수임했다.',e:{p:6,m:1000},c:jnot('bookkeeper','actuary')},{t:'자격 보수교육 시간을 채웠다.',e:{k:3},c:jnot('bookkeeper')},
+  {t:'마감에 쫓겨 한 달 내내 야근했다.',e:{h:-3,p:-3},c:S=>!TAXW(S)},{t:'AI 도구가 서류 작업 상당 부분을 대신하기 시작했다.',y:2024,e:{k:2,p:-2}},
+  {t:'사무실 막내의 실수를 대신 수습했다.',e:{p:-3},c:jis('bookkeeper')}],
+ '연구·과학':[{t:'연구 과제 예산이 삭감됐다.',e:{p:-6}},{t:'논문이 좋은 저널에 실렸다.',e:{p:8,k:3},c:jnot('labtech')},{t:'실험이 6개월째 재현되지 않는다.',e:{p:-5}},{t:'특허를 출원했다.',e:{p:5},c:jnot('labtech')},
+  {t:'과제가 끝나 계약 연장을 걱정했다.',e:{p:-4},c:jis('labtech')}],
+ '건설·운송':[{t:'폭염 속 현장에서 하루를 버텼다.',e:{h:-4},c:jnot('architect')},{t:'일감이 끊겨 한 달을 쉬었다.',e:{m:-400,p:-4},c:jis('carpenter','interior','plumber','crane')},
+  {t:'자재 값이 올라 공사가 밀렸다.',e:{p:-3}},{t:'큰 공사를 무사히 마쳤다.',e:{p:6}},{t:'설계 변경 요청이 끝없이 이어졌다.',e:{p:-4,h:-2},c:jis('architect','civil','interior')}],
+ '복지·돌봄':[{t:'돌보던 분이 고맙다며 손을 잡아줬다.',e:{p:7},c:jnot('funeral','counselor')},{t:'인력 부족으로 혼자 두 사람 몫을 했다.',e:{h:-4,p:-4}},{t:'감정 소진으로 한동안 무기력했다.',e:{p:-6}},
+  {t:'처우 개선 수당이 올랐다.',e:{p:3},c:jnot('counselor')},{t:'유족에게 고맙다는 인사를 들었다.',e:{p:5},c:jis('funeral')},{t:'오래 만난 내담자가 좋아졌다며 상담을 마쳤다.',e:{p:6},c:jis('counselor')}]
 };
 const JEV={
- '의료':[{t:'36시간 연속 당직을 섰다.',e:{h:-4,p:-3}},{t:'환자 보호자에게 감사 편지를 받았다.',e:{p:5}},{t:'의료사고 소송에 휘말렸다.',e:{p:-8,m:-1500}},{t:'새벽 응급 수술을 성공시켰다.',e:{p:5,k:2}}],
- '법·공공':[{t:'민원인에게 폭언을 들었다.',e:{p:-6}},{t:'순환보직으로 낯선 부서에 갔다.',e:{k:2,p:-2}},{t:'연금 개혁 뉴스에 마음이 무거웠다.',e:{p:-3}},{t:'표창을 받았다.',e:{p:5,r:2}}],
- '교육':[{t:'밤 10시에 학부모 민원 전화가 왔다.',e:{p:-6}},{t:'졸업한 제자가 찾아와 고맙다고 했다.',e:{p:8}},{t:'방학 동안 푹 쉬었다.',e:{h:4,p:4}},{t:'학생 수가 줄어 학교가 통폐합됐다.',e:{p:-3}}],
- '기업':[{t:'구조조정 소문에 잠을 설쳤다.',e:{p:-5,h:-2}},{t:'성과급 300%가 나왔다.',e:{p:6},fx:S=>S.money+=S.job.sal*.25},{t:'해외 법인 파견을 다녀왔다.',e:{k:4,r:-3}},{t:'회식이 새벽 2시에 끝났다.',e:{h:-3,r:2}}],
- 'IT':[{t:'새벽 3시 서버 장애 대응에 불려 나갔다.',e:{h:-3,p:-3}},{t:'사이드 프로젝트가 커뮤니티에서 화제가 됐다.',y:2000,e:{p:6,k:3}},{t:'AI 도구가 업무의 절반을 바꿨다.',y:2023,e:{k:4,p:-2}},{t:'회사가 정리해고를 단행했다.',e:{p:-6}}],
- '기술·현장':[{t:'현장에서 손을 다쳤다.',e:{h:-6}},{t:'기능장 자격증을 땄다.',e:{k:4,p:4},fx:S=>S.job.sal*=1.08},{t:'잔업 수당으로 목돈을 모았다.',e:{m:600,h:-2}},{t:'폭염 속에서 하루 종일 일했다.',e:{h:-4}}],
- '서비스·자영업':[{t:'바로 앞에 경쟁 가게가 생겼다.',e:{p:-5,m:-500}},{t:'단골손님이 부쩍 늘었다.',e:{p:5,m:500}},{t:'최저임금 인상으로 인건비가 부담됐다.',e:{p:-3,m:-400}},{t:'SNS에서 입소문이 났다.',y:2008,e:{p:6,m:800}}],
- '문화·예술':[{t:'작품이 플랫폼 메인에 걸렸다.',e:{p:8}},{t:'1년 내내 수입이 거의 없었다.',e:{p:-6,m:-800}},{t:'번아웃으로 작업을 쉬었다.',e:{h:-4,p:-5}},{t:'첫 팬레터를 받았다.',e:{p:6}}],
+ '의료':[{t:'36시간 연속 당직을 섰다.',e:{h:-4,p:-3},c:jis('doctor')},{t:'밤 근무가 이어져 수면 리듬이 무너졌다.',e:{h:-3,p:-2},c:jis('nurse','nurseAide','radiologist','clinlab')},
+  {t:'환자 보호자에게 감사 편지를 받았다.',e:{p:5},c:jnot('pharmaSales','pharm','clinlab')},{t:'의료사고 소송에 휘말렸다.',e:{p:-8,m:-1500},c:jis('doctor','dentist')},
+  {t:'새벽 응급 수술을 성공시켰다.',e:{p:5,k:2},c:jis('doctor')},{t:'환자가 몰려 점심을 거르고 일했다.',e:{h:-2,p:-2},c:jnot('pharmaSales','care')},
+  {t:'면허 보수교육을 받았다.',e:{k:2},c:jnot('pharmaSales','care','nurseAide')},{t:'어르신을 옮기다 허리를 삐끗했다.',e:{h:-5},c:jis('care','nurse','nurseAide')},
+  {t:'돌보던 어르신이 처음으로 이름을 불러주셨다.',e:{p:6},c:jis('care')},{t:'진료비가 비싸다는 보호자의 항의를 받았다.',e:{p:-4},c:jis('vet','dentist')},
+  {t:'병원 앞에서 교수 면담을 하루 종일 기다렸다.',e:{p:-4},c:jis('pharmaSales')},{t:'담당 품목 처방이 크게 늘었다.',e:{p:5,m:500},c:jis('pharmaSales')},
+  {t:'처방전이 몰리는 오전에 한숨도 못 돌렸다.',e:{h:-2},c:jis('pharm')}],
+ '법·공공':[{t:'민원인에게 폭언을 들었다.',e:{p:-6},c:jis('gov7','gov9','police','fire','gov5','correction','coastguard','postman','socialGov','investigator')},
+  {t:'순환보직으로 낯선 부서에 갔다.',e:{k:2,p:-2},c:jis('gov7','gov9','gov5','socialGov','diplomat','investigator')},
+  {t:'연금 개혁 뉴스에 마음이 무거웠다.',y:2009,e:{p:-3},c:S=>!!JOB[S.job.id].pub},{t:'표창을 받았다.',e:{p:5,r:2},c:jnot('lawyer')},
+  {t:'사건 기록이 책상 위에 산처럼 쌓였다.',e:{h:-2,p:-2},c:jis('judge','investigator','lawyer')},{t:'수임료를 받지 못한 사건이 생겼다.',e:{m:-500,p:-3},c:jis('lawyer')},
+  {t:'맡은 사건에서 이겼다.',e:{p:6},c:jis('lawyer')},{t:'훈련으로 한 달간 집에 가지 못했다.',e:{r:-3,h:-1},c:jis('officer','nco')},
+  {t:'격오지 부대로 전출됐다.',e:{r:-4,p:-2},c:jis('officer','nco')},{t:'화재 현장에서 사람을 구했다.',e:{p:8},c:jis('fire')},
+  {t:'야간 출동이 이어져 몸이 무거웠다.',e:{h:-3},c:jis('police','fire','coastguard')},{t:'폭염 속에 하루 1,000건 넘게 배달했다.',e:{h:-4},c:jis('postman')}],
+ '교육':[{t:'밤 10시에 학부모 민원 전화가 왔다.',e:{p:-6},c:jnot('prof','lecturer')},{t:'졸업한 제자가 찾아와 고맙다고 했다.',e:{p:8}},
+  {t:'방학 동안 푹 쉬었다.',e:{h:4,p:4},c:jis('teachE','teachS','specialEd','prof')},{t:'학생 수가 줄어 학교가 통폐합됐다.',y:2010,e:{p:-3},c:jis('teachE','teachS','specialEd','kinder')},
+  {t:'신입생 충원율이 떨어져 학과가 통폐합 대상에 올랐다.',y:2015,e:{p:-5},c:jis('prof')},{t:'연구 실적 압박에 주말에도 연구실에 나왔다.',e:{h:-2,p:-3},c:jis('prof')}],
+ '기업':[{t:'구조조정 소문에 잠을 설쳤다.',e:{p:-5,h:-2},c:jnot('insurance')},{t:'성과급 300%가 나왔다.',e:{p:6},fx:S=>S.money+=S.job.sal*.25,c:jis('corpOffice','corpEng','analyst','bank')},
+  {t:'해외 법인 파견을 다녀왔다.',e:{k:4,r:-3},c:jis('corpOffice','corpEng','consult','sales','marketer')},{t:'회식이 새벽 2시에 끝났다.',e:{h:-3,r:2},c:jnot('insurance','consult','flight')},
+  {t:'연봉 협상에서 동결을 통보받았다.',e:{p:-3},c:jnot('insurance')},{t:'장거리 비행 뒤 시차로 몸이 망가졌다.',e:{h:-3},c:jis('flight','consult')},
+  {t:'지인 영업이 바닥났다.',e:{p:-5,r:-3},c:jis('insurance')},{t:'큰 계약을 따내 수수료가 크게 들어왔다.',e:{p:6,m:800},c:jis('insurance')},
+  {t:'고객이 계약을 해지해 받은 수수료를 돌려줬다.',e:{m:-400,p:-3},c:jis('insurance')}],
+ 'IT':[{t:'새벽 3시 서버 장애 대응에 불려 나갔다.',e:{h:-3,p:-3},c:jnot('labeler','ux','pm','game','qa')},{t:'사이드 프로젝트가 커뮤니티에서 화제가 됐다.',y:2000,e:{p:6,k:3},c:jnot('labeler')},
+  {t:'AI 도구가 업무의 절반을 바꿨다.',y:2023,e:{k:4,p:-2}},{t:'회사가 정리해고를 단행했다.',e:{p:-6},c:jnot('labeler')},
+  {t:'출시 직전 기획이 통째로 바뀌었다.',e:{p:-4},c:jis('ux','pm','game','qa')},{t:'작업 단가가 또 내려갔다.',e:{m:-300,p:-3},c:jis('labeler')},
+  {t:'하루 종일 화면만 보다 눈이 침침해졌다.',e:{h:-2},c:jis('labeler','qa')}],
+ '기술·현장':[{t:'현장에서 손을 다쳤다.',e:{h:-6}},{t:'기능장 자격증을 땄다.',once:'master',e:{k:4,p:4},fx:S=>S.job.sal*=1.08,c:jis('elec','mechanic','welder','factory')},
+  {t:'잔업 수당으로 목돈을 모았다.',e:{m:600,h:-2},c:jis('factory','welder','semiOp')},{t:'폭염 속에서 하루 종일 일했다.',e:{h:-4},c:jnot('semiOp')},
+  {t:'교대 근무로 밤낮이 뒤바뀌었다.',e:{h:-3},c:jis('semiOp','factory','aircraftMech')},{t:'새 장비 교육을 받았다.',e:{k:3},c:jis('semiOp','aircraftMech','elevator','elec')}],
+ '서비스·자영업':[{t:'바로 앞에 경쟁 가게가 생겼다.',e:{p:-5,m:-500},c:jnot('ecommerce')},{t:'단골손님이 부쩍 늘었다.',e:{p:5,m:500},c:jnot('ecommerce')},
+  {t:'최저임금 인상으로 인건비가 부담됐다.',e:{p:-3,m:-400},c:S=>SHOP.has(S.job.id)},{t:'SNS에서 입소문이 났다.',y:2008,e:{p:6,m:800}},
+  {t:'같은 상품을 더 싸게 파는 판매자가 나타났다.',e:{p:-4,m:-500},c:jis('ecommerce')},{t:'라이브커머스 방송이 대박이 났다.',y:2019,e:{p:6,m:900},c:jis('ecommerce')}],
+ '문화·예술':[{t:'작품이 플랫폼 메인에 걸렸다.',e:{p:8},c:jis('webtoon','writer','illustrator','youtuber','photographer','musician')},{t:'1년 내내 수입이 거의 없었다.',e:{p:-6,m:-800},c:ARTIST},
+  {t:'번아웃으로 한동안 아무것도 하지 못했다.',e:{h:-4,p:-5}},{t:'첫 팬레터를 받았다.',once:'fan',e:{p:6},c:jis('webtoon','writer','youtuber','actor','idol','musician','voice','dancer','announcer')},
+  {t:'오디션에서 또 떨어졌다.',e:{p:-5},c:S=>STAGE.has(S.job.id)},{t:'AI 번역 탓에 단가가 크게 내려갔다.',y:2023,e:{m:-500,p:-4},c:jis('translator')},
+  {t:'마감 직전에 기획이 엎어졌다.',e:{p:-4},c:MEDIA},{t:'맡은 기획이 좋은 반응을 얻었다.',e:{p:6},c:MEDIA},{t:'밤샘 작업이 일주일째 이어졌다.',e:{h:-4},c:S=>MEDIA(S)||jis('webtoon')(S)}],
  '스포츠·농업':[{t:'큰 부상을 입었다.',e:{h:-10,p:-5}},{t:'우승 트로피를 들어 올렸다.',e:{p:10}},{t:'태풍으로 한 해 농사를 망쳤다.',e:{p:-6,m:-1000}},{t:'풍년이었다.',e:{p:5,m:800}}]
 };
 
@@ -825,70 +870,140 @@ const delay=S=>{S.job.delay=(S.job.delay||0)+1};
 const JH={l:'이직 준비 시작',s:'재직 중 1~2년 · 스트레스 +8/년',lock:S=>S.jobHunt&&'이미 이직 준비 중',w:.8,f:S=>startHunt(S)};
 const OFFICE=['기업','IT','법·공공','교육','의료','문화·예술','기술·현장','전문 자격','연구·과학','건설·운송','복지·돌봄'];
 const WEV=[
- {id:'boss',cats:OFFICE,t:'상사의 폭언',d:S=>'회의 중 팀장이 모두 앞에서 당신에게 소리를 질렀습니다. '+(S.year>=2019?'2019년부터 직장 내 괴롭힘 금지법이 시행 중이지만, 신고자의 상당수가 불이익을 겪었다고 답합니다.':'아직 직장 내 괴롭힘을 막는 법이 없던 시절입니다.'),o:[
+ {id:'boss',cats:OFFICE,t:'상사의 폭언',d:S=>(ONSITE(S)?'작업 중 ':DRIVE(S)?'출근 점호 때 ':'회의 중 ')+bossOf(S)+'이(가) 모두 앞에서 당신에게 소리를 질렀습니다. '+(S.year>=2019?'2019년부터 직장 내 괴롭힘 금지법이 시행 중이지만, 신고자의 상당수가 불이익을 겪었다고 답합니다.':'아직 직장 내 괴롭힘을 막는 법이 없던 시절입니다.'),o:[
   {l:'참는다',s:'스트레스 +12 · 행복 −4',w:2,f:S=>{S.stress+=12;eff(S,{p:-4});lg(S,'아무 말도 하지 못하고 화장실에서 숨을 골랐다.','bad')}},
-  {l:'녹음하고 인사팀에 신고',s:'50% 징계 / 50% 보복 인사',w:1,f:S=>{if(R()<.5){S.stress-=10;eff(S,{p:6});lg(S,'신고가 받아들여져 팀장이 징계를 받았다.','good')}else{S.stress+=15;S.job.sal*=.97;delay(S);lg(S,'신고 뒤 한직으로 발령이 났다. 보복 인사였다.','bad')}}},
+  {l:'녹음하고 인사팀에 신고',s:'50% 징계 / 50% 보복 인사',w:1,f:S=>{if(R()<.5){S.stress-=10;eff(S,{p:6});lg(S,`신고가 받아들여져 ${bossOf(S)}이(가) 징계를 받았다.`,'good')}else{S.stress+=15;S.job.sal*=.97;delay(S);lg(S,'신고 뒤 한직으로 발령이 났다. 보복 인사였다.','bad')}}},
   {l:'노무사 상담 → 노동청 진정',s:'비용 100만 · 60% 인정',w:.7,f:S=>{eff(S,{m:-100});if(R()<.6){S.stress-=8;eff(S,{p:5});lg(S,'노동청이 직장 내 괴롭힘을 인정했다.','good')}else{S.stress+=10;lg(S,'증거 불충분으로 진정이 종결됐다.','bad')}}},
   {l:'부서 이동 요청',s:'스트레스 −8 · 승진 1년 늦어짐',w:1,f:S=>{S.stress-=8;delay(S);lg(S,'다른 부서로 옮겼다. 처음부터 다시 시작이다.','choice')}},JH]},
- {id:'overtime',cats:['기업','IT','문화·예술','법·공공','의료','전문 자격','건설·운송'],t:'끝없는 야근',d:'이번 프로젝트는 석 달째 밤 11시 퇴근입니다. 한국의 연간 노동시간은 OECD 평균보다 약 150시간 깁니다.',o:[
+ {id:'overtime',cats:['기업','IT','문화·예술','법·공공','의료','전문 자격','건설·운송'],t:'끝없는 야근',ok:jnot('flight'),d:S=>DRIVE(S)?'배차가 늘어 석 달째 쉬는 날 없이 운행하고 있습니다. 운수업 장시간 노동은 대형 사고로 이어지곤 합니다.':({'의료':'인력이 모자라 석 달째 근무가 끝나도 퇴근을 못 하고 있습니다.','법·공공':['police','fire','coastguard'].includes(S.job.id)?'인력 공백으로 석 달째 비번 날에도 비상 근무에 불려 나가고 있습니다.':'예산·감사 시즌이라 석 달째 밤 11시 퇴근입니다.','건설·운송':'공사 기한을 맞추느라 석 달째 야간·주말 작업이 이어집니다.','전문 자격':'마감이 겹쳐 석 달째 밤 11시 퇴근입니다.'})[JOB[S.job.id].c]||'이번 프로젝트는 석 달째 밤 11시 퇴근입니다.'+' 한국의 연간 노동시간은 OECD 평균보다 약 150시간 깁니다.',o:[
   {l:'끝까지 해낸다',s:'건강 −6 · 스트레스 +10 · 40% 성과 인정',w:2,f:S=>{eff(S,{h:-6});S.stress+=10;if(R()<.4){S.job.sal*=1.08;eff(S,{p:5});lg(S,'프로젝트를 성공시켜 특별 성과급을 받았다.','good')}else lg(S,'석 달을 갈아 넣었지만 아무도 기억하지 않았다.','bad')}},
   {l:'칼퇴 선언',s:'스트레스 −6 · 행복↑ · 승진 늦어짐',w:1,f:S=>{S.stress-=6;eff(S,{p:4,r:3});delay(S);lg(S,'6시 정각에 노트북을 덮었다. 눈치가 보였지만 저녁이 생겼다.','choice')}},
   {l:'업무 재분배 요청',s:'50% 수용',w:1.2,f:S=>{if(R()<.5){S.stress-=5;lg(S,'팀장이 업무를 나눠줬다.','good')}else{S.stress+=5;eff(S,{r:-3});lg(S,'"다들 바빠"라는 대답이 돌아왔다.','bad')}}},JH]},
- {id:'drink',cats:['기업','법·공공','기술·현장','의료','건설·운송'],t:'회식',d:'부장님이 "오늘은 다 같이 2차까지"라고 합니다. 내일도 9시 출근입니다.',o:[
+ {id:'drink',cats:['기업','법·공공','기술·현장','의료','건설·운송'],t:'회식',ok:jnot('pilot','rail','bus'),d:S=>`${({'의료':'과장님','법·공공':['officer','nco'].includes(S.job.id)?'대대장님':S.job.id==='judge'?'부장님':'국장님'})[JOB[S.job.id].c]||'부장님'}이 "오늘은 다 같이 2차까지"라고 합니다. 내일도 아침 일찍 출근입니다.`,o:[
   {l:'끝까지 달린다',s:'관계 +4 · 건강 −4',w:1.5,f:S=>{eff(S,{r:4,h:-4});S.stress+=3;lg(S,'새벽 2시, 택시를 잡으며 부장님 노래를 세 곡 들었다.')}},
   {l:'1차만 하고 빠진다',s:'무난함',w:2,f:S=>{eff(S,{r:1})}},
   {l:'정중히 불참',s:'관계 −3 · 스트레스 −3',w:1,f:S=>{eff(S,{r:-3,p:2});S.stress-=3;lg(S,'회식에 빠지고 집에서 쉬었다. 다음 날 분위기가 묘했다.')}}]},
- {id:'unjust',cats:['기업','법·공공','의료','IT','전문 자격','건설·운송'],t:'부당한 지시',d:'상사가 실적 숫자를 "조금만" 고쳐서 보고하라고 합니다.',o:[
+ {id:'unjust',cats:['기업','법·공공','의료','IT','전문 자격','건설·운송'],t:'부당한 지시',ok:jnot('judge','flight','diplomat'),d:S=>DRIVE(S)?'배차 담당이 운행 기록을 고쳐 휴게 시간을 채운 것처럼 해 두라고 합니다.':({'의료':'상사가 이미 끝난 처치 기록을 "조금만" 고쳐 두라고 합니다.','법·공공':'상사가 지난 서류의 날짜를 "조금만" 고쳐 두라고 합니다.','건설·운송':'현장 소장이 하지 않은 안전 점검을 했다고 서류에 적으라고 합니다.','전문 자격':'고객이 장부 숫자를 "조금만" 맞춰 달라고 하고, 대표는 들어주라고 합니다.'})[JOB[S.job.id].c]||'상사가 실적 숫자를 "조금만" 고쳐서 보고하라고 합니다.',o:[
   {l:'시키는 대로 한다',s:'스트레스 +10 · 15% 적발 시 징계',w:1.5,f:S=>{S.stress+=10;if(R()<.15){S.job.sal*=.9;eff(S,{p:-10});lg(S,'감사에서 조작이 드러났다. 지시한 사람은 빠지고 당신이 징계를 받았다.','bad')}else lg(S,'찜찜했지만 아무 일도 없었다.','bad')}},
   {l:'거절한다',s:'관계 −4 · 50% 승진 불이익',w:1.5,f:S=>{eff(S,{r:-4,p:2});S.stress+=4;if(R()<.5)delay(S);lg(S,'지시를 거절했다. 그 뒤로 중요한 일에서 빠졌다.','choice')}},
   {l:'내부 고발',s:'스트레스 +18 · 50% 보복',w:.4,f:S=>{S.stress+=18;if(R()<.5){eff(S,{p:-8,r:-6});delay(S);lg(S,'공익신고 후 조직에서 고립됐다.','bad')}else{eff(S,{p:8});lg(S,'조사 끝에 문제가 바로잡혔다.','good')}}}]},
- {id:'complaint',cats:['법·공공','교육','의료','서비스·자영업','복지·돌봄'],t:'악성 민원',d:S=>({'교육':'한 학부모가 아동학대로 신고하겠다며 매일 밤 전화합니다.','의료':'보호자가 진료실에서 폭언을 퍼붓고 소송을 예고했습니다.','서비스·자영업':'진상 손님이 별점 테러와 SNS 폭로를 예고했습니다.','복지·돌봄':'이용자 가족이 매일 찾아와 고성을 지릅니다.'})[JOB[S.job.id].c]||'같은 민원인이 6개월째 매일 찾아와 욕설을 합니다.',o:[
+ {id:'complaint',who:['emp','flat','own'],cats:['법·공공','교육','의료','서비스·자영업','복지·돌봄'],ok:S=>!['judge','officer','nco','diplomat','schoolCook','pharmaSales'].includes(S.job.id),t:S=>isOwn(S)?'진상 손님':'악성 민원',d:S=>isOwn(S)?(S.job.id==='ecommerce'?'한 구매자가 다 쓴 물건을 환불해 달라며 별점 1점 리뷰를 줄줄이 남기고 있습니다.':'진상 손님이 별점 테러와 SNS 폭로를 예고했습니다.'):({'교육':'한 학부모가 아동학대로 신고하겠다며 매일 밤 전화합니다.','의료':S.job.id==='vet'?'반려동물 보호자가 진료 결과에 앙심을 품고 병원 앞에서 1인 시위를 예고했습니다.':S.job.id==='pharm'?'약을 잘못 줬다고 우기는 손님이 매일 약국에 찾아와 소리를 지릅니다.':'보호자가 진료실에서 폭언을 퍼붓고 소송을 예고했습니다.','서비스·자영업':'진상 손님이 별점 테러와 SNS 폭로를 예고했습니다.','복지·돌봄':'이용자 가족이 매일 찾아와 고성을 지릅니다.'})[JOB[S.job.id].c]||(S.job.id==='lawyer'?'패소한 의뢰인이 6개월째 사무실로 찾아와 욕설을 합니다.':S.job.id==='police'?'신고 처리에 불만을 품은 민원인이 6개월째 지구대로 찾아와 욕설을 합니다.':'같은 민원인이 6개월째 매일 찾아와 욕설을 합니다.'),o:[
   {l:'혼자 감당한다',s:'스트레스 +12 · 행복 −5',w:1.5,f:S=>{S.stress+=12;eff(S,{p:-5});lg(S,'밤마다 휴대폰 진동에 깼다.','bad')}},
-  {l:'조직에 보호 요청',s:'50% 지원',w:1.5,f:S=>{if(R()<.5){S.stress-=6;lg(S,'기관이 대신 대응해줬다.','good')}else{S.stress+=4;lg(S,'"원만하게 해결하라"는 말만 돌아왔다.','bad')}}},
+  {l:'조직에 보호 요청',who:['emp','flat'],s:'50% 지원',w:1.5,f:S=>{if(R()<.5){S.stress-=6;lg(S,'기관이 대신 대응해줬다.','good')}else{S.stress+=4;lg(S,'"원만하게 해결하라"는 말만 돌아왔다.','bad')}}},
   {l:'법적으로 대응',s:'비용 300만 · 60% 해결',w:.8,f:S=>{eff(S,{m:-300});S.stress+=5;if(R()<.6){eff(S,{p:6});S.stress-=10;lg(S,'법적 대응 끝에 민원이 멈췄다.','good')}else lg(S,'소송은 길어졌다.','bad')}},
-  {l:'병가 내고 쉰다',s:'스트레스 −10 · 연봉 −5%',w:1,f:S=>{S.stress-=10;S.job.sal*=.95;lg(S,'2주 병가를 냈다.','choice')}}]},
- {id:'perf',cats:['기업','IT','문화·예술','서비스·자영업','전문 자격'],t:'실적 압박',d:'분기 평가 팀 최하위. 다음에도 낮으면 대기발령이라는 말이 돕니다.',o:[
+  {l:'병가 내고 쉰다',who:['emp','flat'],s:'스트레스 −10 · 연봉 −5%',w:1,f:S=>{S.stress-=10;S.job.sal*=.95;lg(S,'2주 병가를 냈다.','choice')}},
+  {l:'플랫폼에 신고하고 리뷰에 소명',who:['own'],s:'50% 리뷰 삭제',w:1.5,f:S=>{if(R()<.5){S.stress-=6;lg(S,'플랫폼이 악성 리뷰를 내려줬다.','good')}else{S.stress+=4;S.job.sal*=.97;lg(S,'리뷰는 그대로 남았다. 한동안 손님이 줄었다.','bad')}}},
+  {l:'며칠 문을 닫고 쉰다',who:['own'],s:'스트레스 −8 · 수입 −3%',w:.8,f:S=>{S.stress-=8;S.job.sal*=.97;lg(S,'사흘 동안 가게 문을 닫고 쉬었다.','choice')}}]},
+ {id:'perf',cats:['기업','IT','문화·예술','서비스·자영업','전문 자격'],ok:S=>!['schoolCook','guide','hotel','flight','taxacct','labor','customs','appraiser','scrivener','patent','actuary','curator','announcer'].includes(S.job.id),t:'실적 압박',d:'분기 평가 팀 최하위. 다음에도 낮으면 대기발령이라는 말이 돕니다.',o:[
   {l:'주말 출근으로 만회',s:'건강 −5 · 55% 회복',w:1.5,f:S=>{eff(S,{h:-5});S.stress+=10;if(R()<.55){eff(S,{p:4});lg(S,'다음 분기 실적을 끌어올렸다.','good')}else{S.job.sal*=.9;lg(S,'대기발령을 받았다.','bad')}}},
   {l:'자기계발 (자격증·야간 대학원)',s:'비용 800만 · 지식↑ · 스펙 +1',w:1,f:S=>{eff(S,{m:-800,k:6});S.spec=(S.spec||0)+1;S.stress+=4;lg(S,'퇴근 후 야간 대학원에 등록했다.','choice')}},
   {l:'그냥 버틴다',s:'스트레스 +6 · 30% 대기발령',w:1,f:S=>{S.stress+=6;if(R()<.3){S.job.sal*=.9;lg(S,'대기발령을 받았다.','bad')}}},JH]},
- {id:'coworker',cats:OFFICE,t:'동료와의 갈등',d:'옆자리 동료가 당신의 성과를 자기 것처럼 보고했습니다.',o:[
+ {id:'coworker',cats:OFFICE,ok:S=>!DRIVE(S),t:'동료와의 갈등',d:'옆자리 동료가 당신의 성과를 자기 것처럼 보고했습니다.',o:[
   {l:'직접 이야기한다',s:'60% 해결',w:1.5,f:S=>{if(R()<.6){eff(S,{r:3});S.stress-=3;lg(S,'솔직하게 이야기했고, 사과를 받았다.','good')}else{eff(S,{r:-4});S.stress+=6;lg(S,'대화는 싸움이 됐다.','bad')}}},
   {l:'상사에게 알린다',s:'관계 −2 · 50% 인정',w:1,f:S=>{eff(S,{r:-2});if(R()<.5){eff(S,{p:4});lg(S,'상사가 사실을 바로잡아줬다.','good')}}},
   {l:'넘어간다',s:'스트레스 +6',w:1.5,f:S=>{S.stress+=6;eff(S,{p:-3})}}]},
- {id:'safety',cats:['기술·현장','건설·운송'],t:'안전수칙 무시',d:'공정이 밀렸다며 반장이 안전장비 없이 고소 작업을 하라고 합니다. 한국에선 매년 800명 넘게 일하다 목숨을 잃습니다.',o:[
-  {l:'시키는 대로 한다',s:'10% 중상',w:1.5,f:S=>{S.stress+=5;if(R()<.1){eff(S,{h:-30,p:-10});lg(S,'추락 사고로 크게 다쳤다. 산재 처리에만 1년이 걸렸다.','bad')}else lg(S,'아무 일 없었지만 다리가 떨렸다.','bad')}},
+ {id:'safety',who:['emp','flat'],cats:null,ok:S=>SITE.has(S.job.id),t:'안전수칙 무시',d:S=>(S.job.id==='logistics'?'물량이 밀렸다며 관리자가 안전장치를 끈 채 컨베이어를 돌리라고 합니다.':S.job.id==='semiOp'?'라인이 멈췄다며 파트장이 설비 전원을 완전히 차단하지 않은 채 정비하라고 합니다.':S.job.id==='mechanic'?'손님 차가 밀렸다며 팀장이 리프트 고정 확인 없이 차 밑에 들어가라고 합니다.':'공정이 밀렸다며 반장이 안전장비 없이 고소 작업을 하라고 합니다.')+' 한국에선 매년 800명 넘게 일하다 목숨을 잃습니다.',o:[
+  {l:'시키는 대로 한다',s:'10% 중상',w:1.5,f:S=>{S.stress+=5;if(R()<.1){eff(S,{h:-30,p:-10});lg(S,'작업 중 사고로 크게 다쳤다. 산재 처리에만 1년이 걸렸다.','bad')}else lg(S,'아무 일 없었지만 다리가 떨렸다.','bad')}},
   {l:'작업중지권 행사',s:'관계 −4 · 안전',w:1,f:S=>{eff(S,{r:-4,p:2});S.stress+=4;lg(S,'"위험해서 못 합니다"라고 말했다.','choice')}},
-  {l:'안전관리자 · 노조에 신고',s:'70% 개선',w:1,f:S=>{eff(S,{r:-2});if(R()<.7){S.stress-=4;lg(S,'현장에 안전망이 설치됐다.','good')}}}]},
- {id:'oncall',cats:['IT'],t:'새벽 장애 호출',d:'이번 달에만 새벽 3시에 열 번 넘게 장애 알림을 받았습니다.',o:[
+  {l:'안전관리자 · 노조에 신고',s:'70% 개선',w:1,f:S=>{eff(S,{r:-2});if(R()<.7){S.stress-=4;lg(S,'현장 안전 수칙이 다시 지켜지기 시작했다.','good')}}}]},
+ {id:'oncall',cats:['IT'],ok:jnot('ux','pm','game','qa'),t:'새벽 장애 호출',d:'이번 달에만 새벽 3시에 열 번 넘게 장애 알림을 받았습니다.',o:[
   {l:'계속 받는다',s:'건강 −5 · 스트레스 +10 · 평가↑',w:1.5,f:S=>{eff(S,{h:-5});S.stress+=10;S.job.sal*=1.04}},
   {l:'온콜 로테이션 개선 제안',s:'55% 수용 · 스트레스 −8',w:1.2,f:S=>{if(R()<.55){S.stress-=8;lg(S,'온콜 당번제가 도입됐다.','good')}else lg(S,'"다음 분기에 검토하자"는 답을 받았다.','bad')}},JH]},
- {id:'relocate',cats:['기업','법·공공','교육','건설·운송'],t:'지방 발령',d:'회사가 2년간 지방 사업장 근무를 명령했습니다.',o:[
+ {id:'relocate',cats:['기업','법·공공','교육','건설·운송'],ok:jnot('lawyer','bus','rail','pilot','sailor','plumber','carpenter','crane','flight','prof','lecturer','cpa','analyst','secretary','kinder'),t:S=>JOB[S.job.id].c==='교육'?'원거리 전보':'지방 발령',d:S=>({'교육':'인사 발령으로 출퇴근 2시간 거리의 학교로 옮기게 됐습니다.','법·공공':['officer','nco'].includes(S.job.id)?'격오지 부대로 2년간 전출 명령이 났습니다.':S.job.id==='judge'?'2년간 지방 법원으로 발령이 났습니다. 법관은 몇 년마다 전국을 순환 근무합니다.':'2년간 지방 근무 발령이 났습니다. 공무원은 순환 근무가 원칙입니다.','건설·운송':'회사가 지방 현장으로 2년간 근무지를 옮기라고 합니다.'})[JOB[S.job.id].c]||'회사가 2년간 지방 사업장 근무를 명령했습니다.',o:[
   {l:'가족과 함께 이사',s:'관계 −2 · 행복 −2',w:1,f:S=>{eff(S,{r:-2,p:-2});lg(S,'짐을 싸서 지방으로 내려갔다.','choice')}},
   {l:'주말부부 · 혼자 내려간다',s:'관계 −6 · 스트레스 +6',w:1.2,f:S=>{eff(S,{r:-6});S.stress+=6;lg(S,'금요일 밤마다 고속버스를 탔다.','choice')}},
   {l:'거부한다',s:'40% 철회 / 60% 사직 압박',w:.5,f:S=>{if(R()<.4)lg(S,'발령이 철회됐다.','good');else{S.stress+=12;delay(S);lg(S,'발령 거부 뒤 사직 압박을 받았다.','bad')}}}]},
- {id:'promo',cats:OFFICE,t:'승진 제안',d:'팀장 자리를 제안받았습니다. 연봉은 오르지만 책임과 야근이 늘어납니다.',o:[
-  {l:'수락한다',s:'연봉 +15% · 스트레스 계속 +8',w:2,f:S=>{S.job.sal*=1.15;S.stressMod=(S.stressMod||0)+8;S.job.delay=(S.job.delay||0)-2;lg(S,'팀장이 됐다. 팀원 다섯 명의 고민이 내 일이 됐다.','good')}},
+ {id:'promo',cats:OFFICE,ok:S=>!['교육','의료'].includes(JOB[S.job.id].c)&&!['judge','lawyer','officer','nco','diplomat','gov5','prof','bus','rail','pilot','sailor','flight'].includes(S.job.id),t:'승진 제안',d:S=>`${leadOf(S)} 자리를 제안받았습니다. 연봉은 오르지만 책임과 야근이 늘어납니다.`,o:[
+  {l:'수락한다',s:'연봉 +15% · 스트레스 계속 +8',w:2,f:S=>{S.job.sal*=1.15;S.stressMod=(S.stressMod||0)+8;S.job.delay=(S.job.delay||0)-2;lg(S,`${leadOf(S)}이(가) 됐다. 아래 사람들의 고민이 내 일이 됐다.`,'good')}},
   {l:'거절한다',s:'지금의 워라밸 유지',w:1,f:S=>{eff(S,{p:2});lg(S,'승진을 고사했다.','choice')}}]},
- {id:'relief',cats:null,t:'퇴근 후',d:S=>`요즘 스트레스 지수 ${Math.round(S.stress)}. 퇴근 후 무엇으로 스트레스를 푸나요?`,o:[
-  {l:'운동',s:'건강 +6 · 스트레스 −10',w:1.5,f:S=>{eff(S,{h:6,m:-100});S.stress-=10;S.stressMod=(S.stressMod||0)-3;lg(S,'퇴근 후 헬스장과 러닝이 루틴이 됐다.','good')}},
+ // ── 자영업·프리랜서의 순간들 ──
+ {id:'slump',who:['own'],cats:null,ok:S=>SHOP.has(S.job.id)||['ecommerce','interior'].includes(S.job.id),t:S=>S.job.id==='interior'?'수주 가뭄':'매출 부진',
+  d:S=>(S.job.id==='interior'?'석 달째 견적 문의가 뚝 끊겼습니다. 자재 값은 올랐고 직원 월급날은 다가옵니다.':S.job.id==='ecommerce'?'석 달째 주문이 작년의 70% 수준입니다. 광고비를 줄이면 노출이 줄고, 늘리면 남는 게 없습니다.':'석 달째 매출이 작년의 70% 수준입니다. 임대료와 카드 대금이 밀리기 시작합니다.')+(S.year>=2020?' 2023년 한 해 폐업 신고는 약 98만 건으로 역대 가장 많았습니다.':''),o:[
+  {l:'할인 · SNS 홍보에 돈을 쓴다',s:'비용 300만 · 50% 회복',w:1.5,f:S=>{eff(S,{m:-300});S.stress+=4;if(R()<.5){S.job.sal*=1.05;eff(S,{p:4});lg(S,'홍보가 먹혀 손님이 다시 늘었다.','good')}else lg(S,'홍보비만 쓰고 매출은 그대로였다.','bad')}},
+  {l:'직원을 줄이고 내가 더 일한다',s:'건강 −6 · 스트레스 +8 · 수입 유지',w:1.5,f:S=>{eff(S,{h:-6});S.stress+=8;lg(S,'아르바이트생을 내보내고 혼자 하루 12시간을 일했다.','choice')}},
+  {l:'대출로 버틴다',s:'빚 +2,000만 · 50% 회복',w:1,f:S=>{S.debt+=2000;S.money+=2000;S.stress+=6;if(R()<.5)lg(S,'소상공인 대출로 버텼고, 다행히 매출이 돌아왔다.','good');else{S.job.sal*=.9;lg(S,'대출을 받았지만 매출은 돌아오지 않았다.','bad')}}},
+  {l:'정리하고 폐업한다',s:'돈 −1,500만 · 다른 일 찾기',w:.5,f:S=>closeBiz(S,1500,'매출을 회복하지 못하고 가게를 정리했다.')}]},
+ {id:'rent',who:['own'],cats:null,ok:S=>SHOP.has(S.job.id),t:'임대료 인상',
+  d:S=>'건물주가 재계약 때 월세를 20% 올리겠다고 합니다. '+(S.year>=2019?'상가임대차보호법상 갱신 때 인상 한도는 5%이고, 계약갱신요구권은 10년까지 보장됩니다.':S.year>=2002?'상가임대차보호법이 있지만 갱신 요구권은 5년까지만 보장됩니다.':'아직 상가 세입자를 보호하는 법이 없던 시절입니다.'),o:[
+  {l:'법대로 5%만 올리자고 한다',s:'70% 관철 · 건물주와 관계 악화',lock:S=>S.year<2002&&'법적 근거 없음',w:1.5,f:S=>{if(R()<.7){S.stress+=3;lg(S,'법에 정해진 인상 한도를 내밀어 5%만 올렸다.','good')}else{S.stress+=8;S.job.sal*=.95;lg(S,'건물주와 얼굴을 붉혔고 결국 더 올려줬다.','bad')}}},
+  {l:'그냥 올려준다',s:'수입 −6%',w:1.2,f:S=>{S.job.sal*=.94;eff(S,{p:-3});lg(S,'월세를 올려주기로 했다. 남는 돈이 줄었다.','bad')}},
+  {l:'근처 싼 곳으로 옮긴다',s:'비용 2,000만 · 단골 일부 잃음',w:.8,f:S=>{eff(S,{m:-2000});S.job.sal*=.92;S.stress+=6;lg(S,'인테리어를 새로 하고 골목 안쪽으로 가게를 옮겼다.','choice')}},
+  {l:'이참에 폐업한다',s:'돈 −1,000만 · 다른 일 찾기',w:.4,f:S=>closeBiz(S,1000,'재계약 대신 가게를 정리했다.')}]},
+ {id:'platform',who:['own'],cats:null,ok:S=>GIG.has(S.job.id)||['youtuber','webtoon','ecommerce','insurance'].includes(S.job.id),t:S=>GIG.has(S.job.id)||S.job.id==='insurance'?'단가 인하':'플랫폼 정책 변경',
+  d:S=>({rider:'배달 플랫폼이 건당 기본 배달료를 낮췄습니다. 같은 돈을 벌려면 더 많이 타야 합니다.',delivery:'택배사가 건당 수수료를 깎았습니다. 물량은 그대로입니다.',taxi:'택시 호출 앱이 수수료를 올렸습니다.',trucker:'운임은 그대로인데 경유값과 보험료가 올랐습니다.',
+   youtuber:'플랫폼 알고리즘이 바뀌며 조회수가 반토막 났습니다.',webtoon:'연재 플랫폼이 정산 방식을 바꿨습니다. 작가 몫이 줄어듭니다.',ecommerce:'오픈마켓 수수료와 광고 단가가 함께 올랐습니다.',insurance:'보험사가 수수료 체계를 바꿔 첫해 수수료가 줄었습니다.'})[S.job.id],o:[
+  {l:'더 오래 일해서 메운다',s:'건강 −5 · 스트레스 +8 · 수입 유지',w:1.5,f:S=>{eff(S,{h:-5});S.stress+=8;lg(S,'일하는 시간을 하루 두세 시간 늘렸다.','choice')}},
+  {l:'받아들인다',s:'수입 −8%',w:1.2,f:S=>{S.job.sal*=.92;eff(S,{p:-3})}},
+  {l:S=>S.job.id==='insurance'?'다른 보험사 · GA로 옮긴다':GIG.has(S.job.id)?'다른 플랫폼 · 운송사로 옮긴다':'다른 플랫폼 · 채널로 옮긴다',s:'50% 회복 · 실패 시 수입 −10%',w:1,f:S=>{if(R()<.5){eff(S,{p:4});lg(S,'다른 곳으로 옮겨 수입을 지켰다.','good')}else{S.job.sal*=.9;lg(S,'옮긴 곳은 더 나빴다.','bad')}}},
+  {l:'단체 행동에 참여한다',s:'관계 +3 · 40% 개선',lock:S=>!GIG.has(S.job.id)?'해당 없음':S.year<2019&&S.job.id==='rider'&&'아직 라이더 노조가 없던 시절',w:.7,f:S=>{eff(S,{r:3});if(R()<.4){lg(S,'함께 목소리를 내 단가 인하를 일부 되돌렸다.','good')}else{S.job.sal*=.95;lg(S,'집회에 나갔지만 바뀐 건 없었다.','bad')}}}]},
+ {id:'unpaid',who:['own'],cats:null,ok:jis('writer','illustrator','photographer','translator','interior','webtoon'),t:'대금 미지급',
+  d:S=>`${S.job.id==='interior'?'공사를 끝낸 집주인이':'일을 맡긴 업체가'} 석 달째 ${S.job.id==='interior'?'잔금':'작업비'} 1,200만 원을 주지 않고 있습니다. 연락하면 "이번 달 말에"라는 말만 돌아옵니다.`,o:[
+  {l:'계속 기다린다',s:'30% 받음',w:1.2,f:S=>{S.stress+=6;if(R()<.3)lg(S,'넉 달 만에 겨우 돈을 받았다.','good');else{eff(S,{m:-1200,p:-4});lg(S,'끝내 돈을 받지 못했다.','bad')}}},
+  {l:'내용증명 · 지급명령 신청',s:'비용 50만 · 70% 회수',w:1.5,f:S=>{eff(S,{m:-50});S.stress+=4;if(R()<.7)lg(S,'법원 지급명령을 받아 돈을 받아냈다.','good');else{eff(S,{m:-1200});lg(S,'업체가 폐업해 받을 길이 없어졌다.','bad')}}},
+  {l:'포기하고 다음 일을 한다',s:'돈 −1,200만 · 스트레스 +4',w:.6,f:S=>{eff(S,{m:-1200,p:-3});S.stress+=4;lg(S,'떼인 돈은 잊기로 했다.','bad')}}]},
+ {id:'rush',who:['own','emp'],cats:null,ok:S=>GIG.has(S.job.id)||['bus','rail','pilot','sailor'].includes(S.job.id),t:'피로 누적',
+  d:S=>({rider:'비 오는 금요일 밤, 콜이 쏟아집니다. 신호를 무시하면 두 배는 더 탈 수 있습니다.',delivery:'밤 9시인데 아직 80개가 남았습니다. 오늘 안에 다 돌려면 쉬지 않고 뛰어야 합니다.',taxi:'새벽 2시, 손님이 가장 많은 시간인데 눈꺼풀이 무겁습니다.',trucker:'납기를 맞추려면 휴게소에 들르지 않고 6시간을 더 달려야 합니다.',
+   bus:'배차 간격이 빡빡해 종점에서 쉴 틈 없이 다시 출발해야 합니다.',rail:'인력이 부족해 연속 야간 근무가 이어지고 있습니다.',pilot:'승무원이 모자라 비행 스케줄이 한계까지 채워졌습니다.',sailor:'선원이 부족해 당직이 겹치고 있습니다.'})[S.job.id],o:[
+  {l:'무리해서 계속한다',s:'수입 +5% · 10% 사고',w:1.3,f:S=>{S.stress+=6;if(R()<.1){eff(S,{h:-25,p:-8});lg(S,'피로가 쌓인 채 일하다 사고가 났다.','bad')}else{S.job.sal*=1.05;lg(S,'무사히 넘겼지만 손이 떨렸다.','bad')}}},
+  {l:'정해진 만큼만 한다',s:S=>isOwn(S)?'수입 −5%':'관계 −2',w:1.5,f:S=>{if(isOwn(S))S.job.sal*=.95;else eff(S,{r:-2});S.stress-=3;lg(S,'무리하지 않기로 했다.','choice')}},
+  {l:'쉬는 시간을 지키자고 문제를 제기한다',s:'관계 −3 · 50% 개선',lock:S=>isOwn(S)&&!['rider','delivery'].includes(S.job.id)&&'혼자 일하는 개인사업자',w:.7,f:S=>{eff(S,{r:-3});if(R()<.5){S.stress-=5;lg(S,'휴게 시간이 보장되기 시작했다.','good')}else lg(S,'"다들 그렇게 해"라는 답만 돌아왔다.','bad')}}]},
+ {id:'weather',who:['own'],cats:null,ok:S=>FARM.has(S.job.id),t:S=>S.job.id==='fisher'?'바다가 변했다':'이상 기후',
+  d:S=>S.job.id==='fisher'?'바다 수온이 올라 잡히던 어종이 북쪽으로 올라가고 있습니다. 기름값은 올랐습니다.':'봄 냉해에 여름 폭염까지 겹쳤습니다. 올해 작황이 걱정입니다.',o:[
+  {l:S=>S.job.id==='fisher'?'어선 재해보험에 든다':'농작물재해보험에 든다',s:'비용 200만 · 손실 대부분 보전',w:1.5,f:S=>{eff(S,{m:-200});S.stress-=2;if(R()<.5)lg(S,'피해가 났지만 보험으로 대부분 메웠다.','good');else lg(S,'다행히 큰 피해 없이 넘어갔다.','good')}},
+  {l:S=>S.job.id==='fisher'?'장비를 바꿔 다른 어종을 잡는다':'시설을 보강한다 (하우스·관수)',s:'비용 2,000만 · 수입 +10%',w:1,f:S=>{eff(S,{m:-2000});S.job.sal*=1.1;lg(S,'빚을 내 장비와 시설을 바꿨다.','choice')}},
+  {l:'하늘에 맡긴다',s:'50% 손실 1,500만',w:1,f:S=>{if(R()<.5){eff(S,{m:-1500,p:-6});lg(S,'한 해 농사를 거의 망쳤다.'.replace('농사',S.job.id==='fisher'?'조업':'농사'),'bad')}else lg(S,'운이 좋았다.','good')}}]},
+ {id:'gap',who:['flat'],cats:null,ok:S=>STAGE.has(S.job.id),t:'수입 공백',
+  d:S=>`${({actor:'반년째 캐스팅 연락이 없습니다.',idol:'소속사가 다음 앨범 일정을 정하지 못하고 있습니다.',dancer:'공연이 줄줄이 취소됐습니다.',musician:'공연과 레슨이 함께 줄었습니다.',voice:'AI 음성이 들어오면서 녹음 의뢰가 줄었습니다.'})[S.job.id]} 통장 잔고가 줄어들고 있습니다.`,o:[
+  {l:'아르바이트를 병행한다',s:'+800만 · 건강 −2',w:1.5,f:S=>{eff(S,{m:800,h:-2});S.stress+=4;lg(S,'낮에는 아르바이트를 하고 밤에 연습했다.','choice')}},
+  {l:'레슨 · 강의로 버틴다',s:'+600만 · 행복 −2',w:1.2,f:S=>{eff(S,{m:600,p:-2});lg(S,'레슨을 늘려 생활비를 벌었다.','choice')}},
+  {l:'버티며 기회를 기다린다',s:'행복 −5 · 20% 기회',w:1,f:S=>{eff(S,{p:-5});if(R()<.2){S.job.sal*=1.4;eff(S,{p:10});lg(S,'기다린 끝에 큰 기회가 왔다.','good')}}},
+  {l:'이 일을 그만둔다',s:'다른 일 찾기',w:.4,f:S=>{lg(S,`${JOB[S.job.id].n} 일을 접기로 했다.`,'choice');endJob(S);S.nextJobTry=S.age}}]},
+ {id:'relief',who:['emp','flat','own'],cats:null,t:S=>isEmp(S)&&JOB[S.job.id].c!=='스포츠·농업'?'퇴근 후':'일을 마치고',d:S=>`요즘 스트레스 지수 ${Math.round(S.stress)}. ${isEmp(S)&&JOB[S.job.id].c!=='스포츠·농업'?'퇴근 후':'일을 마친 뒤'} 무엇으로 스트레스를 푸나요?`,o:[
+  {l:'운동',s:'건강 +6 · 스트레스 −10',w:1.5,f:S=>{eff(S,{h:6,m:-100});S.stress-=10;S.stressMod=(S.stressMod||0)-3;lg(S,'일이 끝나면 헬스장이나 러닝을 하는 게 루틴이 됐다.','good')}},
   {l:'술',s:'스트레스 −8 · 건강 −6',w:1.2,f:S=>{eff(S,{h:-6});S.stress-=8;lg(S,'편의점 맥주가 하루의 마무리가 됐다.','bad')}},
   {l:'취미 (악기·그림·여행)',s:'행복 +4 · 스트레스 −8',w:1.2,f:S=>{eff(S,{p:4,m:-200});S.stress-=8;S.stressMod=(S.stressMod||0)-2}},
   {l:'심리 상담',s:'비용 300만 · 스트레스 −14',w:.8,f:S=>{eff(S,{m:-300});S.stress-=14;S.stressMod=(S.stressMod||0)-3;lg(S,'상담을 받기 시작했다.','good')}},
   {l:'유튜브 · 게임',s:'스트레스 −4',w:1.5,f:S=>{S.stress-=4}}]}
 ];
 const WEV_MAP=Object.fromEntries(WEV.map(e=>[e.id,e]));
+const wkOf=S=>OWNER.has(S.job.id)?'own':FLAT[S.job.id]?'flat':'emp';
+const BOSS_ID={prof:'학과장',kinder:'원장',daycare:'원장',judge:'부장판사',lawyer:'파트너 변호사',officer:'대대장',nco:'중대장',diplomat:'공관장',police:'계장',fire:'팀장',coastguard:'계장',correction:'계장',
+ pharm:'약국장',vet:'원장',dentist:'원장',kmd:'원장',nurse:'수간호사',nurseAide:'원장',hygienist:'원장',bus:'영업소장',rail:'승무사업소장',pilot:'운항 팀장',sailor:'선장',flight:'사무장',researcher:'책임연구원',chemist:'책임연구원',bio:'책임연구원',labtech:'연구책임자'};
+const bossOf=S=>BOSS_ID[S.job.id]||({'교육':'교감','의료':'과장','기술·현장':'반장','건설·운송':'소장'})[JOB[S.job.id].c]||'팀장';
+const leadOf=S=>S.job.id==='civil'?'현장 소장':({'기술·현장':'반장','건설·운송':'반장','법·공공':'팀장급 보직','연구·과학':'과제 책임자'})[JOB[S.job.id].c]||'팀장';
+const ONSITE=S=>['기술·현장','건설·운송'].includes(JOB[S.job.id].c)&&!['architect','bus','rail','pilot','sailor'].includes(S.job.id);
+const DRIVE=jis('bus','rail','pilot','sailor');
+const wevTxt=(v,S)=>typeof v==='function'?v(S):v;
+// 직업별 상황 문구 덮어쓰기 (카테고리 문구가 안 맞는 직업)
+const WEV_ID_D={
+ overtime:{lawyer:'재판 일정이 몰려 석 달째 밤 11시 퇴근입니다.',judge:'맡은 사건이 300건을 넘어 석 달째 주말에도 판결문을 씁니다.',pilot:'운항 스케줄이 몰려 석 달째 비행 시간 한도를 꽉 채우고 있습니다.',sailor:'선원이 모자라 석 달째 휴가 없이 배를 타고 있습니다.',diplomat:'국제회의가 이어져 석 달째 밤늦게까지 전문을 씁니다.',officer:'훈련과 검열이 겹쳐 석 달째 주말에도 부대에 나옵니다.',nco:'훈련과 검열이 겹쳐 석 달째 주말에도 부대에 나옵니다.'},
+ unjust:{lawyer:'대표 변호사가 의뢰인에게 불리한 자료를 빼고 제출하자고 합니다.',pilot:'운항 관리자가 비행 시간 기록을 줄여 적으라고 합니다.',sailor:'선장이 항해 일지의 휴식 시간을 부풀려 적으라고 합니다.',officer:'상급자가 훈련 결과 보고서를 부풀려 쓰라고 합니다.',nco:'상급자가 훈련 결과 보고서를 부풀려 쓰라고 합니다.',police:'상급자가 실적을 채우려고 사건 처리 기록을 고쳐 두라고 합니다.'},
+ drink:{lawyer:'대표 변호사님이 "오늘은 다 같이 2차까지"라고 합니다. 내일도 아침 일찍 재판입니다.',judge:'부장판사님이 "오늘은 다 같이 2차까지"라고 합니다. 내일도 아침 일찍 재판입니다.'}
+};
 function pickWev(S){
-  const c=JOB[S.job.id].c,done=S.wevSeen||{};
-  const id=S.job.id;let pool=WEV.filter(e=>(!e.cats||e.cats.includes(c)));
-  if(OWNER.has(id)||FLAT[id])pool=pool.filter(e=>['complaint','relief','perf','safety'].includes(e.id));
+  const c=JOB[S.job.id].c,done=S.wevSeen||{},wk=wkOf(S);
+  let pool=WEV.filter(e=>(e.who||['emp']).includes(wk)&&(!e.cats||e.cats.includes(c))&&(!e.ok||e.ok(S)));
   if(done.promo)pool=pool.filter(e=>e.id!=='promo');
+  if(!pool.length)return null;
   return wpick(pool.map(e=>[e.id,(e.id==='relief'&&S.stress>65?3:1)/(1+(done[e.id]||0)*1.5)]));
 }
 
 /* =========================================================
    ENGINE
    ========================================================= */
-function lg(S,t,k='life'){S.log.push({a:S.age,y:S.year,t,k})}
+// 조사 자동 선택: 앞 글자 받침을 보고 이(가)·을(를)·은(는)·와(과)·(으)로를 고른다
+const JOSA={'이(가)':['이','가'],'을(를)':['을','를'],'은(는)':['은','는'],'와(과)':['과','와'],'과(와)':['과','와'],'(으)로':['으로','로'],'(이)다':['이다','다']};
+function josa(t){
+  if(typeof t!=='string'||t.indexOf('(')<0)return t;
+  return t.replace(/이\(가\)|을\(를\)|은\(는\)|와\(과\)|과\(와\)|\(으\)로|\(이\)다/g,(m,off,str)=>{
+    let i=off-1;
+    while(i>=0){const c=str[i];if(c==='>'){const k=str.lastIndexOf('<',i);if(k<0)break;i=k-1}else if(/[\s)\]'"」』·]/.test(c))i--;else break}
+    const ch=i>=0?str[i]:'',code=ch.charCodeAt(0);let has=false,rieul=false;
+    if(code>=0xAC00&&code<=0xD7A3){const j=(code-0xAC00)%28;has=j>0;rieul=j===8}
+    else if(/[0-9]/.test(ch)){has='013678'.includes(ch);rieul='178'.includes(ch)}
+    const [a,b]=JOSA[m];return m==='(으)로'?(has&&!rieul?a:b):(has?a:b)});
+}
+function lg(S,t,k='life'){S.log.push({a:S.age,y:S.year,t:josa(t),k})}
 function eff(S,e={}){
   const map={h:'health',p:'happy',k:'know',r:'rel'},nm={h:'건강',p:'행복',k:'지식',r:'관계',m:'돈'};const out=[];
   for(const key in e){const v=e[key];if(!v)continue;
@@ -1004,13 +1119,25 @@ function causeOf(S){const a=S.age;
 }
 
 const TRANSPORT=new Set(['pilot','sailor','rail','bus','taxi','trucker','logistics']),FARM=new Set(['farmer','smartfarm','fisher']),ACADEMY=new Set(['tutor','engTutor','lecturer']);
-const JEV_EMP=[{t:'진상 손님을 응대하느라 진이 빠졌다.',e:{p:-4}},{t:'근무표가 바뀌어 주말 근무가 늘었다.',e:{p:-3,h:-1}},{t:'시급이 조금 올랐다.',e:{p:2}},{t:'같이 일하던 동료가 그만둬 일이 늘었다.',e:{h:-2,p:-2}},{t:'단골 손님이 고맙다며 간식을 주고 갔다.',e:{p:4}}];
-const JEV_TR=[{t:'장거리 운행 끝에 몸살이 났다.',e:{h:-4}},{t:'야간 근무가 이어졌다.',e:{h:-3,p:-2}},{t:'무사고 표창을 받았다.',e:{p:5}},{t:'정기 안전교육을 받았다.',e:{k:2}}];
-const JEV_FARM=[{t:'태풍으로 한 해 농사를 망쳤다.',e:{p:-6,m:-1000}},{t:'풍년이었다.',e:{p:5,m:800}},{t:'로컬푸드 직매장에 납품을 시작했다.',e:{p:4,m:500}},{t:'일손이 모자라 새벽부터 밤까지 일했다.',e:{h:-3}}];
-const JEV_SPORT=[{t:'큰 부상을 입었다.',e:{h:-10,p:-5}},{t:'우승 트로피를 들어 올렸다.',e:{p:10}},{t:'회원이 부쩍 늘었다.',e:{p:4,m:400}},{t:'시즌 오프에 재활과 훈련을 했다.',e:{h:3}}];
-const JEV_ACAD=[{t:'원생이 줄어 수업이 줄었다.',e:{p:-4,m:-400}},{t:'맡은 학생 성적이 크게 올랐다.',e:{p:6}},{t:'시험 기간 내내 밤 11시까지 수업했다.',e:{h:-3}},{t:'원장이 등록 인원으로 압박했다.',e:{p:-4}}];
+const JEV_EMP=[{t:'진상 손님을 응대하느라 진이 빠졌다.',e:{p:-4},c:jnot('schoolCook','senior','cleaner')},{t:'근무표가 바뀌어 주말 근무가 늘었다.',e:{p:-3,h:-1},c:jnot('schoolCook')},{t:'시급이 조금 올랐다.',e:{p:2},c:jis('parttime','cleaner','cs')},
+ {t:'같이 일하던 동료가 그만둬 일이 늘었다.',e:{h:-2,p:-2}},{t:'단골 손님이 고맙다며 간식을 주고 갔다.',e:{p:4},c:jis('parttime','hotel')},
+ {t:'하루 150통 넘는 전화를 받았다.',e:{p:-3},c:jis('cs')},{t:'폭염 속 조리실에서 하루를 버텼다.',e:{h:-4},c:jis('schoolCook')},{t:'튀김 조리 뒤 기침이 오래 갔다.',e:{h:-3},c:jis('schoolCook')},
+ {t:'방학이라 몇 주 동안 일이 없었다.',e:{m:-200,h:2},c:jis('schoolCook')},{t:'입주민에게 반말과 폭언을 들었다.',e:{p:-5},c:jis('senior')},{t:'입주민들이 명절 선물을 챙겨줬다.',e:{p:4},c:jis('senior')},
+ {t:'관광객 단체 일정이 줄줄이 취소됐다.',e:{m:-300,p:-3},c:jis('guide')}];
+const JEV_GIG=[{t:'비 오는 날 미끄러져 넘어졌다.',e:{h:-6},c:jis('rider','delivery')},{t:'명절 특수로 물량이 쏟아졌다.',e:{m:500,h:-3},c:jis('delivery','rider')},{t:'폭염 속에서 하루 종일 달렸다.',e:{h:-4}},
+ {t:'단골 고객이 시원한 음료를 건넸다.',e:{p:4}},{t:'단속 카메라에 걸려 과태료를 냈다.',e:{m:-50,p:-2}}];
+const JEV_TR=[{t:'장거리 운행 끝에 몸살이 났다.',e:{h:-4},c:jnot('logistics')},{t:'야간 근무가 이어졌다.',e:{h:-3,p:-2}},{t:'무사고 표창을 받았다.',e:{p:5},c:jis('bus','rail','pilot','sailor')},{t:'정기 안전교육을 받았다.',e:{k:2}},
+ {t:'물량이 몰려 허리가 끊어질 듯했다.',e:{h:-4},c:jis('logistics')},{t:'기름값이 올라 남는 게 없었다.',e:{m:-400,p:-3},c:jis('trucker','taxi')}];
+const JEV_FARM=[{t:'태풍으로 한 해 농사를 망쳤다.',e:{p:-6,m:-1000},c:jnot('fisher')},{t:'풍년이었다.',e:{p:5,m:800},c:jnot('fisher')},{t:'로컬푸드 직매장에 납품을 시작했다.',once:'localfood',e:{p:4,m:500},c:jnot('fisher')},{t:'일손이 모자라 새벽부터 밤까지 일했다.',e:{h:-3}},
+ {t:'풍랑 주의보로 한 달 가까이 출항하지 못했다.',e:{m:-600,p:-3},c:jis('fisher')},{t:'만선으로 돌아왔다.',e:{p:6,m:700},c:jis('fisher')},{t:'바다 수온이 올라 어획량이 줄었다.',e:{m:-500,p:-3},c:jis('fisher')}];
+const JEV_SPORT=[{t:'큰 부상을 입었다.',e:{h:-10,p:-5},c:jis('athlete','golfpro')},{t:'우승 트로피를 들어 올렸다.',e:{p:10},c:jis('athlete','esports','golfpro')},{t:'회원이 부쩍 늘었다.',e:{p:4,m:400},c:jis('pilates','trainer','golfpro','coach')},
+ {t:'시즌 오프에 재활과 훈련을 했다.',e:{h:3},c:jis('athlete')},{t:'손목 통증으로 연습량을 줄였다.',e:{h:-4},c:jis('esports')},{t:'성적 부진으로 벤치에 앉는 날이 늘었다.',e:{p:-5},c:jis('athlete','esports')},
+ {t:'회원이 줄어 수업이 비었다.',e:{m:-300,p:-3},c:jis('pilates','trainer','golfpro','coach')},{t:'하루 수업 8개를 연달아 했다.',e:{h:-3},c:jis('pilates','trainer','golfpro','coach')}];
+const JEV_ACAD=[{t:'원생이 줄어 수업이 줄었다.',e:{p:-4,m:-400},c:jnot('lecturer')},{t:'맡은 학생 성적이 크게 올랐다.',e:{p:6},c:jnot('lecturer')},{t:'시험 기간 내내 밤 11시까지 수업했다.',e:{h:-3},c:jnot('lecturer')},
+ {t:'원장이 등록 인원으로 압박했다.',e:{p:-4},c:jis('tutor')},{t:'강의가 배정되지 않은 학기가 있었다.',e:{m:-500,p:-4},c:jis('lecturer')},{t:'강의 평가가 좋게 나왔다.',e:{p:4},c:jis('lecturer')},
+ {t:'논문 한 편을 더 썼지만 전임 자리는 나지 않았다.',e:{p:-4,k:2},c:jis('lecturer')}];
 function jevFor(S){const id=S.job.id,c=JOB[id].c;
-  if(TRANSPORT.has(id))return JEV_TR;if(FARM.has(id))return JEV_FARM;if(c==='스포츠·농업')return JEV_SPORT;if(ACADEMY.has(id))return JEV_ACAD;
+  if(GIG.has(id)&&!TRANSPORT.has(id))return JEV_GIG;if(TRANSPORT.has(id))return JEV_TR;if(FARM.has(id))return JEV_FARM;if(c==='스포츠·농업')return JEV_SPORT;if(ACADEMY.has(id))return JEV_ACAD;
   if((c==='서비스·자영업'&&!OWNER.has(id))||id==='senior'||id==='cleaner')return JEV_EMP;return JEV[c]}
 function randomEvent(S){
   const a=S.age;let pool;
@@ -1039,22 +1166,22 @@ function yearly(S){
 
   let inc=0,leave=false;
   if(S.prep)prepYear(S);
-  if(S.job&&S.onLeave){S.onLeave=false;leave=true;lg(S,'휴직 1년. 처음으로 아무것도 하지 않는 시간을 보냈다. <span class="fx">급여 없음</span>','good')}
+  if(S.job&&S.onLeave){S.onLeave=false;leave=true;lg(S,isEmp(S)?'휴직 1년. 처음으로 아무것도 하지 않는 시간을 보냈다. <span class="fx">급여 없음</span>':'1년 동안 일을 쉬었다. <span class="fx">수입 없음</span>','good')}
   else if(S.job){
     const j=JOB[S.job.id],g=S.job.sal;inc=g*(g<3000?.9:g<6000?.84:g<10000?.78:.7);S.workYears++;S.lifeIncome+=g; // 세금·4대보험 공제 후
     if(S.jobHunt)huntYear(S);
     const ai=AI[S.job.id]||0,yf=aiYear(S.year);
     if(ai&&yf&&R()<ai*.03*yf/(1+(S.aiSafe||0))){S.aiPending=true}
-    else if(ai&&yf>.3&&R()<.2){S.stress+=4;lg(S,pick(['AI 도구 도입으로 팀 인원이 줄었다. 남은 사람의 일이 늘었다.','회사가 AI로 대체 가능한 업무 목록을 만든다는 소문이 돌았다.','신입 채용이 2년째 없다. AI가 신입 일을 하고 있다.']),'bad')}
+    else if(ai&&yf>.3&&R()<.2){S.stress+=4;lg(S,pick(isEmp(S)?['AI 도구 도입으로 팀 인원이 줄었다. 남은 사람의 일이 늘었다.','회사가 AI로 대체 가능한 업무 목록을 만든다는 소문이 돌았다.','신입 채용이 2년째 없다. AI가 신입 일을 하고 있다.']:['AI 도구가 퍼지며 같은 일을 하는 사람들의 단가가 내려갔다.','손님들이 AI로 직접 해결하기 시작했다. 일감이 조금 줄었다.']),'bad')}
     if(S.job&&a>=(S.nextWev||S.job.start+2)&&a<S.job.ret){S.wevPending=pickWev(S);S.nextWev=a+ri(3,4)}
     const rk=rankOf(S);if(S.job.rank&&rk!==S.job.rank){lg(S,`${rk}(으)로 승진했다.`,'good');eff(S,{p:4})}S.job.rank=rk;
     if(S.job.sal<j.cap)S.job.sal=Math.min(j.cap,S.job.sal*(1+j.g*rnd(.5,1.5)));
     S.health+=(j.hp||0)*rnd(.5,1.2);
     if(j.v&&R()<j.v){S.job.sal=Math.min(j.cap*4,S.job.sal*rnd(1.8,3.5));eff(S,{p:10});lg(S,`${j.n}(으)로 크게 성공했다! 연 소득이 ${fmt(S.job.sal)}원으로 뛰었다.`,'good')}
-    if(j.fail&&R()<j.fail){eff(S,{p:-12,m:-3000});lg(S,`가게를 폐업했다. 남은 건 빚과 권리금 손실. <span class="fx">돈 −3,000만 · 행복 −12</span>`,'bad');
-      endJob(S);if(a>=60)S.retired=true;else S.nextJobTry=a+1;}
+    if(S.bizLast){S.bizLast=false;if(R()<.5){S.job.sal*=.95;lg(S,`대출로 1년을 버텼고, ${bizN(S)}이(가) 겨우 흑자로 돌아섰다.`,'good')}else closeBiz(S,4000,`대출까지 받아 버텼지만 결국 ${bizN(S)}을(를) 닫았다.`)}
+    else if(j.fail&&R()<j.fail)S.bizCrisis=true;
     if(S.job&&!j.pub&&!OWNER.has(S.job.id)&&!FLAT[S.job.id]&&a-S.job.start>=1&&R()<(LATE_CAP.has(S.job.id)?.015:['smallCo','midCo'].includes(S.job.id)?.04:j.c==='서비스·자영업'?.05:j.c==='IT'?.03:.025)){
-      lg(S,pick(['회사 사정이 어려워져 권고사직을 받았다.','계약이 만료됐고 재계약이 되지 않았다.','조직 개편으로 팀이 없어지면서 회사를 나왔다.']),'bad');endJob(S);if(a>=58)S.retired=true;else S.nextJobTry=a+1}
+      const why=pick(['회사 사정이 어려워져 권고사직을 받았다.','계약이 만료됐고 재계약이 되지 않았다.','조직 개편으로 팀이 없어지면서 회사를 나왔다.']);lg(S,why,'bad');S.jobEnd=why;endJob(S);if(a>=58)S.retired=true;else S.nextJobTry=a+1}
     if(S.job&&j.risk&&R()<j.risk*6){eff(S,{h:-20});lg(S,'업무 중 큰 사고를 당했다. <span class="fx">건강 −20</span>','bad')}
   }
   if(!S.job&&a>=65)inc+=Math.max(S.pension||0,400); // 국민·공무원연금, 없으면 기초연금
@@ -1100,6 +1227,7 @@ function nextChoice(S){
   const once=(id,cond)=>cond&&!S.asked[id]?(S.asked[id]=1,id):null;
   if(S.examFail){S.examFail=false;if(S.prep)return'prepFail'}
   if(S.burnout&&S.job){S.burnout=false;return'burnout'}
+  if(S.bizCrisis&&S.job){S.bizCrisis=false;return'bizCrisis'}
   if(S.aiPending&&S.job){S.aiPending=false;return'aiLayoff'}
   if(S.wevPending&&S.job){S.wev=S.wevPending;S.wevPending=null;return'workEvent'}
   if(!S.asked.elementary&&a>=7&&a<12){S.asked.elementary=1;return'elementary'}
@@ -1138,7 +1266,7 @@ const PREP={
 };
 
 function setJob(S,id,quiet){
-  const j=JOB[id];
+  const j=JOB[id];S.jobEnd=null;
   let sal=j.s*.88*(1+(S.edu.tier-2)*.04)*rnd(.9,1.1)*(S.gender==='F'?.93:1);
   if(S.cb){sal*=.7;S.cb=false;lg(S,'경력단절 뒤 다시 일을 시작했다. 예전 연봉의 70% 수준에서 다시 출발했다.','choice')}
   S.job={id,sal:Math.round(sal),start:S.age,ret:Math.max(S.age+3,j.ret+ri(-2,2))};
@@ -1156,7 +1284,7 @@ function prepPass(S,id){
 }
 function expYears(S,id){const P=PREPS[prepOf(id)],p=prepPass(S,id);if(!p)return null;return(P.fix||0)+Math.min(P.max||8,1/p)}
 function startPrep(S,id){
-  const k=prepOf(id),P=PREPS[k];
+  const k=prepOf(id),P=PREPS[k];S.jobEnd=null;
   S.prep={id,k,yrs:0,att:0,spent:0,fixLeft:P.fix||0};
   lg(S,`${JOB[id].e} ${JOB[id].n}이(가) 되기 위해 ${P.n} 준비를 시작했다. (${P.how})`,'choice');
 }
@@ -1179,7 +1307,7 @@ function tryJob(S,id){
   const el=elig(S,JOB[id]);if(el.ok&&R()<el.c){setJob(S,id);return true}
   return false;
 }
-function aiOut(S,sev){const a=S.age;eff(S,{m:Math.round(S.job.sal*sev),p:-8});endJob(S);S.stress+=6;if(a>=58)S.retired=true;else S.nextJobTry=a+1}
+function aiOut(S,sev){const a=S.age;S.jobEnd=isEmp(S)?`AI 도입으로 ${JOB[S.job.id].n} 일자리를 잃었다.`:`AI 때문에 ${JOB[S.job.id].n} 일감이 끊겼다.`;eff(S,{m:Math.round(S.job.sal*sev),p:-8});endJob(S);S.stress+=6;if(a>=58)S.retired=true;else S.nextJobTry=a+1}
 function startHunt(S){S.jobHunt={yrs:0};lg(S,'몰래 이직 준비를 시작했다. 퇴근 후엔 자소서, 점심시간엔 면접.','choice')}
 function huntYear(S){
   const h=S.jobHunt;h.yrs++;
@@ -1189,6 +1317,8 @@ function huntYear(S){
   else if(h.yrs>=2){S.jobHunt=null;eff(S,{p:-5});lg(S,'이직 준비를 접었다. 최종 면접까지 갔다가 두 번 떨어졌다.','bad')}
   else lg(S,'이직 면접에서 떨어졌다. 내일도 아무렇지 않게 출근해야 한다.','bad');
 }
+const bizN=S=>({interior:'회사',ecommerce:'쇼핑몰',smartfarm:'농장',realtor:'사무소',pilates:'스튜디오',nail:'샵',hair:'미용실'})[S.job.id]||'가게';
+function closeBiz(S,loss,msg){eff(S,{p:-10,m:-loss});lg(S,`${msg} <span class="fx">돈 −${fmt(loss)} · 행복 −10</span>`,'bad');S.jobEnd=msg;endJob(S);if(S.age>=60)S.retired=true;else S.nextJobTry=S.age+1}
 function endJob(S){
   const j=S.job&&JOB[S.job.id];
   if(j){S.pension=Math.max(S.pension,j.pub?Math.min(3600,S.workYears*95):Math.min(2000,300+S.workYears*30))}
@@ -1360,16 +1490,17 @@ const CHOICES={
   {label:'셋째까지',sub:'다둥이 가정',w:by<1970?1.5:.08,apply:S=>{S.kids=3;eff(S,{p:7,r:8});lg(S,'둘째와 셋째가 차례로 태어났다. 다둥이 가정이 됐다.','good')}},
   {label:'한 명으로 충분하다',sub:'지금 그대로',w:2,apply:S=>{}}]}},
  careerBreak:S=>{const by=S.birthYear,j=JOB[S.job.id];return{title:'출산, 그리고 일',desc:`${j.e} ${j.n} ${S.age-S.job.start+1}년 차. 한국 기혼 여성의 약 6명 중 1명이 경력단절을 겪고, 가장 큰 이유는 육아입니다.`,options:[
-  {label:'육아휴직 1년 후 복직',sub:'1년간 급여 일부 · 복직',lock:S.year<2001&&'2001년 이전엔 제도가 거의 없었음',w:by<1985?.5:by<1995?1.5:2.5,apply:S=>{S.onLeave=true;eff(S,{m:Math.round(S.job.sal*.4)});lg(S,'육아휴직을 냈다.','choice')}},
-  {label:'퇴사하고 육아에 전념',sub:'3~8년 뒤 재취업 · 연봉 약 70%로 다시 시작',w:by<1970?3:by<1980?2:by<1990?1:.6,apply:S=>{lg(S,`${j.n}을(를) 그만두고 아이를 키우기로 했다.`,'choice');endJob(S);S.cbUntil=S.age+ri(3,8);S.nextJobTry=S.cbUntil;S.cb=true}},
-  {label:'부모님께 맡기고 바로 복귀',sub:'스트레스↑ · 비용',w:1,apply:S=>{S.stress+=10;eff(S,{m:-1000,r:-2});lg(S,'출산 3개월 만에 복직했다. 아이는 부모님이 돌봐주셨다.','choice')}}]}},
- midcareer:S=>{const j=JOB[S.job.id];return{title:'마흔셋, 갈림길',desc:`${j.e} ${j.n} ${S.age-S.job.start}년 차, 연봉 ${fmt(S.job.sal)}원. 인생 2막을 고민할 때입니다.`,options:[
-  {label:'승진에 올인',sub:'성공 45% · 연봉 +35% · 건강↓',lock:(OWNER.has(S.job.id)||FLAT[S.job.id])&&'자영업·프리랜서는 해당 없음',w:2,apply:S=>{eff(S,{h:-5});if(R()<.45){S.job.sal*=1.35;eff(S,{p:6});lg(S,'승진했다!','good')}else{eff(S,{p:-6});lg(S,'승진에서 밀렸다.','bad')}}},
-  {label:'이직 준비',sub:'재직 중 1~2년 · 스트레스↑ · 성공 시 연봉 +10~25%',lock:((OWNER.has(S.job.id)||FLAT[S.job.id])&&'자영업·프리랜서는 해당 없음')||(S.jobHunt&&'이미 이직 준비 중'),w:2,apply:S=>startHunt(S)},
-  {label:'퇴사 후 치킨집 창업',sub:'퇴직금 + 대출 1억',w:.6,apply:S=>{endJob(S);S.debt+=10000;setJob(S,'founder')}},
+  {label:'육아휴직 1년 후 복직',sub:'1년간 급여 일부 · 복직',lock:(!isEmp(S)&&'자영업·프리랜서는 육아휴직 제도 밖')||(S.year<2001&&'2001년 이전엔 제도가 거의 없었음'),w:by<1985?.5:by<1995?1.5:2.5,apply:S=>{S.onLeave=true;eff(S,{m:Math.round(S.job.sal*.4)});lg(S,'육아휴직을 냈다.','choice')}},
+  {label:isEmp(S)?'퇴사하고 육아에 전념':'일을 접고 육아에 전념',sub:'3~8년 뒤 재취업 · 연봉 약 70%로 다시 시작',w:by<1970?3:by<1980?2:by<1990?1:.6,apply:S=>{lg(S,`${j.n}을(를) 그만두고 아이를 키우기로 했다.`,'choice');endJob(S);S.cbUntil=S.age+ri(3,8);S.nextJobTry=S.cbUntil;S.cb=true}},
+  {label:isEmp(S)?'부모님께 맡기고 바로 복귀':'부모님께 맡기고 바로 일터로',sub:'스트레스↑ · 비용',w:1,apply:S=>{S.stress+=10;eff(S,{m:-1000,r:-2});lg(S,isEmp(S)?'출산 3개월 만에 복직했다. 아이는 부모님이 돌봐주셨다.':'출산 한 달 만에 다시 일을 시작했다. 아이는 부모님이 돌봐주셨다.','choice')}}]}},
+ midcareer:S=>{const j=JOB[S.job.id];return{title:`${S.age}세, 갈림길`,desc:`${j.e} ${j.n} ${S.age-S.job.start}년 차, 연봉 ${fmt(S.job.sal)}원. 인생 2막을 고민할 때입니다.`,options:[
+  ...(isEmp(S)?[{label:'승진에 올인',sub:'성공 45% · 연봉 +35% · 건강↓',w:2,apply:S=>{eff(S,{h:-5});if(R()<.45){S.job.sal*=1.35;eff(S,{p:6});lg(S,'승진했다!','good')}else{eff(S,{p:-6});lg(S,'승진에서 밀렸다.','bad')}}},
+  {label:'이직 준비',sub:'재직 중 1~2년 · 스트레스↑ · 성공 시 연봉 +10~25%',lock:S.jobHunt&&'이미 이직 준비 중',w:2,apply:S=>startHunt(S)}]:[]),
+  ...(SHOP.has(S.job.id)||['ecommerce','interior','smartfarm'].includes(S.job.id)?[{label:`${bizN(S)}을(를) 키운다 (2호점 · 직원 채용)`,sub:'대출 5,000만 · 50% 수입 +40% / 50% 손실',w:1,apply:S=>{S.debt+=5000;S.money+=5000;S.stress+=10;if(R()<.5){S.job.sal*=1.4;eff(S,{p:6});lg(S,`${bizN(S)}을(를) 넓혔고, 자리를 잡았다.`,'good')}else{eff(S,{m:-3000,p:-6});lg(S,'확장한 곳은 1년 만에 접었다. 빚만 남았다.','bad')}}}]:[]),
+  ...(S.job.id==='founder'?[]:[{label:isEmp(S)?'퇴사 후 치킨집 창업':'지금 일을 접고 치킨집 창업',sub:isEmp(S)?'퇴직금 + 대출 1억':'대출 1억',w:.6,apply:S=>{lg(S,`${j.n}을(를) 그만두고 치킨집을 차렸다.`,'choice');endJob(S);S.debt+=10000;setJob(S,'founder')}}]),
   {label:'전혀 다른 직업에 도전',sub:'직업 목록에서 다시 선택',w:.5,apply:S=>{lg(S,`${j.n}을(를) 그만두고 새 길을 찾기로 했다.`,'choice');endJob(S);S.nextJobTry=S.age;S.next='job'}},
   {label:'지금처럼',sub:'워라밸과 가족',w:3,apply:S=>{eff(S,{p:2,r:3})}}]}},
- health:S=>({title:'쉰둘, 건강검진 결과지',desc:'한국인 사망 원인 1위는 암, 2위는 심장질환입니다.',options:[
+ health:S=>({title:`${S.age}세, 건강검진 결과지`,desc:'한국인 사망 원인 1위는 암, 2위는 심장질환입니다.',options:[
   {label:'매년 정밀검진 + 운동',sub:'건강 +10 · 비용 300만',w:2,apply:S=>{eff(S,{h:10,m:-300})}},
   {label:'술·담배 끊기',sub:'건강 +7 · 행복 −2',w:2,apply:S=>{eff(S,{h:7,p:-2})}},
   {label:'지금처럼 산다',sub:'인생 뭐 있나',w:1,apply:S=>{eff(S,{p:2})}}]}),
@@ -1378,12 +1509,12 @@ const CHOICES={
   if(early)o.push({label:'제2의 직업 찾기',sub:'직업 목록에서 다시 선택',w:4,apply:S=>{endJob(S);S.nextJobTry=S.age;S.next='job'}});
   o.push({label:'완전 은퇴',sub:'65세부터 연금 수령',w:early?.3:2,apply:S=>{endJob(S);S.retired=true;lg(S,`은퇴했다. 예상 연금 연 ${fmt(S.pension)}원.`,'choice')}});
   if(!early&&S.age<68){
-   o.push({label:'재취업 (경비·시설관리)',sub:'연 2,200만 · 72세까지',w:2,apply:S=>{endJob(S);setJob(S,'senior')}});
-   o.push({label:'치킨집 창업',sub:'퇴직금 올인',w:.8,apply:S=>{endJob(S);setJob(S,'founder')}});
-   o.push({label:'귀농',sub:'시골에서 농사',w:.6,apply:S=>{endJob(S);setJob(S,'farmer');S.job.ret=78}});
+   if(S.job.id!=='senior')o.push({label:'재취업 (경비·시설관리)',sub:'연 2,200만 · 72세까지',w:2,apply:S=>{endJob(S);setJob(S,'senior')}});
+   if(S.job.id!=='founder')o.push({label:'치킨집 창업',sub:'퇴직금 올인',w:.8,apply:S=>{endJob(S);setJob(S,'founder')}});
+   if(!FARM.has(S.job.id))o.push({label:'귀농',sub:'시골에서 농사',w:.6,apply:S=>{endJob(S);setJob(S,'farmer');S.job.ret=78}});
   }
-  return{title:`${j.n}에서 물러날 때`,desc:`${S.age}세. ${S.age-S.job.start}년간 일했습니다. 한국 직장인이 주된 일자리에서 퇴직하는 평균 나이는 49.4세입니다.`,options:o}},
- oldlife:S=>({title:'일흔, 노후',desc:'한국의 노인 빈곤율은 약 38% — OECD 1위입니다. 남은 시간을 어디서 보낼까요?',options:[
+  return{title:`${j.n}에서 물러날 때`,desc:`${S.age}세. ${S.age-S.job.start}년간 일했습니다. ${isEmp(S)?'한국 직장인이 주된 일자리에서 퇴직하는 평균 나이는 49.4세입니다.':'정년은 없지만 몸이 먼저 신호를 보냅니다.'}`,options:o}},
+ oldlife:S=>({title:`${S.age}세, 노후`,desc:'한국의 노인 빈곤율은 약 38% — OECD 1위입니다. 남은 시간을 어디서 보낼까요?',options:[
   {label:'자녀 곁으로 이사',sub:'관계↑',lock:!S.kids&&'자녀 필요',w:2,apply:S=>{eff(S,{r:8,p:3})}},
   {label:'귀촌',sub:'건강↑ 관계↓',w:1,apply:S=>{eff(S,{h:5,p:3,r:-3})}},
   {label:'실버타운 입주',sub:'입주금 2억',lock:net(S)<50000&&'순자산 5억+',w:1.5,apply:S=>{eff(S,{h:4,r:3,m:-20000})}},
@@ -1396,27 +1527,42 @@ const CHOICES={
     apply:S=>{const from=S.prep.id;S.prep=null;if(from==='judge'){setJob(S,'lawyer');return}if(!tryJob(S,fb)){lg(S,`${fj.n} 지원에서도 떨어졌다.`,'bad');S.nextJobTry=S.age;S.next='job'}}})}
   o.push(S.age>=62?{label:'준비를 접고 은퇴한다',sub:'연금으로 생활',w:1,apply:S=>{S.prep=null;S.retired=true;lg(S,'준비를 접고 은퇴했다.','choice')}}:{label:'완전히 다른 길 찾기',sub:'직업 목록으로',w:.6,apply:S=>{S.prep=null;S.nextJobTry=S.age;S.next='job'}});
   return{title:`${P.n} 불합격`,desc:`${j.e} ${j.n}을(를) 향한 ${pr.yrs}년째. 지금까지 쓴 돈 <b>${fmt(Math.max(0,pr.spent))}원</b>, 스트레스 <b>${Math.round(S.stress)}</b>, 행복 <b>${Math.round(S.happy)}</b>. ${P.comp?`경쟁률 ${P.comp} — `:''}대부분이 같은 결과를 받습니다.`,options:o}},
- aiLayoff:S=>{const j=JOB[S.job.id],cut=ri(20,50);return{title:'AI가 내 일을 가져갔다',desc:`${S.year}년. 회사가 ${j.n} 업무에 AI를 도입하며 인력을 ${cut}% 줄이기로 했습니다. 당신도 대상자 명단에 올랐습니다. (AI 대체 위험 ${AI_N[AI[j.id]||0]})`,options:[
+ aiLayoff:S=>{const j=JOB[S.job.id],cut=ri(20,50);if(!isEmp(S)){const id=S.job.id;return{title:'AI가 일감을 가져갔다',desc:`${S.year}년. ${['taxi','trucker'].includes(id)?'자율주행 차량이 늘며 콜과 운송 의뢰가 크게 줄었습니다.':['rider','delivery'].includes(id)?'로봇·드론 배송이 늘며 배차가 크게 줄었습니다.':id==='insurance'?'AI 보험 비교 앱으로 설계사 없이 가입하는 사람이 크게 늘었습니다.':id==='realtor'?'AI 매물 추천과 비대면 계약이 늘며 중개 의뢰가 줄었습니다.':['cvs','unmanned'].includes(id)?'AI 무인 점포가 근처에 잇따라 생겼습니다.':['tutor','engTutor'].includes(id)?'AI 튜터 앱이 퍼지며 수강생이 크게 줄었습니다.':['labeler','logistics'].includes(id)?'자동화로 맡을 일이 크게 줄었습니다.':'AI 생성 도구가 퍼지며 의뢰가 줄고 단가가 무너졌습니다.'} (AI 대체 위험 ${AI_N[AI[id]||0]})`,options:[
+  {label:'AI를 내 일에 들인다',sub:'60% 적응 · 수입 −10% · 이후 위험 감소',w:1.5,apply:S=>{eff(S,{k:6});S.stress+=8;if(R()<.6){S.job.sal*=.9;S.aiSafe=(S.aiSafe||0)+1;lg(S,'AI 도구를 익혀 일하는 방식을 바꿨다. 살아남았다.','good')}else{lg(S,'새 방식에 적응하지 못했다. 일감이 끊겼다.','bad');aiOut(S,0)}}},
+  {label:'단가를 낮춰 버틴다',sub:'수입 −25%',w:1.2,apply:S=>{S.job.sal*=.75;eff(S,{p:-5});lg(S,'단가를 크게 낮췄다. 일은 그대로인데 수입은 줄었다.','bad')}},
+  {label:'접고 다른 일을 찾는다',sub:'직업 목록으로',w:1,apply:S=>{lg(S,`${j.n} 일을 접었다.`,'choice');aiOut(S,0)}},
+  {label:'그냥 버틴다',sub:'50% 일감 끊김',w:1,apply:S=>{S.stress+=10;if(R()<.5){lg(S,'버텼지만 결국 일감이 끊겼다.','bad');aiOut(S,0)}else lg(S,'이번엔 버텼다. 다음은 모른다.','bad')}}]}}
+  return{title:'AI가 내 일을 가져갔다',desc:`${S.year}년. 회사가 ${j.n} 업무에 AI를 도입하며 인력을 ${cut}% 줄이기로 했습니다. 당신도 대상자 명단에 올랐습니다. (AI 대체 위험 ${AI_N[AI[j.id]||0]})`,options:[
   {label:'사내 재교육 → 직무 전환',sub:'60% 성공 · 연봉 −10% · 이후 위험 감소',w:1.5,apply:S=>{eff(S,{k:6});S.stress+=8;if(R()<.6){S.job.sal*=.9;S.aiSafe=(S.aiSafe||0)+1;lg(S,'AI를 다루는 직무로 전환해 살아남았다.','good')}else{lg(S,'재교육 후에도 자리가 없었다. 결국 회사를 나왔다.','bad');aiOut(S,.5)}}},
   {label:'희망퇴직 (위로금 연봉 1.5배)',sub:'목돈 · 다시 구직',w:1.2,apply:S=>{lg(S,'희망퇴직 서류에 서명했다.','choice');aiOut(S,1.5)}},
   {label:'국비 AI 전환 교육 후 이직',sub:'지식 +8 · 스펙 +1 · 다시 구직',w:1,apply:S=>{eff(S,{k:8});S.spec=(S.spec||0)+1;lg(S,'국비 지원 AI 전환 교육 과정에 등록했다.','choice');aiOut(S,.8)}},
   {label:'끝까지 버틴다',sub:'스트레스 +12 · 50% 해고',w:1,apply:S=>{S.stress+=12;if(R()<.5){lg(S,'버텼지만 결국 해고 통보를 받았다.','bad');aiOut(S,.5)}else lg(S,'이번엔 명단에서 빠졌다. 다음은 모른다.','bad')}}]}},
  workEvent:S=>{const e=WEV_MAP[S.wev],j=JOB[S.job.id];
-  return{title:e.t,desc:`${typeof e.d==='function'?e.d(S):e.d}<br><span style="font-size:13px;color:var(--ink3)">${j.e} ${j.n} · ${S.job.rank||rankOf(S)} · 스트레스 ${Math.round(S.stress)}${S.jobHunt?' · 이직 준비 중':''}</span>`,
-   options:e.o.filter(o=>!(o===JH&&(OWNER.has(S.job.id)||FLAT[S.job.id]))).map(o=>({label:o.l,sub:o.s,w:o.w||1,lock:o.lock&&o.lock(S),apply:S=>{S.wevSeen=S.wevSeen||{};S.wevSeen[e.id]=(S.wevSeen[e.id]||0)+1;o.f(S)}}))}},
- burnout:S=>{const j=JOB[S.job.id];return{title:'번아웃',desc:`${j.e} ${j.n} ${S.age-S.job.start}년 차, ${S.job.rank||''}. 스트레스 지수 <b>${Math.round(S.stress)}</b>. 아침에 눈을 뜨는 게 두렵습니다. 한국 직장인 10명 중 7명이 번아웃을 겪었다고 답했습니다.`,options:[
-  {label:'1년 휴직',sub:'1년 급여 없음 · 스트레스 크게↓',w:1.5,apply:S=>{S.onLeave=true;lg(S,'휴직계를 냈다.','choice')}},
+  return{title:wevTxt(e.t,S),desc:`${(WEV_ID_D[e.id]||{})[S.job.id]||wevTxt(e.d,S)}<br><span style="font-size:13px;color:var(--ink3)">${j.e} ${j.n} · ${S.job.rank||rankOf(S)} · 스트레스 ${Math.round(S.stress)}${S.jobHunt?' · 이직 준비 중':''}</span>`,
+   options:e.o.filter(o=>!(o===JH&&wkOf(S)!=='emp')&&(!o.who||o.who.includes(wkOf(S)))).map(o=>({label:wevTxt(o.l,S),sub:wevTxt(o.s,S),w:o.w||1,lock:o.lock&&o.lock(S),apply:S=>{S.wevSeen=S.wevSeen||{};S.wevSeen[e.id]=(S.wevSeen[e.id]||0)+1;o.f(S)}}))}},
+ bizCrisis:S=>{const j=JOB[S.job.id],n=bizN(S),yrs=S.age-S.job.start;return{title:'적자의 늪',desc:`${j.e} ${j.n} ${yrs}년 차. 1년째 적자입니다. 매달 통장에서 돈이 빠져나가고, ${n} 유지비가 매출보다 큽니다. 한국 신생 기업의 5년 생존율은 약 3분의 1입니다.`,options:[
+  {label:`${n}을(를) 정리한다`,sub:'돈 −3,000만 · 행복 −10 · 다른 일 찾기',w:2,apply:S=>closeBiz(S,3000,`적자를 견디지 못하고 ${n}을(를) 정리했다. 남은 건 빚과 권리금 손실.`)},
+  {label:'대출을 받아 1년 더 버틴다',sub:'빚 +3,000만 · 50% 회복 / 실패 시 손실 더 커짐',w:1.2,apply:S=>{S.debt+=3000;S.money+=3000;S.bizLast=true;S.stress+=10;lg(S,`소상공인 대출 3,000만 원을 받아 ${n}을(를) 1년 더 끌고 가기로 했다.`,'choice')}},
+  {label:'권리금을 받고 넘긴다',sub:'40% 인수자 찾음 → 손실 −1,000만 / 못 찾으면 폐업',lock:['interior','ecommerce','smartfarm'].includes(S.job.id)&&'넘길 점포가 없음',w:1,apply:S=>{if(R()<.4)closeBiz(S,1000,`인수자를 찾아 권리금을 조금 받고 ${n}을(를) 넘겼다.`);else closeBiz(S,3000,`인수자를 찾지 못해 결국 ${n}을(를) 닫았다.`)}}]}},
+ burnout:S=>{const j=JOB[S.job.id],emp=isEmp(S),shop=SHOP.has(S.job.id)||['ecommerce','interior','smartfarm'].includes(S.job.id);return{title:'번아웃',desc:`${j.e} ${j.n} ${S.age-S.job.start}년 차. 스트레스 지수 <b>${Math.round(S.stress)}</b>. 아침에 눈을 뜨는 게 두렵습니다. ${emp?'한국 직장인 10명 중 7명이 번아웃을 겪었다고 답했습니다.':'혼자 일하는 사람에게는 쉬는 날이 곧 수입이 없는 날입니다.'}`,options:[
+  emp?{label:'1년 휴직',sub:'1년 급여 없음 · 스트레스 크게↓',w:1.5,apply:S=>{S.onLeave=true;lg(S,'휴직계를 냈다.','choice')}}
+   :shop?{label:'직원에게 맡기고 일을 줄인다',sub:'수입 −30% · 스트레스 크게↓',w:1.5,apply:S=>{S.job.sal*=.7;S.stress-=20;S.stressMod=(S.stressMod||0)-6;lg(S,`${bizN(S)}을(를) 직원에게 맡기고 일하는 시간을 줄였다.`,'choice')}}
+   :{label:'1년 쉬어 간다',sub:'1년 수입 없음 · 스트레스 크게↓',w:1.5,apply:S=>{S.onLeave=true;lg(S,'일을 1년 쉬기로 했다.','choice')}},
   {label:'정신건강의학과 상담',sub:'비용 200만 · 스트레스 −18',w:1.5,apply:S=>{eff(S,{m:-200,p:4});S.stress-=18;lg(S,'상담을 받기 시작했다.','good')}},
   {label:'참고 버틴다',sub:'건강 −8 · 스트레스 그대로',w:2,apply:S=>{eff(S,{h:-8});S.stress-=4;lg(S,'이를 악물고 버텼다.','bad')}},
-  {label:'퇴사한다',sub:'직업 목록으로',w:.7,apply:S=>{lg(S,`${j.n}을(를) 그만뒀다.`,'choice');endJob(S);S.stress-=30;if(S.age>=58)S.retired=true;else S.nextJobTry=S.age+1}}]}},
+  shop?{label:`${bizN(S)}을(를) 정리한다`,sub:'돈 −1,500만 · 다른 일 찾기',w:.7,apply:S=>{S.stress-=30;closeBiz(S,1500,`지쳐서 ${bizN(S)}을(를) 정리했다.`)}}
+   :{label:emp?'퇴사한다':'그만둔다',sub:'직업 목록으로',w:.7,apply:S=>{lg(S,`${j.n}을(를) 그만뒀다.`,'choice');S.jobEnd=`번아웃으로 ${j.n}을(를) 그만뒀다.`;endJob(S);S.stress-=30;if(S.age>=58)S.retired=true;else S.nextJobTry=S.age+1}}]}},
  job:S=>{
   const opts=JOBS.filter(j=>!j.hidden).map(j=>{const el=elig(S,j);const failed=S.failed.includes(j.id);
    const pr=prepOf(j.id),pp=pr&&el.ok?prepPass(S,j.id):0;
    return{job:j,label:j.n,lock:!el.ok&&el.why,chance:pr?pp:el.c,prep:pr,failed,w:el.ok&&!failed?Math.pow(pr?Math.min(1,pp*2.2):el.c,1.5)*Math.pow(j.s/3000,.5)*(POPW[j.id]||1)*(j.id==='parttime'?.15:1):0,
     apply:S=>{if(pr){startPrep(S,j.id)}else if(R()<el.c){setJob(S,j.id)}else{S.failed.push(j.id);eff(S,{p:-4});lg(S,`${j.n} 지원에서 떨어졌다.`,'bad');return{fail:true,msg:`${j.e} ${j.n} — 불합격입니다. 다른 길을 고르거나 1년 더 준비할 수 있어요.`}}}}});
   opts.push({label:'1년 더 준비하기',sub:'지식 +6 · 내년에 다시',special:1,w:.3,apply:S=>{S.nextJobTry=S.age+1;eff(S,{k:6,p:-4});lg(S,'1년 더 취업 준비를 하기로 했다.','bad')}});
-  return{kind:'jobs',title:S.workYears?'새로운 직업 찾기':'첫 직장',desc:`한국직업사전에 오른 직업은 1만 6천여 개. 그중 대표 직업 ${JOBS.filter(x=>!x.hidden).length}개입니다.${S.age>=35&&S.workYears<3?' <b>30대 중반 이후 경력 없는 신입 지원은 합격률이 크게 떨어집니다.</b>':''}<br>${S.age}세 · 학력 ${S.edu.univ&&S.edu.univ!=='—'?S.edu.univ:'고졸'}${S.edu.major?' ('+({eng:'공학',sci:'자연',biz:'상경',hum:'인문',art:'예체능'})[S.edu.major]+')':''} · 지식 ${Math.round(S.know)}. 카드를 누르면 준비 과정과 일하는 환경을 먼저 볼 수 있어요. 시험 직업은 시험을, 회사는 서류·면접을, 가게는 창업 준비를 거치며 1년 단위로 결과가 나옵니다. 아르바이트·배달처럼 바로 시작할 수 있는 일도 있어요.`,options:opts}}
+  return{kind:'jobs',title:S.workYears?'새로운 직업 찾기':'첫 직장',desc:`${S.jobEnd?`<b>${S.jobEnd}</b><br>`:''}한국직업사전에 오른 직업은 1만 6천여 개. 그중 대표 직업 ${JOBS.filter(x=>!x.hidden).length}개입니다.${S.age>=35&&S.workYears<3?' <b>30대 중반 이후 경력 없는 신입 지원은 합격률이 크게 떨어집니다.</b>':''}<br>${S.age}세 · 학력 ${S.edu.univ&&S.edu.univ!=='—'?S.edu.univ:'고졸'}${S.edu.major?' ('+({eng:'공학',sci:'자연',biz:'상경',hum:'인문',art:'예체능'})[S.edu.major]+')':''} · 지식 ${Math.round(S.know)}. 카드를 누르면 준비 과정과 일하는 환경을 먼저 볼 수 있어요. 시험 직업은 시험을, 회사는 서류·면접을, 가게는 창업 준비를 거치며 1년 단위로 결과가 나옵니다. 아르바이트·배달처럼 바로 시작할 수 있는 일도 있어요.`,options:opts}}
 };
+// 모든 선택 화면 문구에 조사 자동 선택 적용
+for(const k in CHOICES){const f=CHOICES[k];CHOICES[k]=S=>{const c=f(S);c.title=josa(c.title);c.desc=josa(c.desc);
+  c.options.forEach(o=>{o.label=josa(o.label);o.sub=josa(o.sub);if(typeof o.lock==='string')o.lock=josa(o.lock)});return c}}
 
 function resolve(S,i){
   const c=CHOICES[S.pending](S),o=c.options[i];
@@ -1424,7 +1570,7 @@ function resolve(S,i){
   const res=o.apply(S)||{};
   if(res.fail)return res;
   c.after&&c.after(S);
-  S.history.push({age:S.age,title:c.title,label:o.label});
+  S.history.push({age:S.age,id:S.pending,title:c.title,label:o.label});
   S.pending=null;
   if(S.next){const n=S.next;S.next=null;setPending(S,n)}
   for(const k of['health','happy','know','rel','stress'])S[k]=clamp(S[k]);
