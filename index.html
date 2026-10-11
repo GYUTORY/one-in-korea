@@ -403,9 +403,9 @@ const JOBS=[
  {id:'doctor',n:'의사',c:'의료',e:'🩺',t:5,f:'med',k:70,o:.95,s:9000,g:.06,cap:30000,ret:70,wlb:2,sat:4,hp:-1,d:'전공의 수련 후 전문의. 최고 소득, 최고 강도.'},
  {id:'dentist',n:'치과의사',c:'의료',e:'🦷',t:5,f:'med',k:70,o:.9,s:8000,g:.05,cap:22000,ret:68,wlb:3,sat:3,d:'개원 대출이 크지만 안정적인 고소득.'},
  {id:'kmd',n:'한의사',c:'의료',e:'🌿',t:5,f:'med',k:70,o:.9,s:6000,g:.04,cap:14000,ret:70,wlb:4,sat:3,d:'워라밸은 좋지만 시장은 정체.'},
- {id:'pharm',n:'약사',c:'의료',e:'💊',t:4,mj:'sci',k:82,o:.35,s:6000,g:.03,cap:9000,ret:70,wlb:4,sat:3,d:'약대 6년. 정년 없는 전문직.'},
+ {id:'pharm',n:'약사',c:'의료',e:'💊',t:4,k:82,o:.35,s:6000,g:.03,cap:9000,ret:70,wlb:4,sat:3,d:'약대 6년. 정년 없는 전문직.'},
  {id:'nurse',n:'간호사',c:'의료',e:'🏥',t:3,f:'nurse',k:45,o:.93,s:3800,g:.04,cap:7000,ret:60,wlb:1,sat:3,hp:-2,d:'3교대. 취업률 최상위, 이직률도 최상위.'},
- {id:'pt',n:'물리치료사',c:'의료',e:'🦴',t:1,mj:'sci',k:40,o:.6,s:3000,g:.03,cap:5000,ret:62,wlb:3,sat:3,d:'전문대 3년제로도 가능한 의료직.'},
+ {id:'pt',n:'물리치료사',c:'의료',e:'🦴',t:1,dp:['pt'],k:40,o:.6,s:3000,g:.03,cap:5000,ret:62,wlb:3,sat:3,d:'전문대 3년제로도 가능한 의료직.'},
  {id:'care',from:2008,n:'요양보호사',c:'의료',e:'🤲',t:0,k:0,o:.92,s:2300,g:.01,cap:2800,ret:70,wlb:3,sat:2,hp:-1,d:'초고령사회 필수 인력. 낮은 임금, 높은 강도.'},
  {id:'judge',n:'판사·검사',c:'법·공공',e:'⚖️',t:5,k:92,o:.18,s:6000,g:.04,cap:14000,ret:65,wlb:2,sat:4,pub:1,d:'로스쿨 → 변호사시험 → 임용. 최상위 경쟁.'},
  {id:'lawyer',n:'변호사',c:'법·공공',e:'📜',t:4,k:85,o:.4,s:7000,g:.05,cap:20000,v:.03,ret:70,wlb:2,sat:3,d:'변호사 3만 명 시대. 양극화가 크다.'},
@@ -421,34 +421,34 @@ const JOBS=[
  {id:'prof',n:'대학교수',c:'교육',e:'🎓',t:5,k:93,o:.07,s:5000,g:.04,cap:13000,ret:65,wlb:3,sat:4,d:'박사·포닥·임용. 가장 좁은 문.'},
  {id:'tutor',n:'학원 강사',c:'교육',e:'✏️',t:2,k:60,o:.6,s:3000,g:.05,cap:12000,v:.03,ret:60,wlb:2,sat:3,d:'1타 강사가 되면 연봉 수십억.'},
  {id:'corpOffice',n:'대기업 사무직',c:'기업',e:'🏢',t:4,k:70,o:.28,s:5500,g:.05,cap:15000,ret:53,wlb:2,sat:3,d:'높은 초봉, 이른 명예퇴직.'},
- {id:'corpEng',n:'대기업 엔지니어',c:'기업',e:'⚙️',t:3,mj:'eng',k:65,o:.38,s:5800,g:.05,cap:15000,ret:55,wlb:2,sat:3,d:'반도체·배터리·자동차. 공대 우대.'},
+ {id:'corpEng',dpp:['ee','me','chem','cs'],n:'대기업 엔지니어',c:'기업',e:'⚙️',t:3,mj:'eng',k:65,o:.38,s:5800,g:.05,cap:15000,ret:55,wlb:2,sat:3,d:'반도체·배터리·자동차. 공대 우대.'},
  {id:'midCo',n:'중견기업 사무직',c:'기업',e:'🏬',t:2,k:50,o:.5,s:4000,g:.04,cap:9000,ret:57,wlb:3,sat:3,d:'안정과 연봉 사이 어딘가.'},
  {id:'smallCo',n:'중소기업 사무직',c:'기업',e:'📎',t:0,k:30,o:.8,s:3000,g:.03,cap:5500,ret:58,wlb:3,sat:2,d:'근로자의 80%가 일하는 곳.'},
- {id:'bank',n:'은행원',c:'기업',e:'🏦',t:4,mj:'biz',k:70,o:.25,s:5500,g:.05,cap:13000,ret:54,wlb:3,sat:3,d:'고연봉, 지점 축소와 희망퇴직.'},
+ {id:'bank',dpp:['biz'],n:'은행원',c:'기업',e:'🏦',t:4,mj:'biz',k:70,o:.25,s:5500,g:.05,cap:13000,ret:54,wlb:3,sat:3,d:'고연봉, 지점 축소와 희망퇴직.'},
  {id:'publicCo',n:'공기업 직원',c:'기업',e:'🔌',t:3,k:70,o:.15,s:4800,g:.04,cap:10000,ret:60,wlb:4,sat:3,d:'NCS 필기 + 면접. 신의 직장.'},
- {id:'cpa',n:'회계사',c:'기업',e:'🧮',t:3,mj:'biz',k:80,o:.25,s:6000,g:.05,cap:18000,ret:65,wlb:2,sat:3,d:'시즌엔 야근. 자격증의 힘.'},
+ {id:'cpa',dpp:['biz'],n:'회계사',c:'기업',e:'🧮',t:3,mj:'biz',k:80,o:.25,s:6000,g:.05,cap:18000,ret:65,wlb:2,sat:3,d:'시즌엔 야근. 자격증의 힘.'},
  {id:'consult',n:'전략 컨설턴트',c:'기업',e:'📊',t:5,k:85,o:.15,s:7500,g:.07,cap:22000,ret:50,wlb:1,sat:3,hp:-2,d:'주 80시간. 빠른 성장, 빠른 소진.'},
  {id:'marketer',n:'마케터',c:'기업',e:'📣',t:2,k:50,o:.45,s:3800,g:.04,cap:8000,ret:52,wlb:3,sat:3,d:'트렌드를 좇는 직업.'},
  {id:'flight',n:'항공 승무원',c:'기업',e:'✈️',t:2,k:50,o:.12,s:4200,g:.04,cap:8000,ret:55,wlb:2,sat:4,hp:-1,d:'경쟁률 100대 1. 시차와 체력전.'},
- {id:'devBig',from:1998,n:'빅테크 개발자',c:'IT',e:'💻',t:3,mj:'eng',k:70,o:.3,s:6000,g:.07,cap:17000,ret:48,wlb:3,sat:4,d:'네카라쿠배. 코딩테스트 관문.'},
- {id:'devStart',n:'스타트업 개발자',c:'IT',e:'🚀',t:1,mj:'eng',k:55,o:.6,s:4500,g:.06,cap:12000,v:.05,ret:50,wlb:2,sat:4,d:'스톡옵션 로또 혹은 폐업.'},
- {id:'data',from:2012,n:'데이터 사이언티스트',c:'IT',e:'🧠',t:4,mj:'eng',k:78,o:.3,s:5800,g:.06,cap:15000,ret:52,wlb:3,sat:4,d:'AI 시대의 수혜 직군.'},
+ {id:'devBig',dpp:['cs'],from:1998,n:'빅테크 개발자',c:'IT',e:'💻',t:3,mj:'eng',k:70,o:.3,s:6000,g:.07,cap:17000,ret:48,wlb:3,sat:4,d:'네카라쿠배. 코딩테스트 관문.'},
+ {id:'devStart',dpp:['cs'],n:'스타트업 개발자',c:'IT',e:'🚀',t:1,mj:'eng',k:55,o:.6,s:4500,g:.06,cap:12000,v:.05,ret:50,wlb:2,sat:4,d:'스톡옵션 로또 혹은 폐업.'},
+ {id:'data',dpp:['cs','nat'],from:2012,n:'데이터 사이언티스트',c:'IT',e:'🧠',t:4,mj:'eng',k:78,o:.3,s:5800,g:.06,cap:15000,ret:52,wlb:3,sat:4,d:'AI 시대의 수혜 직군.'},
  {id:'game',n:'게임 기획자',c:'IT',e:'🎮',t:2,k:55,o:.4,s:3800,g:.04,cap:8500,v:.02,ret:48,wlb:2,sat:4,d:'크런치 모드와 출시의 희열.'},
  {id:'factory',n:'대기업 생산직',c:'기술·현장',e:'🏭',t:0,k:35,o:.1,voc:.45,s:5000,g:.04,cap:11000,ret:60,wlb:3,sat:3,hp:-1,d:'마이스터고 출신 우대. 고연봉 현장직.'},
- {id:'elec',n:'전기기사',c:'기술·현장',e:'🔧',t:0,k:40,o:.6,voc:.25,s:3500,g:.04,cap:7500,ret:67,wlb:3,sat:3,d:'자격증 하나로 평생 먹고 산다.'},
- {id:'mechanic',n:'자동차 정비사',c:'기술·현장',e:'🚗',t:0,it:'tech',k:25,o:.75,voc:.15,s:3000,g:.035,cap:6000,ret:65,wlb:3,sat:3,hp:-1,d:'전기차 시대, 기술 전환이 과제.'},
+ {id:'elec',dpp:['ee'],n:'전기기사',c:'기술·현장',e:'🔧',t:0,k:40,o:.6,voc:.25,s:3500,g:.04,cap:7500,ret:67,wlb:3,sat:3,d:'자격증 하나로 평생 먹고 산다.'},
+ {id:'mechanic',dpp:['me'],n:'자동차 정비사',c:'기술·현장',e:'🚗',t:0,it:'tech',k:25,o:.75,voc:.15,s:3000,g:.035,cap:6000,ret:65,wlb:3,sat:3,hp:-1,d:'전기차 시대, 기술 전환이 과제.'},
  {id:'welder',n:'조선소 용접공',c:'기술·현장',e:'🔥',t:0,k:20,o:.75,s:4200,g:.03,cap:7000,ret:62,wlb:2,sat:2,hp:-3,d:'수주 호황기엔 고소득. 몸이 자본.'},
  {id:'delivery',from:1993,n:'택배기사',c:'기술·현장',e:'📦',t:0,k:0,o:.9,s:4500,g:.01,cap:5000,ret:62,wlb:1,sat:2,hp:-3,d:'하루 300개. 건당 수수료.'},
  {id:'rider',from:2012,n:'배달 라이더',c:'기술·현장',e:'🛵',t:0,k:0,o:.95,s:3200,g:0,cap:3500,ret:55,wlb:2,sat:2,hp:-2,risk:.003,d:'자유로운 시간, 위험한 도로.'},
- {id:'chef',n:'요리사·셰프',c:'서비스·자영업',e:'🍳',t:0,k:20,o:.75,s:2800,g:.06,cap:8000,v:.02,ret:65,wlb:1,sat:4,hp:-1,d:'주방 막내에서 오너 셰프까지.'},
- {id:'hair',n:'미용사',c:'서비스·자영업',e:'💇',t:0,k:15,o:.8,s:2600,g:.05,cap:6500,ret:65,wlb:2,sat:3,d:'단골이 곧 자산.'},
+ {id:'chef',dpp:['food'],n:'요리사·셰프',c:'서비스·자영업',e:'🍳',t:0,k:20,o:.75,s:2800,g:.06,cap:8000,v:.02,ret:65,wlb:1,sat:4,hp:-1,d:'주방 막내에서 오너 셰프까지.'},
+ {id:'hair',dpp:['beauty'],n:'미용사',c:'서비스·자영업',e:'💇',t:0,k:15,o:.8,s:2600,g:.05,cap:6500,ret:65,wlb:2,sat:3,d:'단골이 곧 자산.'},
  {id:'cafe',n:'카페 사장',c:'서비스·자영업',e:'☕',t:0,k:20,o:.9,s:2500,g:.02,cap:6000,v:.02,fail:.09,ret:70,wlb:2,sat:3,d:'인구 대비 카페 수 세계 최고 수준.'},
  {id:'founder',n:'치킨집 사장',c:'서비스·자영업',e:'🍗',t:0,k:10,o:.9,s:3500,g:.01,cap:5000,fail:.1,ret:72,wlb:1,sat:2,d:'은퇴자의 마지막 선택지. 5년 생존율 20%대.'},
  {id:'cvs',from:1989,n:'편의점 점주',c:'서비스·자영업',e:'🏪',t:0,k:10,o:.9,s:3000,g:.01,cap:4000,fail:.04,ret:70,wlb:1,sat:2,d:'24시간 365일.'},
  {id:'giftshop',from:2000,n:'소품샵 사장',c:'서비스·자영업',e:'🧸',t:0,k:15,o:.9,s:2200,g:.03,cap:6000,v:.03,fail:.1,ret:70,wlb:2,sat:4,d:'감성 소품과 인스타그램. 임대료와의 싸움.'},
  {id:'florist',n:'꽃집 · 플로리스트',c:'서비스·자영업',e:'💐',t:0,it:'art',k:15,o:.85,s:2300,g:.03,cap:5500,fail:.07,ret:72,wlb:2,sat:4,d:'졸업·입학·어버이날이 1년 매출의 절반.'},
  {id:'bakery',n:'동네 베이커리',c:'서비스·자영업',e:'🥐',t:0,k:15,o:.85,s:2800,g:.03,cap:7000,v:.02,fail:.08,ret:70,wlb:1,sat:4,hp:-1,d:'새벽 4시 반죽. 프랜차이즈와의 경쟁.'},
- {id:'nail',from:1995,n:'네일·속눈썹샵 원장',c:'서비스·자영업',e:'💅',t:0,k:10,o:.85,s:2600,g:.04,cap:6500,fail:.07,ret:65,wlb:2,sat:3,d:'1인 샵 창업은 쉽지만 경쟁도 치열.'},
+ {id:'nail',dpp:['beauty'],from:1995,n:'네일·속눈썹샵 원장',c:'서비스·자영업',e:'💅',t:0,k:10,o:.85,s:2600,g:.04,cap:6500,fail:.07,ret:65,wlb:2,sat:3,d:'1인 샵 창업은 쉽지만 경쟁도 치열.'},
  {id:'ecommerce',from:1998,n:'온라인 쇼핑몰 운영',c:'서비스·자영업',e:'🛒',t:0,k:30,o:.85,s:2000,g:.05,cap:8000,v:.05,fail:.08,ret:70,wlb:2,sat:3,d:'스마트스토어 · 광고비 · 반품과의 전쟁.'},
  {id:'unmanned',from:2018,n:'무인 아이스크림 할인점',c:'서비스·자영업',e:'🍦',t:0,k:10,o:.9,s:1500,g:.01,cap:2500,fail:.12,ret:75,wlb:4,sat:2,d:'부업으로 시작하기 쉽지만 과포화.'},
  {id:'banchan',n:'반찬가게 사장',c:'서비스·자영업',e:'🍱',t:0,k:10,o:.85,s:2600,g:.02,cap:5000,fail:.07,ret:72,wlb:1,sat:3,hp:-1,d:'1인 가구 시대의 동네 장사.'},
@@ -460,21 +460,21 @@ const JOBS=[
  {id:'actor',n:'배우',c:'문화·예술',e:'🎭',t:0,it:'art',fb:'art',k:10,o:.2,s:800,g:.05,cap:3000,v:.04,ret:80,wlb:3,sat:5,d:'배우의 연 소득 중위값은 수백만 원.'},
  {id:'musician',n:'음악가',c:'문화·예술',e:'🎻',t:2,it:'art',fb:'art',k:30,o:.3,s:1800,g:.04,cap:5000,v:.02,ret:75,wlb:3,sat:5,d:'레슨과 공연 사이.'},
  {id:'designer',n:'디자이너',c:'문화·예술',e:'🎨',t:1,it:'art',fb:'art',k:30,o:.55,s:3000,g:.04,cap:7000,ret:55,wlb:2,sat:4,d:'포트폴리오가 학벌을 이긴다.'},
- {id:'reporter',n:'기자',c:'문화·예술',e:'📰',t:4,k:70,o:.2,s:4000,g:.04,cap:9000,ret:58,wlb:1,sat:3,d:'언론고시. 마감이 일상.'},
- {id:'pd',n:'방송 PD',c:'문화·예술',e:'🎬',t:4,k:72,o:.12,s:4500,g:.045,cap:10000,v:.02,ret:58,wlb:1,sat:4,d:'시청률이 곧 성적표.'},
+ {id:'reporter',dpp:['soc'],n:'기자',c:'문화·예술',e:'📰',t:4,k:70,o:.2,s:4000,g:.04,cap:9000,ret:58,wlb:1,sat:3,d:'언론고시. 마감이 일상.'},
+ {id:'pd',dpp:['soc'],n:'방송 PD',c:'문화·예술',e:'🎬',t:4,k:72,o:.12,s:4500,g:.045,cap:10000,v:.02,ret:58,wlb:1,sat:4,d:'시청률이 곧 성적표.'},
  {id:'athlete',n:'프로 운동선수',c:'스포츠·농업',e:'⚽',t:0,it:'sport',lockIt:1,fb:'art',k:0,o:.15,s:4000,g:.12,cap:20000,v:.05,ret:33,wlb:3,sat:5,hp:1,d:'프로 입단은 극소수. 평균 은퇴는 30대 초반.'},
  {id:'coach',n:'스포츠 코치',c:'스포츠·농업',e:'🏋',t:0,it:'sport',k:10,o:.6,s:2800,g:.03,cap:6000,ret:62,wlb:3,sat:4,hp:1,d:'운동을 가르치는 삶.'},
  {id:'farmer',n:'농부',c:'스포츠·농업',e:'🌾',t:0,k:15,o:.85,s:2200,g:.04,cap:6000,v:.02,ret:75,wlb:3,sat:4,d:'귀농 정착금 지원. 날씨가 사장님.'},
 
  // ---- 전문 자격 ----
- {id:'taxacct',n:'세무사',c:'전문 자격',e:'🧾',t:2,k:78,o:.3,s:5000,g:.05,cap:15000,ret:70,wlb:2,sat:3,d:'연 700명 선발. AI 장부 자동화로 소규모 기장 시장이 줄고 있다.'},
- {id:'bookkeeper',n:'세무·회계 사무원',c:'전문 자격',e:'📒',t:1,k:40,o:.7,s:2800,g:.03,cap:4500,ret:60,wlb:3,sat:2,d:'경리·기장 대행. AI 자동화 1순위 직무.'},
+ {id:'taxacct',dpp:['biz'],n:'세무사',c:'전문 자격',e:'🧾',t:2,k:78,o:.3,s:5000,g:.05,cap:15000,ret:70,wlb:2,sat:3,d:'연 700명 선발. AI 장부 자동화로 소규모 기장 시장이 줄고 있다.'},
+ {id:'bookkeeper',dpp:['biz'],n:'세무·회계 사무원',c:'전문 자격',e:'📒',t:1,k:40,o:.7,s:2800,g:.03,cap:4500,ret:60,wlb:3,sat:2,d:'경리·기장 대행. AI 자동화 1순위 직무.'},
  {id:'labor',from:1987,n:'공인노무사',c:'전문 자격',e:'📑',t:3,k:80,o:.25,s:4500,g:.05,cap:12000,ret:70,wlb:3,sat:3,d:'노동 분쟁·4대보험. 연 300명 선발.'},
  {id:'customs',from:1975,n:'관세사',c:'전문 자격',e:'🛃',t:2,k:75,o:.25,s:4500,g:.04,cap:11000,ret:70,wlb:3,sat:3,d:'수출입 통관. 연 90명 선발.'},
  {id:'appraiser',from:1989,n:'감정평가사',c:'전문 자격',e:'🏠',t:3,k:82,o:.25,s:6000,g:.05,cap:15000,ret:70,wlb:3,sat:3,d:'부동산 가치 평가. AI 시세 산정과 경쟁 중.'},
  {id:'scrivener',n:'법무사',c:'전문 자격',e:'🖋',t:2,k:78,o:.2,s:5000,g:.03,cap:10000,ret:72,wlb:3,sat:3,d:'등기·소송서류. 전자등기 자동화로 위축.'},
- {id:'patent',from:1961,n:'변리사',c:'전문 자격',e:'💡',t:4,mj:'eng',k:88,o:.25,s:7000,g:.06,cap:20000,ret:70,wlb:2,sat:4,d:'이공계 출신 지식재산 전문가.'},
- {id:'actuary',n:'보험계리사',c:'전문 자격',e:'🎲',t:4,mj:'biz',k:85,o:.3,s:6000,g:.05,cap:15000,ret:60,wlb:3,sat:3,d:'보험 상품의 수학. 인원이 적어 몸값이 높다.'},
+ {id:'patent',dpp:['ee','me','chem','cs','nat'],from:1961,n:'변리사',c:'전문 자격',e:'💡',t:4,mj:'eng',k:88,o:.25,s:7000,g:.06,cap:20000,ret:70,wlb:2,sat:4,d:'이공계 출신 지식재산 전문가.'},
+ {id:'actuary',dpp:['biz','nat'],n:'보험계리사',c:'전문 자격',e:'🎲',t:4,mj:'biz',k:85,o:.3,s:6000,g:.05,cap:15000,ret:60,wlb:3,sat:3,d:'보험 상품의 수학. 인원이 적어 몸값이 높다.'},
  // ---- 기업 · 금융 ----
  {id:'analyst',n:'증권사 애널리스트',c:'기업',e:'📈',t:5,k:85,o:.15,s:7000,g:.06,cap:25000,v:.03,ret:55,wlb:1,sat:3,d:'새벽 6시 출근, 리포트와 숫자.'},
  {id:'insurance',n:'보험설계사',c:'기업',e:'☂️',t:0,k:20,o:.9,s:2500,g:.05,cap:9000,v:.03,ret:70,wlb:3,sat:2,d:'수수료제. 1년 정착률 약 40%.'},
@@ -482,21 +482,21 @@ const JOBS=[
  {id:'hr',n:'인사·총무 담당',c:'기업',e:'👔',t:3,k:60,o:.35,s:4300,g:.04,cap:9000,ret:55,wlb:3,sat:3,d:'채용·급여·평가. HR 자동화가 빠르게 진행 중.'},
  {id:'secretary',n:'비서·사무보조',c:'기업',e:'📇',t:1,k:35,o:.6,s:2800,g:.02,cap:4200,ret:55,wlb:3,sat:2,d:'일정·문서 관리. AI 비서가 대체 중.'},
  // ---- IT ----
- {id:'aiEng',from:2015,n:'AI 엔지니어',c:'IT',e:'🤖',t:4,mj:'eng',k:85,o:.25,s:7000,g:.08,cap:22000,ret:52,wlb:3,sat:4,d:'AI 시대 최대 수혜 직군. 석사 이상 선호.'},
- {id:'security',from:2000,n:'보안 엔지니어',c:'IT',e:'🔐',t:3,mj:'eng',k:68,o:.35,s:5000,g:.06,cap:13000,ret:55,wlb:3,sat:3,d:'해킹은 쉬지 않는다.'},
+ {id:'aiEng',dpp:['cs'],from:2015,n:'AI 엔지니어',c:'IT',e:'🤖',t:4,mj:'eng',k:85,o:.25,s:7000,g:.08,cap:22000,ret:52,wlb:3,sat:4,d:'AI 시대 최대 수혜 직군. 석사 이상 선호.'},
+ {id:'security',dpp:['cs'],from:2000,n:'보안 엔지니어',c:'IT',e:'🔐',t:3,mj:'eng',k:68,o:.35,s:5000,g:.06,cap:13000,ret:55,wlb:3,sat:3,d:'해킹은 쉬지 않는다.'},
  {id:'qa',from:1995,n:'QA 테스터',c:'IT',e:'🧪',t:1,k:35,o:.65,s:3200,g:.03,cap:5500,ret:50,wlb:3,sat:2,d:'테스트 자동화로 수요 감소.'},
  {id:'ux',from:2000,n:'UX/UI 디자이너',c:'IT',e:'🖌',t:2,it:'art',fb:'art',k:50,o:.4,s:3800,g:.05,cap:9000,ret:50,wlb:3,sat:4,d:'생성형 AI 디자인 도구와 경쟁.'},
  {id:'pm',from:2005,n:'서비스 기획자 (PM)',c:'IT',e:'📋',t:3,k:65,o:.3,s:4500,g:.06,cap:12000,ret:50,wlb:2,sat:4,d:'개발·디자인·사업 사이의 통역사.'},
- {id:'si',from:1988,n:'SI 개발자',c:'IT',e:'🖥',t:1,mj:'eng',k:45,o:.6,s:3500,g:.04,cap:7500,ret:50,wlb:1,sat:2,d:'하청 구조 · 파견 근무 · 야근.'},
+ {id:'si',dpp:['cs'],from:1988,n:'SI 개발자',c:'IT',e:'🖥',t:1,mj:'eng',k:45,o:.6,s:3500,g:.04,cap:7500,ret:50,wlb:1,sat:2,d:'하청 구조 · 파견 근무 · 야근.'},
  {id:'labeler',from:2018,n:'데이터 라벨러',c:'IT',e:'🏷',t:0,k:10,o:.9,s:2000,g:.01,cap:2600,ret:60,wlb:3,sat:1,d:'AI 학습 데이터 작업. AI가 AI를 대신하며 줄어드는 중.'},
  // ---- 연구·과학 ----
- {id:'researcher',n:'출연연 연구원',c:'연구·과학',e:'🔬',t:5,mj:'sci',k:88,o:.2,s:5500,g:.04,cap:12000,ret:61,wlb:4,sat:4,pub:1,d:'박사 학위 필요. 정년 보장, 연구비 경쟁.'},
- {id:'chemist',n:'화학·소재 연구원',c:'연구·과학',e:'⚗️',t:4,mj:'sci',k:75,o:.3,s:5000,g:.05,cap:12000,ret:55,wlb:3,sat:4,d:'배터리·반도체 소재 개발.'},
- {id:'bio',n:'바이오 연구원',c:'연구·과학',e:'🧬',t:4,mj:'sci',k:75,o:.3,s:4500,g:.05,cap:11000,ret:55,wlb:3,sat:4,d:'신약 개발. 성공 확률은 1만 분의 1.'},
+ {id:'researcher',dpp:['nat','chem','ee','cs'],n:'출연연 연구원',c:'연구·과학',e:'🔬',t:5,mj:'sci',k:88,o:.2,s:5500,g:.04,cap:12000,ret:61,wlb:4,sat:4,pub:1,d:'박사 학위 필요. 정년 보장, 연구비 경쟁.'},
+ {id:'chemist',dpp:['chem','nat'],n:'화학·소재 연구원',c:'연구·과학',e:'⚗️',t:4,mj:'sci',k:75,o:.3,s:5000,g:.05,cap:12000,ret:55,wlb:3,sat:4,d:'배터리·반도체 소재 개발.'},
+ {id:'bio',dpp:['nat','chem'],n:'바이오 연구원',c:'연구·과학',e:'🧬',t:4,mj:'sci',k:75,o:.3,s:4500,g:.05,cap:11000,ret:55,wlb:3,sat:4,d:'신약 개발. 성공 확률은 1만 분의 1.'},
  {id:'labtech',n:'연구 보조원',c:'연구·과학',e:'🧫',t:2,mj:'sci',k:50,o:.55,s:3000,g:.03,cap:5000,ret:55,wlb:3,sat:3,d:'실험 자동화로 수요 감소.'},
  // ---- 건설·운송 ----
- {id:'architect',n:'건축사',c:'건설·운송',e:'🏗',t:3,mj:'eng',k:70,o:.3,s:4000,g:.05,cap:12000,v:.02,ret:70,wlb:1,sat:4,d:'설계사무소 박봉 실무 3년을 버텨야 한다.'},
- {id:'civil',n:'건설 현장관리자',c:'건설·운송',e:'🦺',t:3,mj:'eng',k:55,o:.45,s:5000,g:.04,cap:11000,ret:58,wlb:1,sat:3,hp:-1,d:'전국 현장 순환 근무.'},
+ {id:'architect',dpp:['civ'],n:'건축사',c:'건설·운송',e:'🏗',t:3,mj:'eng',k:70,o:.3,s:4000,g:.05,cap:12000,v:.02,ret:70,wlb:1,sat:4,d:'설계사무소 박봉 실무 3년을 버텨야 한다.'},
+ {id:'civil',dpp:['civ'],n:'건설 현장관리자',c:'건설·운송',e:'🦺',t:3,mj:'eng',k:55,o:.45,s:5000,g:.04,cap:11000,ret:58,wlb:1,sat:3,hp:-1,d:'전국 현장 순환 근무.'},
  {id:'carpenter',n:'목수',c:'건설·운송',e:'🪚',t:0,k:10,o:.75,s:3500,g:.04,cap:7000,ret:65,wlb:3,sat:3,hp:-2,d:'숙련공 일당 30만 원 시대. 몸이 자본.'},
  {id:'interior',n:'인테리어 시공업',c:'건설·운송',e:'🛠',t:0,k:20,o:.75,s:3500,g:.04,cap:9000,v:.02,fail:.04,ret:68,wlb:2,sat:3,hp:-1,d:'기술 + 영업. 하자 분쟁이 변수.'},
  {id:'plumber',n:'설비·배관 기사',c:'건설·운송',e:'🔩',t:0,k:20,o:.75,s:3500,g:.04,cap:7000,ret:68,wlb:3,sat:3,hp:-1,d:'AI가 대신할 수 없는 손기술.'},
@@ -509,19 +509,19 @@ const JOBS=[
  {id:'rail',n:'철도 기관사',c:'건설·운송',e:'🚆',t:1,k:60,o:.2,s:5000,g:.04,cap:9000,ret:60,wlb:3,sat:3,d:'공기업 채용 + 면허. 안정적.'},
  {id:'logistics',from:2000,n:'물류센터 근무',c:'건설·운송',e:'🗃',t:0,k:0,o:.95,s:2800,g:.01,cap:3200,ret:60,wlb:2,sat:1,hp:-2,d:'로봇 자동화가 가장 빠른 현장.'},
  // ---- 의료 ----
- {id:'radiologist',n:'방사선사',c:'의료',e:'🩻',t:1,mj:'sci',k:45,o:.7,s:3500,g:.03,cap:6500,ret:60,wlb:3,sat:3,d:'AI 판독 보조가 빠르게 도입 중.'},
- {id:'hygienist',n:'치위생사',c:'의료',e:'🪥',t:1,k:35,o:.8,s:3000,g:.03,cap:5000,ret:60,wlb:3,sat:3,d:'취업률 높음. 임금 상승은 더딤.'},
- {id:'clinlab',n:'임상병리사',c:'의료',e:'🩸',t:1,mj:'sci',k:40,o:.7,s:3300,g:.03,cap:6000,ret:60,wlb:3,sat:3,d:'검사 자동화로 인력 수요 감소.'},
+ {id:'radiologist',n:'방사선사',c:'의료',e:'🩻',t:1,dp:['rad'],k:45,o:.7,s:3500,g:.03,cap:6500,ret:60,wlb:3,sat:3,d:'AI 판독 보조가 빠르게 도입 중.'},
+ {id:'hygienist',n:'치위생사',c:'의료',e:'🪥',t:1,dp:['hyg'],k:35,o:.8,s:3000,g:.03,cap:5000,ret:60,wlb:3,sat:3,d:'취업률 높음. 임금 상승은 더딤.'},
+ {id:'clinlab',n:'임상병리사',c:'의료',e:'🩸',t:1,dp:['clin'],k:40,o:.7,s:3300,g:.03,cap:6000,ret:60,wlb:3,sat:3,d:'검사 자동화로 인력 수요 감소.'},
  {id:'nurseAide',n:'간호조무사',c:'의료',e:'💉',t:0,k:15,o:.85,s:2500,g:.02,cap:3500,ret:65,wlb:2,sat:2,d:'의원급 의료기관의 실질적 인력.'},
- {id:'vet',n:'수의사',c:'의료',e:'🐾',t:5,mj:'sci',k:88,o:.3,s:5000,g:.05,cap:15000,ret:70,wlb:2,sat:4,d:'수의대 6년. 반려동물 1,500만 시대.'},
+ {id:'vet',n:'수의사',c:'의료',e:'🐾',t:4,f:'vet',k:70,o:.9,s:5000,g:.05,cap:15000,ret:70,wlb:2,sat:4,d:'수의대 6년. 반려동물 1,500만 시대.'},
  {id:'pharmaSales',n:'제약 영업 (MR)',c:'의료',e:'🧳',t:2,k:45,o:.5,s:4500,g:.05,cap:10000,ret:55,wlb:2,sat:2,d:'병원 방문 영업. 실적 압박.'},
  // ---- 복지·돌봄 ----
- {id:'socialworker',from:1983,n:'사회복지사',c:'복지·돌봄',e:'🤝',t:2,k:40,o:.7,s:2800,g:.03,cap:4500,ret:60,wlb:3,sat:3,d:'보람과 박봉 사이. 감정 소진.'},
- {id:'daycare',from:1991,n:'어린이집 보육교사',c:'복지·돌봄',e:'🍼',t:1,k:25,o:.8,s:2500,g:.02,cap:3800,ret:60,wlb:2,sat:3,d:'저출생으로 어린이집이 줄고 있다.'},
- {id:'counselor',from:1997,n:'상담심리사',c:'복지·돌봄',e:'🛋',t:4,k:75,o:.3,s:3000,g:.04,cap:7000,ret:70,wlb:3,sat:4,d:'석사 + 수련 3년. 정신건강 수요 급증.'},
+ {id:'socialworker',dpp:['welfare'],from:1983,n:'사회복지사',c:'복지·돌봄',e:'🤝',t:2,k:40,o:.7,s:2800,g:.03,cap:4500,ret:60,wlb:3,sat:3,d:'보람과 박봉 사이. 감정 소진.'},
+ {id:'daycare',dpp:['ece','welfare'],from:1991,n:'어린이집 보육교사',c:'복지·돌봄',e:'🍼',t:1,k:25,o:.8,s:2500,g:.02,cap:3800,ret:60,wlb:2,sat:3,d:'저출생으로 어린이집이 줄고 있다.'},
+ {id:'counselor',dpp:['soc'],from:1997,n:'상담심리사',c:'복지·돌봄',e:'🛋',t:4,k:75,o:.3,s:3000,g:.04,cap:7000,ret:70,wlb:3,sat:4,d:'석사 + 수련 3년. 정신건강 수요 급증.'},
  {id:'funeral',from:1980,n:'장례지도사',c:'복지·돌봄',e:'⚱️',t:1,k:20,o:.75,s:3200,g:.03,cap:5500,ret:65,wlb:2,sat:3,d:'초고령사회의 필수 직업.'},
  // ---- 교육 ----
- {id:'kinder',n:'유치원 교사',c:'교육',e:'🎈',t:1,k:45,o:.6,s:2800,g:.03,cap:5000,ret:60,wlb:3,sat:3,d:'사립은 박봉, 공립은 임용시험.'},
+ {id:'kinder',n:'유치원 교사',c:'교육',e:'🎈',t:1,dp:['ece'],k:45,o:.6,s:2800,g:.03,cap:5000,ret:60,wlb:3,sat:3,d:'사립은 박봉, 공립은 임용시험.'},
  {id:'specialEd',from:1977,n:'특수교사',c:'교육',e:'🧩',t:4,fb:'edu',k:65,o:.25,s:3300,g:.04,cap:8000,ret:62,wlb:3,sat:4,pub:1,d:'수요는 늘고 인력은 부족.'},
  {id:'lecturer',n:'대학 시간강사',c:'교육',e:'📚',t:5,k:85,o:.3,s:1800,g:.02,cap:3000,ret:65,wlb:3,sat:3,d:'박사 학위, 연봉 2천만 원 미만.'},
  {id:'engTutor',n:'영어 강사·과외',c:'교육',e:'🗣',t:2,k:60,o:.6,s:3000,g:.04,cap:8000,v:.02,ret:60,wlb:2,sat:3,d:'AI 회화 튜터와 경쟁.'},
@@ -541,7 +541,7 @@ const JOBS=[
  {id:'cs',from:1995,n:'콜센터 상담원',c:'서비스·자영업',e:'🎧',t:0,k:10,o:.9,s:2500,g:.01,cap:3200,ret:60,wlb:3,sat:1,d:'감정노동 1위. AI 상담봇이 빠르게 대체 중.'},
  {id:'hotel',n:'호텔리어',c:'서비스·자영업',e:'🛎',t:1,k:35,o:.6,s:3000,g:.03,cap:6000,ret:55,wlb:2,sat:3,d:'교대 근무와 서비스 정신.'},
  {id:'guide',n:'관광 가이드',c:'서비스·자영업',e:'🗺',t:2,k:45,o:.6,s:2800,g:.03,cap:5000,ret:65,wlb:3,sat:4,d:'관광통역안내사 자격. 관광객 수에 따라 출렁.'},
- {id:'schoolCook',n:'급식 조리실무사',c:'서비스·자영업',e:'🍲',t:0,k:10,o:.7,s:2800,g:.02,cap:3800,ret:60,wlb:3,sat:2,hp:-2,d:'폐암 산재 이슈. 학교 비정규직.'},
+ {id:'schoolCook',dpp:['food'],n:'급식 조리실무사',c:'서비스·자영업',e:'🍲',t:0,k:10,o:.7,s:2800,g:.02,cap:3800,ret:60,wlb:3,sat:2,hp:-2,d:'폐암 산재 이슈. 학교 비정규직.'},
  {id:'groomer',from:1995,n:'반려동물 미용사',c:'서비스·자영업',e:'🐶',t:0,k:10,o:.8,s:2500,g:.04,cap:5500,ret:65,wlb:2,sat:4,d:'펫 산업 성장.'},
  {id:'cleaner',n:'청소·방역',c:'서비스·자영업',e:'🧹',t:0,k:0,o:.95,s:2400,g:.01,cap:2800,ret:70,wlb:3,sat:2,hp:-1,d:'고령층 일자리의 큰 비중.'},
  // ---- 법·공공 ----
@@ -549,12 +549,12 @@ const JOBS=[
  {id:'correction',n:'교정직 공무원',c:'법·공공',e:'🔒',t:0,k:45,o:.25,s:3000,g:.035,cap:6500,ret:60,wlb:2,sat:2,pub:1,ma:40,d:'교도관. 수용자 폭행 위험.'},
  {id:'coastguard',n:'해양경찰',c:'법·공공',e:'🚤',t:0,k:45,o:.25,s:3200,g:.04,cap:7000,ret:60,wlb:2,sat:3,hp:-1,pub:1,ma:40,d:'바다 위의 경찰.'},
  {id:'postman',n:'집배원',c:'법·공공',e:'✉️',t:0,k:35,o:.3,s:3000,g:.035,cap:5500,ret:60,wlb:2,sat:3,hp:-2,pub:1,d:'과로사 이슈. 오토바이 사고 위험.'},
- {id:'socialGov',n:'사회복지직 공무원',c:'법·공공',e:'🗃',t:2,k:50,o:.25,s:2900,g:.035,cap:6000,ret:60,wlb:3,sat:2,pub:1,d:'민원 강도 최상위 직렬.'},
+ {id:'socialGov',dpp:['welfare'],n:'사회복지직 공무원',c:'법·공공',e:'🗃',t:2,k:50,o:.25,s:2900,g:.035,cap:6000,ret:60,wlb:3,sat:2,pub:1,d:'민원 강도 최상위 직렬.'},
  {id:'investigator',n:'검찰 수사관',c:'법·공공',e:'🕵',t:2,k:65,o:.12,s:3300,g:.04,cap:7500,ret:60,wlb:2,sat:3,pub:1,d:'7급 공채. 수사 실무.'},
  // ---- 기술·현장 ----
- {id:'semiOp',from:1983,n:'반도체 설비 엔지니어',c:'기술·현장',e:'🔌',t:1,k:40,o:.35,voc:.3,s:4500,g:.04,cap:9000,ret:57,wlb:2,sat:3,hp:-1,d:'클린룸 4조 3교대.'},
- {id:'elevator',n:'승강기 기사',c:'기술·현장',e:'🛗',t:0,k:30,o:.6,s:4000,g:.03,cap:6500,ret:62,wlb:3,sat:3,d:'노후 아파트 증가로 수요 꾸준.'},
- {id:'aircraftMech',n:'항공 정비사',c:'기술·현장',e:'🛩',t:1,k:50,o:.4,s:4500,g:.04,cap:9000,ret:60,wlb:2,sat:4,d:'면허 + 야간 정비.'},
+ {id:'semiOp',dpp:['ee','me'],from:1983,n:'반도체 설비 엔지니어',c:'기술·현장',e:'🔌',t:1,k:40,o:.35,voc:.3,s:4500,g:.04,cap:9000,ret:57,wlb:2,sat:3,hp:-1,d:'클린룸 4조 3교대.'},
+ {id:'elevator',dpp:['ee','me'],n:'승강기 기사',c:'기술·현장',e:'🛗',t:0,k:30,o:.6,s:4000,g:.03,cap:6500,ret:62,wlb:3,sat:3,d:'노후 아파트 증가로 수요 꾸준.'},
+ {id:'aircraftMech',n:'항공 정비사',c:'기술·현장',e:'🛩',t:1,dp:['aero'],k:50,o:.4,s:4500,g:.04,cap:9000,ret:60,wlb:2,sat:4,d:'면허 + 야간 정비.'},
  // ---- 스포츠·농업 ----
  {id:'smartfarm',from:2015,n:'스마트팜 운영',c:'스포츠·농업',e:'🌱',t:0,k:35,o:.7,s:3000,g:.05,cap:8000,v:.03,fail:.05,ret:70,wlb:3,sat:4,d:'시설 투자 수억. 데이터 농업.'},
  {id:'fisher',n:'어부',c:'스포츠·농업',e:'🎣',t:0,k:0,o:.8,s:3500,g:.02,cap:6000,ret:75,wlb:2,sat:3,hp:-2,risk:.002,d:'어촌 고령화. 외국인 선원 의존.'},
@@ -605,7 +605,30 @@ const POPW=Object.assign({},...['smallCo','midCo','sales','cs','care','logistics
 // 대기업·금융·빅테크는 40대 후반부터 경력직 채용도 사실상 없음
 const LATE_CAP=new Set(['corpOffice','corpEng','bank','publicCo','consult','analyst','devBig','data','aiEng','hr','pm','flight','factory','semiOp','hotel','pharmaSales','aircraftMech','qa']);
 const aiYear=y=>clamp((y-2024)/8,0,1.4); // 2030년 ≈ .75, 2032년 = 1, 2035년 ≈ 1.4
-const FLAG_N={med:'의대',nurse:'간호학과',edu:'교대·사범대',army:'사관학교',art:'예체능'};
+const FLAG_N={med:'의대',nurse:'간호학과',edu:'교대·사범대',army:'사관학교',art:'예체능',vet:'수의대',pharm:'약대'};
+// 학과: g=전공 계열(직업 우대 판정용), u=4년제 이름, j=전문대 이름(없으면 전문대에 없음), min=입학에 필요한 수능 백분위, jobs=관련 직업(설명용)
+const DEPTS={
+ cs:{g:'eng',u:'컴퓨터공학과',j:'컴퓨터정보과',jobs:'개발자 · 데이터 · 보안'},
+ ee:{g:'eng',u:'전기전자공학과',j:'전기과',jobs:'전기기사 · 반도체 설비 · 엔지니어'},
+ me:{g:'eng',u:'기계·자동차공학과',j:'자동차과',jobs:'정비사 · 설비 · 엔지니어'},
+ aero:{g:'eng',u:'항공정비학과',j:'항공정비과',jobs:'항공 정비사 (면허)'},
+ civ:{g:'eng',u:'건축·토목공학과',j:'건축과',jobs:'건축사 · 현장관리자'},
+ chem:{g:'eng',u:'화학·신소재공학과',jobs:'소재 연구원 · 엔지니어'},
+ nat:{g:'sci',u:'자연과학 (수학·물리·화학·생명)',jobs:'연구원 · 약대 편입 · 데이터'},
+ pt:{g:'hlth',u:'물리치료학과',j:'물리치료과',min:70,minJ:50,jobs:'물리치료사 (면허)'},
+ rad:{g:'hlth',u:'방사선학과',j:'방사선과',min:66,minJ:45,jobs:'방사선사 (면허)'},
+ clin:{g:'hlth',u:'임상병리학과',j:'임상병리과',min:64,minJ:42,jobs:'임상병리사 (면허)'},
+ hyg:{g:'hlth',u:'치위생학과',j:'치위생과',min:62,minJ:42,jobs:'치위생사 (면허)'},
+ biz:{g:'biz',u:'경영·경제학과',j:'세무회계과',jobs:'은행 · 회계 · 세무 · 사무직'},
+ law:{g:'hum',u:'법학·행정학과',jobs:'공무원 · 법조 · 사무직'},
+ hum:{g:'hum',u:'어문·인문학과',jobs:'공무원 · 번역 · 사무직'},
+ soc:{g:'hum',u:'사회·미디어학과',jobs:'기자 · PD · 마케터 · 상담'},
+ welfare:{g:'hum',u:'사회복지학과',j:'사회복지과',jobs:'사회복지사 · 보육교사'},
+ ece:{g:'hum',u:'유아교육과',j:'유아교육과',jobs:'유치원 교사 (자격) · 보육교사'},
+ food:{g:'sci',u:'식품영양·조리학과',j:'호텔조리과',jobs:'요리사 · 급식 · 영양'},
+ beauty:{j:'뷰티미용과',g:'art',jobs:'미용사 · 네일'}
+};
+const deptName=S=>{const d=DEPTS[S.edu.dept];return d?(S.edu.univ==='전문대'?d.j:d.u):''};
 const TIER_N=['고졸','전문대','지방 4년제','지거국·수도권','인서울','SKY·의대'];
 
 /* ---------- events ---------- */
@@ -776,7 +799,7 @@ Object.assign(PREPS,{
 });
 const PREP_OF={taxacct:'taxexam',labor:'laborexam',customs:'customsexam',appraiser:'appraisalexam',scrivener:'scrivenerexam',patent:'patentexam',actuary:'actuaryexam',
  gov5:'haengsi',correction:'gongsi9',coastguard:'police',postman:'gongsi9',socialGov:'gongsi9',investigator:'gongsi7',architect:'archexam',pilot:'pilot',
- idol:'trainee',esports:'trainee',dancer:'actor',voice:'actor',announcer:'media',writer:'lit',researcher:'grad5',counselor:'grad2',vet:'medExam',
+ idol:'trainee',esports:'trainee',dancer:'actor',voice:'actor',announcer:'media',writer:'lit',researcher:'grad5',counselor:'grad2',vet:'vetExam',
  radiologist:'healthExam',hygienist:'healthExam',clinlab:'healthExam',nurseAide:'cert',socialworker:'cert',daycare:'cert',funeral:'cert',crane:'cert',
  trucker:'cert',bus:'cert',taxi:'cert',carpenter:'cert',plumber:'cert',elevator:'cert',aircraftMech:'cert',groomer:'cert',trainer:'cert',golfpro:'kpga',
  interior:'cert',rail:'ncs',specialEd:'teachS',smartfarm:'farm',fisher:'cert',doctor:'med',dentist:'medExam',kmd:'medExam',pharm:'pharm',nurse:'nurseExam',pt:'cert',care:'care',judge:'judge',lawyer:'law',gov7:'gongsi7',gov9:'gongsi9',police:'police',fire:'fire',diplomat:'diplomat',teachE:'teachE',teachS:'teachS',prof:'prof',corpOffice:'corp',corpEng:'corp',bank:'corp',consult:'consult',publicCo:'ncs',cpa:'cpa',flight:'flight',devBig:'it',data:'it',elec:'elecCert',mechanic:'cert',welder:'cert',chef:'cert',hair:'cert',webtoon:'webtoon',actor:'actor',musician:'musician',designer:'design',reporter:'media',pd:'media',athlete:'athlete',coach:'cert',farmer:'farm'};
@@ -786,13 +809,16 @@ PREPS.hunt={n:'구직 활동',label:'구직 활동',how:'서류 → 면접',step
 PREPS.startup={n:'창업 준비',label:'창업 준비',how:'상권 분석 · 대출 · 인테리어',steps:['상권 분석 · 점포 계약 (보증금·권리금)','인테리어 · 장비 · 초도 물품 (3천만~1억)','가오픈 → 정식 오픈 (자영업 5년 생존율 약 30%)'],pass:.9,cost:3500,refund:2500,st:70,
  ev:['권리금 협상에 진땀을 뺐다.','소상공인 정책자금 대출을 받았다.','인테리어 공사가 한 달 밀렸다.']};
 PREPS.ecom={n:'온라인 창업 준비',label:'온라인 창업',how:'사업자등록 · 상품 소싱',steps:['사업자등록 · 통신판매업 신고','상품 소싱 · 상세페이지 제작','광고비 집행 → 첫 주문'],pass:.85,cost:1000,refund:500,st:62,ev:['첫 주문 알림에 소리를 질렀다.','광고비만 쓰고 한 달 매출이 0원이었다.']};
+PREPS.pharmLic={n:'약사 국가고시',how:'약대 6년 → 국가고시',steps:['약학대학 6년 졸업','약사 국가고시 (합격률 약 90%)'],pass:.9,cost:200,st:60};
+PREPS.vetExam={n:'수의사 국가시험',how:'수의대 6년 → 국가시험',steps:['수의과대학 6년 졸업','수의사 국가시험 (합격률 약 90%)'],pass:.9,cost:200,st:60};
+EXAM_K.add('pharmLic');EXAM_K.add('vetExam');LICENSE.add('pharmLic');LICENSE.add('vetExam');
 PREPS.sasi={n:'사법시험',how:'1차 객관식 → 2차 논술 → 사법연수원 2년',steps:['1차: 헌법 · 민법 · 형법 등 객관식','2차: 6과목 논술 (과락 엄격)','3차 면접 → 사법연수원 2년'],pass:.05,cost:1300,st:90,comp:'연 300~1,000명 선발 · 평균 수험 5년',ev:['신림동 고시촌 독서실에서 한 해를 보냈다.','2차에서 한 과목 과락이 났다.']};
 PREPS.sasiJ={n:'사법시험 → 연수원 상위권 → 판·검사 임용',how:'사법시험 + 연수원 성적',steps:['사법시험 합격','사법연수원 2년 (상위권 성적)','판사·검사 임용'],pass:.03,cost:1300,st:92,comp:'연수원 상위 약 30%',ev:['신림동 고시촌 독서실에서 한 해를 보냈다.']};
 EXAM_K.add('sasi');EXAM_K.add('sasiJ');AGE_PEN.add('sasi');AGE_PEN.add('sasiJ');LICENSE.add('sasi');
 PREPS.realtor={n:'공인중개사 시험',how:'1차 · 2차 (연 1회)',steps:['1차: 부동산학개론 · 민법','2차: 공법 · 세법 · 중개사법','합격 후 실무교육 → 개업'],pass:.22,cost:600,st:66,comp:'최종 합격률 약 20%대'};
 const INSTANT=new Set(['parttime','rider','delivery','senior','youtuber','cleaner','logistics','labeler','insurance']);
 const STARTUP=new Set(['cafe','cvs','founder','giftshop','florist','bakery','nail','unmanned','banchan']);
-const prepOf=(id,S)=>S&&S.year<2009&&id==='lawyer'?'sasi':S&&S.year<2009&&id==='judge'?'sasiJ':PREP_OF[id]||(INSTANT.has(id)?null:STARTUP.has(id)?'startup':id==='ecommerce'?'ecom':id==='realtor'?'realtor':id==='pilates'?'cert':'hunt');
+const prepOf=(id,S)=>S&&id==='pharm'&&S.edu.flag==='pharm'?'pharmLic':S&&S.year<2009&&id==='lawyer'?'sasi':S&&S.year<2009&&id==='judge'?'sasiJ':PREP_OF[id]||(INSTANT.has(id)?null:STARTUP.has(id)?'startup':id==='ecommerce'?'ecom':id==='realtor'?'realtor':id==='pilates'?'cert':'hunt');
 const FALLBACK={gov7:'gov9',judge:'lawyer',diplomat:'gov7',teachS:'tutor',prof:'tutor',corpOffice:'midCo',corpEng:'midCo',bank:'midCo',publicCo:'midCo',consult:'corpOffice',devBig:'devStart',data:'devStart',cpa:'midCo',reporter:'marketer',pd:'marketer',flight:'smallCo',actor:'youtuber',musician:'tutor',athlete:'coach',webtoon:'designer',lawyer:'smallCo',gov9:'smallCo',police:'smallCo',fire:'smallCo',elec:'smallCo',designer:'smallCo'};
 
 /* ---------- 일하는 환경 ---------- */
@@ -1084,7 +1110,7 @@ function makeFamily(S){
   if(type==='한부모 (아빠)'||type==='조부모 양육')mom.away=true;else mom.job=R()<work?pick(MOM_JOBS[q]):'전업주부';
   if(type==='다문화 가정')mom.origin=pick(['베트남','중국','필리핀','캄보디아','일본']);
   if(dad.job)dad.job=fixPJ(dad.job,y,dad.age,S.town);if(mom.job)mom.job=fixPJ(mom.job,y,mom.age,S.town);
-  const housing=rural?(q>=3?'시골 단독주택 (자가)':pick(['시골 단독주택 (자가)','시골 셋집'])):
+  let housing=rural?(q>=3?'시골 단독주택 (자가)':pick(['시골 단독주택 (자가)','시골 셋집'])):
     q===1?wpick([['반지하 월세방',3],['단칸방 월세',3],[y<2000?'판자촌 · 달동네':'고시원 · 쪽방',y<1990?3:1],['영구임대 아파트',2],['옥탑방',1]]):
     q===2?wpick([['다세대 월세',4],['다세대 전세',4],['공공임대 아파트',2],['반지하 전세',1]]):
     q===3?wpick([['아파트 전세',5],['빌라 자가',3],['아파트 자가',3]]):
@@ -1428,6 +1454,8 @@ function elig(S,j){
   if(S.mil==='industry'&&S.milEnd&&S.age<S.milEnd&&!IND_OK.has(j.id))return{ok:false,why:'산업기능요원은 지정 업체(중소·중견 제조·IT)에서만 근무'};
   if(j.id==='officer'&&S.mil==='rotc'&&S.age<=j.ma)return{ok:true,c:clamp(.45+(S.know-60)*.005+(S.rotcLong?.2:0),.2,.85)};
   if(j.f&&S.edu.flag!==j.f)return{ok:false,why:`${FLAG_N[j.f]} 졸업 필요`};
+  if(j.id==='pharm'&&S.edu.flag!=='pharm'&&!(S.year>=2010&&S.year<=2021&&S.edu.major==='sci'&&S.edu.tier>=2))return{ok:false,why:S.year>=2010&&S.year<=2021?'이공계 학부 2년 이상 → PEET 편입':'약대 졸업 필요'};
+  if(j.dp&&!j.dp.includes(S.edu.dept))return{ok:false,why:`${j.dp.map(d=>DEPTS[d].u.replace(/학과$/,'')).join('·')} 학과 졸업 필요 (면허 응시 자격)`};
   if(S.edu.tier<j.t)return{ok:false,why:`학력: ${TIER_N[j.t]} 이상`};
   if(j.lockIt&&S.interest!==j.it)return{ok:false,why:j.it==='art'?'예술 관심 필요':'운동에 재능·관심 필요'};
   if(j.ma&&S.age>j.ma)return{ok:false,why:`응시 연령 ${j.ma}세 이하`};
@@ -1442,16 +1470,25 @@ function elig(S,j){
   if(S.mil==='research'&&['devBig','data','corpEng','prof'].includes(j.id))c+=.1;
   if(j.fb&&S.edu.flag===j.fb)c+=.35;
   if(j.mj&&S.edu.major!==j.mj&&!(j.mj==='eng'&&S.interest==='sci'))c-=.25;
+  if(j.dpp){if(j.dpp.includes(S.edu.dept))c+=.15;else if(!(j.voc&&S.edu.voc)&&j.t>=1)c-=.12}
   if(j.it&&S.interest===j.it)c+=S.skillPrep?.25:.15;
   if(S.skillPrep&&!j.it&&j.t===0)c+=.05;else if(j.it)c-=.1;
   c-=Math.max(0,S.age-30)*(S.workYears>3?.012:.03); // 경력 없는 늦깎이 신입은 크게 불리
   c-=(AI[j.id]||0)*.07*aiYear(S.year);
   if(['기업','IT','연구·과학'].includes(j.c)&&S.age>40){const exp=S.jobsDone.some(id=>JOB[id].c===j.c);c-=(S.age-40)*(exp?.045:.08)} // AI 도입으로 신규 채용 감소
-  if(j.f==='med'&&S.age<45)c=Math.max(c,.93);
+  if(['med','vet'].includes(j.f)&&S.age<45)c=Math.max(c,.93);
+  if(j.id==='pharm'&&S.edu.flag==='pharm'&&S.age<50)c=Math.max(c,.9);
   return{ok:true,c:Math.max(.03,Math.min(.97,c))};
 }
 
 /* ---------- choices ---------- */
+// 자동 진행: 전공·면허·경력에 맞는 직업을 더 자주 고른다 (사람들은 대개 배운 쪽으로 간다)
+function fitOf(S,j){let f=1;const e=S.edu;
+  if(j.f&&e.flag===j.f)f*=25;if(j.fb&&e.flag===j.fb)f*=6;if(j.id==='pharm'&&e.flag==='pharm')f*=30;
+  if(j.dp&&j.dp.includes(e.dept))f*=30;else if(j.dpp&&j.dpp.includes(e.dept))f*=4;
+  if(j.mj&&e.major===j.mj)f*=2;if(j.it&&S.interest===j.it)f*=2;
+  if(S.workYears&&S.jobsDone.some(x=>JOB[x].c===j.c))f*=2;
+  return f}
 const CHOICES={
  elementary:S=>({title:S.year<1996?'국민학교 입학':'초등학교 입학',desc:`1학년. 방과 후 시간을 어떻게 보낼까요? ${S.year>=2015?'한국 초등학생 사교육 참여율은 약 87%, 1인당 월평균 사교육비는 40만 원이 넘습니다.':S.year>=1980&&S.year<1990?'과외와 교과 학원이 금지된 시절입니다(1980년 7·30 교육조치).':'동네마다 주산·피아노·속셈 학원이 있던 시절입니다.'}`,options:[
   {label:S.year<1997?'학원 여러 곳 (속셈·피아노·태권도)':'학원 뺑뺑이',sub:S.year<1997?'지식↑ 행복↓ 관계↓':'영어·수학·논술·피아노. 지식↑ 행복↓ 관계↓',lock:S.year>=1980&&S.year<1989&&'교과 학원·과외 금지 시절',w:S.fq>=3?3:1,apply:S=>{S.elem='academy';S.studyRate+=.55;eff(S,{p:-8,r:-3});if(S.fq<=2)lg(S,'부모님이 학원비를 위해 야간 일을 늘렸다.','bad')}},
@@ -1476,16 +1513,18 @@ const CHOICES={
  college:S=>{const sc=S.score;const male=S.gender==='M';
   const by=S.birthYear,poorOld=S.noCollege;
   const U=[['의과대학',98,5,'med',6,'의사·치과의사·한의사의 문'],['SKY',95,5,'',4,'최상위 명문대'],['교육대학·사범대',85,4,'edu',4,'교사 임용 루트'],
-   ['사관학교',93,4,'army',4,'졸업 후 소위 임관 · 의무복무 10년',(S.health<60&&'건강 60+')||(!male&&S.year<1997&&'1997년 이전엔 여성 입학 불가')],['인서울 4년제',82,4,'',4,'서울 소재 대학'],['간호학과',70,3,'nurse',4,'취업률 최상위'],
+   ['사관학교',93,4,'army',4,'졸업 후 소위 임관 · 의무복무 10년',(S.health<60&&'건강 60+')||(!male&&S.year<1997&&'1997년 이전엔 여성 입학 불가')],['인서울 4년제',82,4,'',4,'서울 소재 대학'],['간호학과',70,3,'nurse',4,'취업률 최상위'],['수의과대학',93,4,'vet',6,'수의사 면허의 유일한 길'],['약학대학',94,4,'pharm',6,S.year>=2009&&S.year<2022?'이 시기엔 학부 2년 뒤 편입(PEET)만 가능':'약사 면허의 길',S.year>=2009&&S.year<2022&&'2009~2021년엔 학부 선발 없음 (PEET 편입)'],
    ['지거국·수도권 대학',60,3,'',4,'지방거점국립대 / 경기·인천'],['지방 사립대',35,2,'',4,by<1985?'지역 대학':'학령인구 감소로 존폐 위기'],
    ['예체능 실기 전형',45,2,'art',4,'실기 70% + 수능',!(['art','sport'].includes(S.interest)||S.edu.artsHs)&&'예술·운동 관심 필요'],['전문대',0,1,'',2,'실무 중심 2~3년제']];
-  const opts=U.map(([n,min,tier,flag,yrs,sub,lk])=>({label:n,sub:`${sub} · 컷 ${min}`,lock:(poorOld&&sc<80&&!['사관학교','교육대학·사범대','지거국·수도권 대학'].includes(n)&&'가정 형편상 등록금이 어려웠다 (국립대·교대·사관학교는 가능)')||(sc<min&&`수능 백분위 ${min}+`)||lk,w:({'의과대학':1.5,'SKY':2,'교육대학·사범대':1.5,'사관학교':.3,'인서울 4년제':3,'간호학과':male&&S.year<2005?.15:1,'지거국·수도권 대학':3,'지방 사립대':3,'예체능 실기 전형':1,'전문대':4})[n]||1,
-   apply:S=>{Object.assign(S.edu,{univ:n,tier,flag,major:flag==='med'||flag==='nurse'?'sci':flag==='art'?'art':flag==='edu'?'hum':''});
+  // 시대별 대학 정원: 1980년 고교 졸업자 대학 진학률은 약 27%, 1995년 약 51%, 2005년 약 82% (교육통계 근사). 정원이 적던 시절엔 컷이 높다
+  const shift=by<1965?34:by<1975?24:by<1985?12:0;
+  const opts=U.map(([n,min0,tier,flag,yrs,sub,lk])=>{const min=n==='전문대'?(by<1965?62:by<1975?45:by<1985?25:0):Math.min(97,min0+(min0<85?shift:Math.round(shift/8)));return{label:n,sub:`${sub} · 컷 ${min}`,lock:(poorOld&&sc<80&&!['사관학교','교육대학·사범대','지거국·수도권 대학'].includes(n)&&'가정 형편상 등록금이 어려웠다 (국립대·교대·사관학교는 가능)')||(sc<min&&`수능 백분위 ${min}+`)||lk,w:({'의과대학':1.5,'수의과대학':.5,'약학대학':.7,'SKY':2,'교육대학·사범대':1.5,'사관학교':.3,'인서울 4년제':3,'간호학과':male&&S.year<2005?.15:1,'지거국·수도권 대학':3,'지방 사립대':3,'예체능 실기 전형':1,'전문대':4})[n]||1,
+   apply:S=>{Object.assign(S.edu,{univ:n,tier,flag,major:['med','nurse','vet','pharm'].includes(flag)?'sci':flag==='art'?'art':flag==='edu'?'hum':''});
     S.eduDone=true;S.uniEnd=S.age+yrs;S.jobSeekAge=S.age+yrs+(male&&flag!=='army'?milY(S.year):0);S.nextJobTry=S.jobSeekAge;
     if(male&&flag!=='army')S.militaryAge=S.age+1;else S.militaryDone=true;
-    if(!male&&!['army','med'].includes(flag))S.militaryAgeF=S.age+1;
+    if(!male&&!['army','med','vet','pharm'].includes(flag))S.militaryAgeF=S.age+1;
     if(S.fq<=2){S.debt+=yrs*400;lg(S,`학자금 대출 ${fmt(yrs*400)}원을 받았다.`,'bad')}
-    lg(S,`${n}에 입학했다.`,'choice');if(!flag)S.next='major'}}));
+    lg(S,`${n}에 입학했다.`,'choice');if(!flag)S.next='major'}}});
   if(!S.retook&&!poorOld)opts.push({label:'재수하기',sub:'1년 더. 수능 점수 재도전',w:sc>75?1.2:.3,apply:S=>{S.retook=true;S.collegeAge=S.age+1;S.edu.hs+=3;S.know+=ri(2,8);eff(S,{p:-6,m:-1500});lg(S,'재수 학원에 등록했다.','bad')}});
   opts.push({label:'바로 취업 (고졸)',sub:S.edu.voc?'마이스터고 졸업생 우대 공채':by<1980?'이 시대엔 고졸 취업이 흔했다':'지금 바로 사회로',w:S.edu.voc?6:by<1970?10:by<1980?5:by<1990?2:1.5,apply:S=>{S.edu.univ='—';S.edu.tier=0;S.eduDone=true;
     S.jobSeekAge=S.age+(male?1+milY(S.year+1):0);S.nextJobTry=S.jobSeekAge;if(male)S.militaryAge=S.age+1;if(!male)S.next='job'}});
@@ -1535,11 +1574,12 @@ const CHOICES={
   {label:S.year<2008?'수시 (내신·면접)':S.year<2014?'수시 입학사정관 전형':'수시 학생부종합',sub:'내신·관계·학교생활 · 일반고·지방 유리',lock:S.edu.high==='검정고시'&&'학생부가 없음',w:S.edu.high==='일반고'?2.5:1,apply:S=>{S.track='susi';eff(S,{r:2})}},
   {label:'수시 + 정시 병행',sub:'둘 중 높은 쪽 −2 · 스트레스↑',lock:S.edu.high==='검정고시'&&'학생부가 없음',w:1.5,apply:S=>{S.track='both';S.stress+=8}},
   {label:'논술 전형',sub:'변수 큼 · 역전 가능성',w:.5,apply:S=>{S.track='essay'}}]}),
- major:S=>({title:'전공 선택',desc:`${S.edu.univ}에서 무엇을 공부할까요? 전공은 직업별 합격률에 영향을 줍니다.`,options:[
-  {label:'공학·IT',sub:'개발자·엔지니어 우대',w:S.interest==='sci'||S.interest==='tech'?4:1,apply:S=>{S.edu.major='eng'}},
-  {label:'자연과학',sub:'약대·연구직 루트',w:S.interest==='sci'?2:.5,apply:S=>{S.edu.major='sci'}},
-  {label:'상경 (경영·경제)',sub:'은행·회계사 우대',w:S.interest==='people'||S.interest==='hum'?3:1,apply:S=>{S.edu.major='biz'}},
-  {label:'인문·사회',sub:'법·언론·공무원',w:S.interest==='hum'?3:1,apply:S=>{S.edu.major='hum'}}]}),
+ major:S=>{const jc=S.edu.univ==='전문대',sc=S.score||50,I=S.interest;
+  const W={cs:I==='sci'||I==='tech'?3:1,ee:I==='tech'?3:I==='sci'?1.5:.6,me:I==='tech'?3:.6,aero:I==='tech'?1:.2,civ:.8,chem:I==='sci'?1.5:.4,nat:I==='sci'?2:.4,pt:1,rad:.8,clin:.7,hyg:I==='people'?1.2:.7,
+   biz:I==='people'||I==='hum'?3:1.2,law:I==='hum'?2:.8,hum:I==='hum'?2:.6,soc:I==='hum'||I==='people'?1.5:.6,welfare:I==='people'?1.5:.7,ece:I==='people'?1.2:.5,food:.6,beauty:I==='art'?1.5:.5};
+  const opts=Object.entries(DEPTS).filter(([k,d])=>jc?d.j:d.u).map(([k,d])=>{const min=jc?d.minJ:d.min;
+   return{label:jc?d.j:d.u,sub:d.jobs,lock:min&&sc<min&&`학과 컷 ${min}`,w:W[k]||1,apply:S=>{S.edu.dept=k;S.edu.major=d.g;lg(S,`${jc?d.j:d.u}에 들어갔다.`,'choice')}}});
+  return{title:'학과 선택',desc:`${S.edu.univ}에서 무엇을 공부할까요? 물리치료사·방사선사·임상병리사·치위생사·유치원 교사·항공 정비사처럼 <b>해당 학과를 나와야만 면허·자격을 받을 수 있는 직업</b>이 있고, 다른 직업도 관련 학과면 합격률이 오릅니다.`,options:opts}},
  military:S=>{
   const e=S.edu,med=e.flag==='med',univ4=e.tier>=2&&e.univ!=='전문대'&&!med,junior=e.univ==='전문대',hsVoc=e.tier===0&&e.voc,
    sciEng=['eng','sci'].includes(e.major)&&e.tier>=4&&S.know>=75;
@@ -1670,10 +1710,10 @@ const CHOICES={
  job:S=>{
   const opts=JOBS.filter(j=>!j.hidden).map(j=>{const el=elig(S,j);const failed=S.failed.includes(j.id);
    const pr=prepOf(j.id,S),pp=pr&&el.ok?prepPass(S,j.id):0;
-   return{job:j,label:j.n,lock:!el.ok&&el.why,chance:pr?pp:el.c,prep:pr,failed,w:el.ok&&!failed?Math.pow(pr?Math.min(1,pp*2.2):el.c,1.5)*Math.pow(j.s/3000,.5)*(POPW[j.id]||1)*(j.id==='parttime'?.15:1):0,
+   return{job:j,label:j.n,lock:!el.ok&&el.why,chance:pr?pp:el.c,prep:pr,failed,w:el.ok&&!failed?Math.pow(pr?Math.min(1,pp*2.2):el.c,1.5)*Math.pow(j.s/3000,.5)*(POPW[j.id]||1)*(j.id==='parttime'?.15:1)*fitOf(S,j):0,
     apply:S=>{if(pr){startPrep(S,j.id)}else if(R()<el.c){setJob(S,j.id)}else{S.failed.push(j.id);eff(S,{p:-4});lg(S,`${j.n} 지원에서 떨어졌다.`,'bad');return{fail:true,msg:`${j.e} ${j.n} — 불합격입니다. 다른 길을 고르거나 1년 더 준비할 수 있어요.`}}}}});
   opts.push({label:'1년 더 준비하기',sub:'지식 +6 · 내년에 다시',special:1,w:.3,apply:S=>{S.nextJobTry=S.age+1;eff(S,{k:6,p:-4});lg(S,'1년 더 취업 준비를 하기로 했다.','bad')}});
-  return{kind:'jobs',title:S.workYears?'새로운 직업 찾기':'첫 직장',desc:`${S.jobEnd?`<b>${S.jobEnd}</b><br>`:''}한국직업사전에 오른 직업은 1만 6천여 개. 그중 대표 직업 ${JOBS.filter(x=>!x.hidden).length}개입니다.${S.age>=35&&S.workYears<3?' <b>30대 중반 이후 경력 없는 신입 지원은 합격률이 크게 떨어집니다.</b>':''}<br>${S.age}세 · 학력 ${S.edu.univ&&S.edu.univ!=='—'?S.edu.univ:'고졸'}${S.edu.major?' ('+({eng:'공학',sci:'자연',biz:'상경',hum:'인문',art:'예체능'})[S.edu.major]+')':''} · 지식 ${Math.round(S.know)}. 카드를 누르면 준비 과정과 일하는 환경을 먼저 볼 수 있어요. 시험 직업은 시험을, 회사는 서류·면접을, 가게는 창업 준비를 거치며 1년 단위로 결과가 나옵니다. 아르바이트·배달처럼 바로 시작할 수 있는 일도 있어요.`,options:opts}}
+  return{kind:'jobs',title:S.workYears?'새로운 직업 찾기':'첫 직장',desc:`${S.jobEnd?`<b>${S.jobEnd}</b><br>`:''}한국직업사전에 오른 직업은 1만 6천여 개. 그중 대표 직업 ${JOBS.filter(x=>!x.hidden).length}개입니다.${S.age>=35&&S.workYears<3?' <b>30대 중반 이후 경력 없는 신입 지원은 합격률이 크게 떨어집니다.</b>':''}<br>${S.age}세 · 학력 ${S.edu.univ&&S.edu.univ!=='—'?S.edu.univ:'고졸'}${deptName(S)?' '+deptName(S):S.edu.major?' ('+({eng:'공학',sci:'자연',biz:'상경',hum:'인문',art:'예체능',hlth:'보건'})[S.edu.major]+')':''} · 지식 ${Math.round(S.know)}. 카드를 누르면 준비 과정과 일하는 환경을 먼저 볼 수 있어요. 시험 직업은 시험을, 회사는 서류·면접을, 가게는 창업 준비를 거치며 1년 단위로 결과가 나옵니다. 아르바이트·배달처럼 바로 시작할 수 있는 일도 있어요.`,options:opts}}
 };
 // 모든 선택 화면 문구에 조사 자동 선택 적용
 for(const k in CHOICES){const f=CHOICES[k];CHOICES[k]=S=>{const c=f(S);c.title=josa(c.title);c.desc=josa(c.desc);
