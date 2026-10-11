@@ -10,7 +10,7 @@ const engine = html.split('<script>')[1].split(MARK)[0]; // DATA + ENGINE 구간
 
 const test = String.raw`
 const YEARS=[1960,1975,1990,2000,2010,2026];
-const out={debtDeath:0,life:{nw60:[],tier:{},m50:{M:0,F:0,nM:0,nF:0},kidsF:[],dM:[],dF:[],own50:0,n50:0},fam:{n:{},home:{},div:0,crash:0,poor:0,imf:0,imfN:0,inh:[],pdead20:0},err:0,deaths:[],start:{},prepStart:{},prepPass:{},prepYears:{},jobs:{},male:0,aiOut:{},wev:0,never:0};
+const out={relief:0,debtDeath:0,life:{nw60:[],tier:{},m50:{M:0,F:0,nM:0,nF:0},kidsF:[],dM:[],dF:[],own50:0,n50:0},fam:{n:{},home:{},div:0,crash:0,poor:0,imf:0,imfN:0,inh:[],pdead20:0},err:0,deaths:[],start:{},prepStart:{},prepPass:{},prepYears:{},jobs:{},male:0,aiOut:{},wev:0,never:0};
 for(let i=0;i<N;i++){try{
   const S=simulate({year:YEARS[i%YEARS.length]});
   const F=S.fam,by=S.birthYear;out.fam.n[by]=(out.fam.n[by]||0)+1;
@@ -24,6 +24,7 @@ for(let i=0;i<N;i++){try{
     L.n50++;if(S.house)L.own50++}
   if(S.dead&&S.age>=1)(S.gender==='M'?L.dM:L.dF).push(S.age);
   if(S.money+S.houseValue-S.debt<-10000)out.debtDeath++;
+  if(S.log.some(l=>l.t.includes('개인회생')))out.relief++;
   out.deaths.push(S.age); if(S.gender==='M')out.male++; if(!S.jobsDone.length)out.never++;
   S.jobsDone.forEach(j=>out.jobs[j]=(out.jobs[j]||0)+1);
   S.log.forEach(l=>{const t=l.t.replace(/<[^>]+>/g,'');let m;
@@ -71,6 +72,8 @@ console.log('  사망 나이 중앙값 남',med(L.dM),'여',med(L.dF));
 for(const by of Object.keys(L.tier)){const t=L.tier[by],n=Object.values(t).reduce((a,b)=>a+b,0);console.log(`  ${by}년생 학력:`,['고졸','전문대','지방4년제·예체능','지거국·간호','인서울·교대·사관','SKY·의대'].map(k=>`${k} ${pct(t[k]||0,n)}`).join(' · '))}
 console.log('\n[AI 실직] 출생연도별 1인당', Object.entries(o.aiOut).map(([k, v]) => `${k}: ${(v / (N / 6)).toFixed(2)}`).join(' | '));
 
+console.log(`  개인회생 경험 ${(100*o.relief/N).toFixed(1)}%`);
+check(o.relief/N<0.15,`개인회생 경험 ${(100*o.relief/N).toFixed(1)}% — 너무 흔함`);
 check(o.debtDeath / N < 0.01, `순자산 −1억 미만으로 생을 마친 사람 ${(100*o.debtDeath/N).toFixed(1)}% (기준 1% 미만)`);
 check(o.err === 0, `엔진 오류 ${o.err}건`);
 check(Math.abs(o.male / N - 0.512) < 0.03, `성비 이상 (남 ${(o.male / N * 100).toFixed(1)}%)`);
