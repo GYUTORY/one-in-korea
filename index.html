@@ -389,7 +389,7 @@ const REGIONS={
   capital:{n:'경기·인천',w:33, inc:.1, edu:1, house:55000, towns:['경기도 수원시','경기도 성남시','경기도 화성시','인천 부평구','경기도 고양시']},
   metro:  {n:'지방 광역시',w:20, inc:-.15, edu:0, house:35000, towns:['부산 해운대구','대구 수성구','광주 북구','대전 유성구','울산 남구']},
   city:   {n:'지방 중소도시',w:23, inc:-.35, edu:-2, house:25000, towns:['경북 구미시','충남 천안시','전북 전주시','충북 청주시','경남 창원시']},
-  rural:  {n:'농어촌',w:8, inc:-.8, edu:-5, house:15000, towns:['전남 해남군','경북 의성군','강원 정선군','충남 청양군']}
+  rural:  {n:'농어촌',w:8, inc:-.8, edu:-5, house:15000, towns:['전남 해남군','경북 의성군','강원 정선군','충남 청양군','경남 남해군']}
 };
 const INC_LABEL=['','소득 하위 20%','소득 하위 40%','소득 중간','소득 상위 40%','소득 상위 20%'];
 const PARENT_JOBS={1:['일용직 근로자','식당 종업원','택배기사','기초생활수급 가정'],2:['중소기업 생산직','분식집 사장','요양보호사','경비원'],3:['중소기업 사무직','9급 공무원','편의점 점주','간호사'],4:['대기업 과장','교사','공기업 차장','중견기업 부장'],5:['의사','대기업 임원','변호사','건물주']};
@@ -603,7 +603,7 @@ const POPW=Object.assign({},...['smallCo','midCo','sales','cs','care','logistics
  .map(k=>({[k]:3})),...['pilot','crane','elevator','fisher','sailor','aircraftMech','idol','esports','golfpro','announcer','diplomat','judge','actuary','patent','consult','analyst',
  'prof','researcher','voice','curator','dancer','gov5','vet','athlete','officer'].map(k=>({[k]:.15})));
 // 대기업·금융·빅테크는 40대 후반부터 경력직 채용도 사실상 없음
-const LATE_CAP=new Set(['corpOffice','corpEng','bank','publicCo','consult','analyst','devBig','data','aiEng','hr','pm','flight']);
+const LATE_CAP=new Set(['corpOffice','corpEng','bank','publicCo','consult','analyst','devBig','data','aiEng','hr','pm','flight','factory','semiOp','hotel','pharmaSales','aircraftMech','qa']);
 const aiYear=y=>clamp((y-2024)/8,0,1.4); // 2030년 ≈ .75, 2032년 = 1, 2035년 ≈ 1.4
 const FLAG_N={med:'의대',nurse:'간호학과',edu:'교대·사범대',army:'사관학교',art:'예체능'};
 const TIER_N=['고졸','전문대','지방 4년제','지거국·수도권','인서울','SKY·의대'];
@@ -611,39 +611,46 @@ const TIER_N=['고졸','전문대','지방 4년제','지거국·수도권','인�
 /* ---------- events ---------- */
 const EV={
  child:[
-  {t:'어린이집에서 처음으로 단짝을 사귀었다.',e:{r:4,p:3}},{t:'수족구에 걸려 일주일을 앓았다.',e:{h:-3}},
-  {t:'할머니 댁에서 여름방학을 보냈다.',e:{p:4,r:3}},{t:'한글을 또래보다 빨리 뗐다.',e:{k:4}},
-  {t:'부모님이 크게 다투는 소리를 들었다.',e:{p:-5},c:S=>S.fq<=3},{t:'태권도 노란띠를 땄다.',e:{h:3,p:2}},
+  {t:S=>S.year<1991?'동네 놀이방에서 처음으로 단짝을 사귀었다.':'어린이집에서 처음으로 단짝을 사귀었다.',e:{r:4,p:3},amin:2,once:'bff'},{t:S=>S.year<2009?'홍역에 걸려 일주일을 앓았다.':'수족구에 걸려 일주일을 앓았다.',e:{h:-3},amin:1,once:'sick1'},
+  {t:'할머니 댁에서 여름을 보냈다.',e:{p:4,r:3},amin:3},{t:'한글을 또래보다 빨리 뗐다.',e:{k:4},amin:3,once:'hangul'},
+  {t:'처음으로 두 발 자전거를 탔다.',e:{h:2,p:3},amin:5,once:'bike'},{t:'태권도 노란띠를 땄다.',e:{h:3,p:2},amin:5,once:'tkd'},
   {t:'동생이 태어났다.',e:{p:-2,r:3},once:'sib',c:S=>S.sib==='첫째'}],
  teen:[
-  {t:'전교 등수가 크게 올랐다.',e:{k:5,p:4}},{t:'단짝 친구와 크게 싸웠다.',e:{r:-5,p:-4}},
+  {t:'전교 등수가 크게 올랐다.',e:{k:5,p:4},amin:13,c:S=>S.edu.high!=='검정고시'},{t:'단짝 친구와 크게 싸웠다.',e:{r:-5,p:-4}},
   {t:'첫 연애를 시작했다.',e:{p:6,r:3,k:-2},amin:14,once:'love1'},{t:'반에서 은근히 따돌림을 당했다.',amin:9,e:{p:-9,r:-6},c:S=>S.rel<55},
-  {t:'게임에 빠져 성적이 떨어졌다.',y:1990,e:{k:-4,p:3}},{t:'인생 선생님을 만났다.',e:{k:4,p:3}},
-  {t:'수학여행에서 평생 친구를 만났다.',amin:11,e:{r:7,p:4}},{t:'집안 형편이 어려워져 학원을 끊었다.',e:{k:-3,p:-4},c:S=>S.fq<=2},
-  {t:'과외 선생님이 바뀌고 성적이 올랐다.',e:{k:5},c:S=>S.fq>=4},{t:'사춘기가 세게 왔다.',amin:12,once:'puberty',e:{r:-4,p:-3}}],
+  {t:S=>S.year<1998?'오락실에 빠져 성적이 떨어졌다.':'게임에 빠져 성적이 떨어졌다.',y:1985,e:{k:-4,p:3}},{t:'인생 선생님을 만났다.',e:{k:4,p:3},once:'mentor'},
+  {t:'수학여행에서 평생 친구를 만났다.',amin:12,e:{r:7,p:4},once:'trip',c:S=>S.edu.high!=='검정고시'||S.age<16},
+  {t:'과외 선생님이 바뀌고 성적이 올랐다.',e:{k:5},c:S=>S.fq>=4&&S.elem==='academy'&&!(S.year>=1980&&S.year<1990)},{t:'사춘기가 세게 왔다.',amin:12,once:'puberty',e:{r:-4,p:-3}},
+  {t:'도서관에서 책 읽는 재미를 알았다.',e:{k:3,p:2},once:'library'}],
  young:[
-  {t:'친구들과 처음으로 해외여행을 떠났다.',e:{p:6,m:-300}},{t:'코인에 넣은 돈이 반토막 났다.',y:2017,e:{p:-6,m:-800},c:S=>S.money>1500},
+  {t:'친구들과 처음으로 해외여행을 떠났다.',y:1989,once:'abroad',e:{p:6,m:-300},c:S=>!S.milEnd},{t:'코인에 넣은 돈이 반토막 났다.',y:2017,once:'coin',e:{p:-6,m:-800},c:S=>S.money>1500},
   {t:'주식 투자로 짭짤한 수익을 냈다.',e:{p:4,m:700},c:S=>S.money>1000},{t:'오랜 연인과 헤어졌다.',e:{p:-8,r:-3},c:S=>!S.married},
-  {t:'독립해서 원룸을 얻었다.',e:{p:3,m:-500},once:'oneroom',c:S=>!S.married&&!S.house},{t:'번아웃이 와서 한 달간 쉬었다.',e:{h:-4,p:-5},c:S=>S.job},
-  {t:'전세사기를 당할 뻔했다. 보증금 일부를 잃었다.',y:2021,e:{p:-10,m:-2000},c:S=>!S.house&&S.money>4000},
-  {t:'헬스를 시작했다.',e:{h:6,p:2}},{t:'친구 결혼식 축의금으로 한 달 월급이 나갔다.',e:{m:-300,r:3},c:S=>S.job}],
+  {t:'독립해서 원룸을 얻었다.',e:{p:3,m:-500},once:'oneroom',amin:20,c:S=>!S.married&&!S.house&&S.eduDone&&!S.milEnd},{t:'번아웃이 와서 한 달간 쉬었다.',e:{h:-4,p:-5},c:S=>S.job},
+  {t:'전세사기를 당할 뻔했다. 보증금 일부를 잃었다.',y:2021,once:'fraud',e:{p:-10,m:-2000},c:S=>!S.house&&S.money>4000},
+  {t:'헬스를 시작했다.',once:'gym',e:{h:6,p:2}},{t:'친구 결혼식 축의금으로 한 달 월급이 나갔다.',e:{m:-300,r:3},c:S=>S.job}],
  mid:[
-  {t:'아이가 첫걸음마를 뗐다.',e:{p:8,r:5},c:S=>S.kids>0&&S.age-S.kidsAge<3},
-  {t:'건강검진에서 고지혈증 진단을 받았다.',e:{h:-6}},{t:'오래된 친구와 연락이 끊겼다.',e:{r:-4}},
-  {t:'집값이 크게 올랐다.',e:{p:5},c:S=>S.house,fx:S=>S.houseValue*=1.15},{t:'자녀 사교육비가 버거워졌다.',e:{m:-1000,p:-3},c:S=>S.kids>0&&S.age-S.kidsAge>6&&S.age-S.kidsAge<19},
-  {t:'부부싸움이 잦아졌다.',e:{p:-5,r:-5},c:S=>S.married},{t:'퇴근 후 마라톤을 시작했다.',e:{h:7,p:4}},
-  {t:'아이가 대학에 합격했다.',e:{p:7,r:4},c:S=>S.kids>0&&S.age-S.kidsAge===19}],
+  {t:'아이가 첫걸음마를 뗐다.',e:{p:8,r:5},once:'walk',c:S=>S.kids>0&&S.age-S.kidsAge<3},
+  {t:'건강검진에서 고지혈증 진단을 받았다.',once:'lipid',e:{h:-6}},{t:'오래된 친구와 연락이 끊겼다.',e:{r:-4}},
+  {t:'집값이 크게 올랐다.',e:{p:5},c:S=>S.house&&housePI(S.year)>housePI(S.year-1)*1.04,fx:S=>S.houseValue*=1.1},{t:'집값이 떨어져 속이 쓰렸다.',e:{p:-4},c:S=>S.house&&housePI(S.year)<housePI(S.year-1),fx:S=>S.houseValue*=.92},
+  {t:'자녀 사교육비가 버거워졌다.',e:{m:-1000,p:-3},c:S=>S.kids>0&&S.age-S.kidsAge>6&&S.age-S.kidsAge<19},
+  {t:'배우자와 사소한 일로 자주 다퉜다.',e:{p:-4,r:-3},c:S=>S.married},{t:S=>S.job?'퇴근 후 마라톤을 시작했다.':'동네 하천에서 달리기를 시작했다.',once:'run',e:{h:7,p:4}},
+  {t:'아이가 대학에 합격했다.',e:{p:7,r:4},once:'kidcollege',c:S=>S.kids>0&&S.age-S.kidsAge>=19&&S.age-S.kidsAge<=20},
+  {t:'노안이 와서 돋보기를 샀다.',once:'presby',amin:45,e:{p:-2}}],
  campus:[
-  {t:'중간고사 기간에 이틀 밤을 샜다.',e:{h:-2,k:3}},{t:'동아리 MT에서 밤새 이야기했다.',e:{r:5,p:4}},
-  {t:'학점 4.0을 넘겼다.',e:{k:4,p:4},fx:S=>S.spec=(S.spec||0)+.5},{t:'조별과제에서 무임승차자를 만났다.',e:{p:-4,r:-1}},
-  {t:'토익 900점을 넘겼다.',e:{k:3},fx:S=>S.spec=(S.spec||0)+.5},{t:'공모전에서 상을 받았다.',e:{p:6},fx:S=>S.spec=(S.spec||0)+.5},
-  {t:'등록금 인상 소식에 한숨을 쉬었다.',e:{p:-3}},{t:'편의점 야간 알바를 했다.',y:1990,e:{m:400,h:-2}},
-  {t:'수강신청에 실패해 아침 9시 수업만 남았다.',e:{p:-3}},{t:'축제에서 좋아하는 가수를 봤다.',e:{p:5}}],
+  {t:'중간고사 기간에 이틀 밤을 샜다.',e:{h:-2,k:3}},{t:'동아리 MT에서 밤새 이야기했다.',once:'mt',e:{r:5,p:4},c:S=>S.edu.flag!=='army'},
+  {t:'학점 4.0을 넘겼다.',once:'gpa',e:{k:4,p:4},fx:S=>S.spec=(S.spec||0)+.5},{t:'조별과제에서 무임승차자를 만났다.',e:{p:-4,r:-1}},
+  {t:'토익 900점을 넘겼다.',y:1983,once:'toeic',e:{k:3},fx:S=>S.spec=(S.spec||0)+.5},{t:'공모전에서 상을 받았다.',once:'contest',e:{p:6},fx:S=>S.spec=(S.spec||0)+.5},
+  {t:'등록금 인상 소식에 한숨을 쉬었다.',e:{p:-3},c:S=>S.edu.flag!=='army'},{t:S=>S.year<1995?'과외 아르바이트로 용돈을 벌었다.':'편의점 야간 알바를 했다.',e:{m:400,h:-2},c:S=>S.edu.flag!=='army'},
+  {t:S=>S.year<2000?'수강신청 날 새벽부터 줄을 섰다.':'수강신청에 실패해 아침 9시 수업만 남았다.',e:{p:-3},c:S=>S.edu.flag!=='army'},{t:'축제에서 좋아하는 가수를 봤다.',e:{p:5}}],
+ mil:[
+  {t:'첫 휴가를 나와 집밥을 먹었다.',once:'leave1',e:{p:6,r:3}},{t:'혹한기 훈련을 버텼다.',e:{h:-2,p:-3}},{t:'선임과 사이가 틀어져 한동안 힘들었다.',e:{p:-5}},
+  {t:'부대에서 자격증 공부를 했다.',e:{k:3},fx:S=>S.spec=(S.spec||0)+.3},{t:'전우들과 평생 갈 우정을 쌓았다.',once:'buddy',e:{r:5}}],
  old:[
-  {t:'손주가 태어났다.',e:{p:9,r:6},c:S=>S.kids>0&&(S.grand||0)<S.kids*2,fx:S=>S.grand=(S.grand||0)+1},{t:'오랜 친구의 부고를 들었다.',e:{p:-6,r:-3}},
-  {t:'무릎 수술을 받았다.',e:{h:-8,m:-500}},{t:'경로당에서 새 친구들을 사귀었다.',e:{r:5,p:4}},
-  {t:'자녀가 사업 자금을 부탁했다.',e:{m:-3000,r:2},c:S=>S.kids>0&&S.money>5000},{t:'혼자 밥 먹는 날이 늘었다.',e:{p:-6,r:-4},c:S=>!S.married},
-  {t:'평생학습관에서 그림을 배우기 시작했다.',e:{p:5,k:3}},{t:'가벼운 뇌경색이 왔다.',e:{h:-12},once:'stroke'}]
+  {t:'손주가 태어났다.',e:{p:9,r:6},c:S=>S.kids>0&&(S.grand||0)<S.kids*2&&S.age-S.kidsAge>=26&&S.age-S.kidsAge<=42,fx:S=>S.grand=(S.grand||0)+1},{t:'오랜 친구의 부고를 들었다.',e:{p:-6,r:-3},amin:68},
+  {t:'무릎 수술을 받았다.',e:{h:-8,m:-500},c:S=>(S.knee||0)<2,fx:S=>S.knee=(S.knee||0)+1,amin:63},{t:'경로당에서 새 친구들을 사귀었다.',once:'senior',e:{r:5,p:4},amin:65},
+  {t:'자녀가 사업 자금을 부탁했다.',once:'kidbiz',e:{m:-3000,r:2},c:S=>S.kids>0&&S.money>5000&&S.age-S.kidsAge>=28},{t:'혼자 밥 먹는 날이 늘었다.',e:{p:-6,r:-4},c:S=>!S.married},
+  {t:'평생학습관에서 그림을 배우기 시작했다.',once:'paint',e:{p:5,k:3}},{t:'가벼운 뇌경색이 왔다.',e:{h:-12},once:'stroke'},
+  {t:'처음으로 스마트폰 영상 통화로 손주 얼굴을 봤다.',y:2012,once:'video',e:{p:4},c:S=>(S.grand||0)>0}]
 };
 // 연간 직업 사건. c: 해당 직업에만 (jis/jnot). once: 한 번만
 const TAXW=jis('taxacct','bookkeeper'),MEDIA=jis('reporter','pd','announcer','curator','copywriter','editor','designer'),ARTIST=S=>CREATOR.has(S.job.id)||STAGE.has(S.job.id);
@@ -734,7 +741,21 @@ const PREPS={
  athlete:{n:'프로 드래프트',how:'경기 실적 → 지명',steps:['학교·대학 리그 실적','드래프트 지명 (지명률 약 10%)'],pass:.18,cost:800,st:78,max:3,body:1,ev:['무릎 부상으로 시즌을 날렸다.','전국대회 MVP를 받았다.']},
  farm:{n:'귀농 교육 + 정착',how:'교육 100시간 + 정착 지원',steps:['귀농귀촌 교육 100시간','청년창업농 정착지원 신청','땅 · 시설 마련'],pass:.95,cost:800,st:52}
 };
-const PREP_EV=['고시원 1.5평 방에서 한 해를 보냈다.','모의고사 점수가 처음으로 합격선을 넘었다.','친구들의 승진·결혼 소식에 SNS를 지웠다.','부모님께 "올해는 꼭"이라고 말했다.','같이 공부하던 스터디원이 먼저 합격했다.','불면증과 위염이 생겼다.','하루 12시간, 주 6일 공부했다.','명절에 친척들 질문이 무서워 집에 가지 않았다.'];
+// 시험 공부 공통 사연 (시험형 준비에만). young: 미혼·30대 중반 전만
+const PREP_EV=[{t:'고시원 1.5평 방에서 한 해를 보냈다.',young:1},{t:'모의고사 점수가 처음으로 합격선을 넘었다.'},{t:S=>S.year<2008?'친구들의 승진·결혼 소식에 동창 모임을 피했다.':'친구들의 승진·결혼 소식에 SNS를 지웠다.',young:1},
+ {t:'부모님께 "올해는 꼭"이라고 말했다.',young:1},{t:'같이 공부하던 스터디원이 먼저 합격했다.'},{t:'불면증과 위염이 생겼다.'},{t:'하루 12시간, 주 6일 공부했다.',young:1},
+ {t:'명절에 친척들 질문이 무서워 집에 가지 않았다.',young:1},{t:'아이를 재우고 밤 11시부터 책을 폈다.',kid:1},{t:'일과 공부를 병행하느라 주말이 없었다.',old:1}];
+const EXAM_K=new Set(['gongsi9','gongsi7','police','fire','law','judge','diplomat','teachE','teachS','ncs','cpa','media','taxexam','laborexam','customsexam','appraisalexam','scrivenerexam','patentexam','actuaryexam','haengsi','realtor','elecCert','healthExam','nurseExam','medExam']);
+const AGE_PEN=new Set(['gongsi9','gongsi7','police','fire','law','judge','diplomat','teachE','teachS','ncs','cpa','media','haengsi','corp','consult','it','flight','design','actor','musician','trainee','athlete','kpga','webtoon','prof','grad5','pilot']);
+const LICENSE=new Set(['cert','care','healthExam','nurseExam','medExam','elecCert','realtor','taxexam','laborexam','customsexam','appraisalexam','scrivenerexam','patentexam','actuaryexam','teachE','teachS','archexam','pharm','med','law']);
+// 준비가 끝났을 때의 문구 (시험이 아닌 준비는 '합격' 대신)
+const PREP_OK={hunt:'최종 합격 통보를 받았다',startup:'가게 문을 열었다',ecom:'온라인 쇼핑몰을 열었다',cert:'자격증을 따고 현장에 들어갔다',care:'요양보호사 자격증을 땄다',farm:'땅을 구해 정착했다',
+ webtoon:'플랫폼과 정식 연재 계약을 맺었다',actor:'작품에 캐스팅됐다',musician:'오디션에 붙었다',trainee:'데뷔가 확정됐다',athlete:'드래프트에 지명됐다',design:'최종 합격 통보를 받았다',it:'최종 합격 통보를 받았다',
+ corp:'최종 합격 통보를 받았다',consult:'최종 합격 통보를 받았다',flight:'최종 합격 통보를 받았다',lit:'등단했다',med:'전문의가 됐다',prof:'교수로 임용됐다',grad5:'박사 학위를 받고 연구원에 합격했다',grad2:'상담심리사 자격을 땄다',
+ archexam:'건축사 시험에 합격했다',pilot:'항공사 부기장으로 채용됐다',kpga:'프로 테스트에 합격했다',pharm:'약사 면허를 땄다'};
+const PREP_NG={hunt:'올해는 취업하지 못했다',startup:'마음에 드는 점포를 구하지 못해 개업이 미뤄졌다',ecom:'팔 만한 상품을 찾지 못했다',cert:'실기 시험에서 떨어졌다',care:'자격시험에 떨어졌다',farm:'정착할 땅을 구하지 못했다',
+ webtoon:'공모전에서 또 떨어졌다',actor:'올해 본 오디션에서 모두 떨어졌다',musician:'오디션에서 떨어졌다',trainee:'데뷔조에 들지 못했다',athlete:'드래프트에서 지명받지 못했다',design:'올해는 취업하지 못했다',it:'올해는 취업하지 못했다',
+ corp:'최종 면접에서 떨어졌다',consult:'케이스 인터뷰에서 떨어졌다',flight:'최종 면접에서 떨어졌다',lit:'올해 공모전에서도 떨어졌다',prof:'교수 공채에서 떨어졌다',grad5:'연구원 공채에서 떨어졌다',pilot:'항공사 채용에서 떨어졌다',kpga:'프로 테스트에서 떨어졌다'};
 Object.assign(PREPS,{
  taxexam:{n:'세무사 시험',how:'1차 객관식 → 2차 주관식',steps:['1차: 재정학 · 세법학개론 · 회계학개론 · 상법','2차: 회계학 · 세법학 (과락 엄격)','수습 6개월'],pass:.12,cost:1400,st:84,comp:'최종 합격 연 약 700명',max:6},
  laborexam:{n:'공인노무사 시험',how:'1·2·3차',steps:['1차: 노동법 · 민법 · 사회보험법 · 경영학','2차: 노동법 · 인사노무관리 · 행정쟁송법','3차 면접 → 수습'],pass:.1,cost:1200,st:82,comp:'최종 합격 연 약 300명',max:6},
@@ -760,11 +781,11 @@ const PREP_OF={taxacct:'taxexam',labor:'laborexam',customs:'customsexam',apprais
  trucker:'cert',bus:'cert',taxi:'cert',carpenter:'cert',plumber:'cert',elevator:'cert',aircraftMech:'cert',groomer:'cert',trainer:'cert',golfpro:'kpga',
  interior:'cert',rail:'ncs',specialEd:'teachS',smartfarm:'farm',fisher:'cert',doctor:'med',dentist:'medExam',kmd:'medExam',pharm:'pharm',nurse:'nurseExam',pt:'cert',care:'care',judge:'judge',lawyer:'law',gov7:'gongsi7',gov9:'gongsi9',police:'police',fire:'fire',diplomat:'diplomat',teachE:'teachE',teachS:'teachS',prof:'prof',corpOffice:'corp',corpEng:'corp',bank:'corp',consult:'consult',publicCo:'ncs',cpa:'cpa',flight:'flight',devBig:'it',data:'it',elec:'elecCert',mechanic:'cert',welder:'cert',chef:'cert',hair:'cert',webtoon:'webtoon',actor:'actor',musician:'musician',designer:'design',reporter:'media',pd:'media',athlete:'athlete',coach:'cert',farmer:'farm'};
 // 시험이 없는 직업도 서류·면접을 거치는 '구직 활동'이나 '창업 준비' 기간이 있다. 즉시 시작은 아르바이트·플랫폼 노동뿐.
-PREPS.hunt={n:'구직 활동',label:'구직 활동',how:'서류 → 면접',steps:['이력서 · 자기소개서 수십 곳 지원','서류 합격 → 인적성 · 면접 1~3회','최종 합격 (청년 첫 취업까지 평균 약 11개월)'],pass:0,cost:500,st:64,comp:'서류 합격률 약 10~20%',
+PREPS.hunt={n:'구직 활동',label:'구직 활동',how:'서류 → 면접',steps:['이력서 · 자기소개서 수십 곳 지원','서류 합격 → 인적성 · 면접 1~3회','최종 합격 (청년 첫 취업까지 평균 약 11개월)'],pass:0,cost:500,st:64,comp:'수십 곳 지원 · 서류 통과 약 10~20%',
  ev:['자소서 40개를 썼는데 서류 합격은 3곳이었다.','면접에서 "마지막으로 하고 싶은 말"에 말문이 막혔다.','취업 스터디에서 모의 면접을 했다.','3개월짜리 체험형 인턴을 했다.','최종 면접에서 떨어졌다.','합격 연락을 기다리며 휴대폰만 쳐다봤다.']};
-PREPS.startup={n:'창업 준비',label:'창업 준비',how:'상권 분석 · 대출 · 인테리어',steps:['상권 분석 · 점포 계약 (보증금·권리금)','인테리어 · 장비 · 초도 물품 (3천만~1억)','가오픈 → 정식 오픈 (자영업 5년 생존율 약 30%)'],pass:.9,cost:3500,st:70,
+PREPS.startup={n:'창업 준비',label:'창업 준비',how:'상권 분석 · 대출 · 인테리어',steps:['상권 분석 · 점포 계약 (보증금·권리금)','인테리어 · 장비 · 초도 물품 (3천만~1억)','가오픈 → 정식 오픈 (자영업 5년 생존율 약 30%)'],pass:.9,cost:3500,refund:2500,st:70,
  ev:['권리금 협상에 진땀을 뺐다.','소상공인 정책자금 대출을 받았다.','인테리어 공사가 한 달 밀렸다.']};
-PREPS.ecom={n:'온라인 창업 준비',label:'온라인 창업',how:'사업자등록 · 상품 소싱',steps:['사업자등록 · 통신판매업 신고','상품 소싱 · 상세페이지 제작','광고비 집행 → 첫 주문'],pass:.85,cost:1000,st:62,ev:['첫 주문 알림에 소리를 질렀다.','광고비만 쓰고 한 달 매출이 0원이었다.']};
+PREPS.ecom={n:'온라인 창업 준비',label:'온라인 창업',how:'사업자등록 · 상품 소싱',steps:['사업자등록 · 통신판매업 신고','상품 소싱 · 상세페이지 제작','광고비 집행 → 첫 주문'],pass:.85,cost:1000,refund:500,st:62,ev:['첫 주문 알림에 소리를 질렀다.','광고비만 쓰고 한 달 매출이 0원이었다.']};
 PREPS.realtor={n:'공인중개사 시험',how:'1차 · 2차 (연 1회)',steps:['1차: 부동산학개론 · 민법','2차: 공법 · 세법 · 중개사법','합격 후 실무교육 → 개업'],pass:.22,cost:600,st:66,comp:'최종 합격률 약 20%대'};
 const INSTANT=new Set(['parttime','rider','delivery','senior','youtuber','cleaner','logistics','labeler','insurance']);
 const STARTUP=new Set(['cafe','cvs','founder','giftshop','florist','bakery','nail','unmanned','banchan']);
@@ -1022,7 +1043,17 @@ const MOM_JOBS={1:['식당 종업원','마트 계산원','청소 노동자','공
 const RURAL_JOBS=['농사','어업','축산업'];
 const SELF_EMP=/사장|점주|건물주|농사|어업|축산|트럭|택시/;
 const canHelp=S=>[S.fam.dad,S.fam.mom].some(p=>p.alive&&!p.left&&p.age<80);
-const working=p=>p&&p.alive&&!p.away&&p.job&&!/전업|무직/.test(p.job);
+const working=p=>p&&p.alive&&!p.away&&p.job&&!/^(전업|무직)/.test(p.job);
+// 부모 직업을 시대·나이에 맞게 (그 시절에 없던 직업, 나이에 비해 이른 직급은 바꾼다)
+const PJ_FROM={'택배기사':[1993,'운수업 기사'],'편의점 점주':[1990,'구멍가게 주인'],'마트 계산원':[1994,'시장 상인'],'요양보호사':[2008,'간병인'],'어린이집 교사':[1991,'유치원 교사'],'학습지 교사':[1985,'가게 점원'],'보험설계사':[1985,'보험 외판원']};
+const PJ_AGE={'의사':[30,'전공의 (수련 중)'],'대기업 임원':[45,'대기업 차장'],'변호사':[29,'사법연수원생'],'교수':[35,'대학 강사'],'대학교수':[35,'대학 강사'],'건물주':[38,'자영업자'],'대기업 과장':[32,'대기업 대리'],'중견기업 부장':[40,'중견기업 과장'],'공기업 차장':[38,'공기업 대리'],'약사':[26,'약대생']};
+const COAST=/해남|남해|완도|통영|거제|여수|태안|울진|강릉|속초|포항|제주|진도|부안|영덕|삼척/;
+function fixPJ(job,y,age,town){
+  if(job==='어업'&&!COAST.test(town))job='농사';
+  const f=PJ_FROM[job];if(f&&y<f[0])job=f[1];
+  const g=PJ_AGE[job];if(g&&age<g[0])job=g[1];
+  return job;
+}
 const home=S=>[S.fam.dad,S.fam.mom].filter(p=>p.alive&&!p.away);
 
 function makeFamily(S){
@@ -1039,11 +1070,14 @@ function makeFamily(S){
   const work=clamp(.2+(y-1960)*.005+(q===1?.12:q===5?-.05:0)+(type.startsWith('한부모')?1:0),.15,.95);
   if(type==='한부모 (아빠)'||type==='조부모 양육')mom.away=true;else mom.job=R()<work?pick(MOM_JOBS[q]):'전업주부';
   if(type==='다문화 가정')mom.origin=pick(['베트남','중국','필리핀','캄보디아','일본']);
+  if(dad.job)dad.job=fixPJ(dad.job,y,dad.age,S.town);if(mom.job)mom.job=fixPJ(mom.job,y,mom.age,S.town);
   const housing=rural?(q>=3?'시골 단독주택 (자가)':pick(['시골 단독주택 (자가)','시골 셋집'])):
     q===1?wpick([['반지하 월세방',3],['단칸방 월세',3],[y<2000?'판자촌 · 달동네':'고시원 · 쪽방',y<1990?3:1],['영구임대 아파트',2],['옥탑방',1]]):
     q===2?wpick([['다세대 월세',4],['다세대 전세',4],['공공임대 아파트',2],['반지하 전세',1]]):
     q===3?wpick([['아파트 전세',5],['빌라 자가',3],['아파트 자가',3]]):
     q===4?wpick([['아파트 자가',7],['아파트 전세',3]]):wpick([['아파트 자가 (대형 평수)',6],['단독주택 자가',2],['고급 아파트 자가',3]]);
+  if(y<1975)housing=housing.replace(/고급 아파트 자가|아파트 자가 \(대형 평수\)/,'큰 단독주택 자가').replace('아파트 자가','단독주택 자가').replace('아파트 전세','단독주택 전세');
+  if(y<1989)housing=housing.replace(/영구임대 아파트|공공임대 아파트/,'셋방');
   const poor=q===1&&R()<.4?(y<2000?'생활보호대상자':'기초생활수급 가정'):q<=2&&R()<.15?'차상위 계층':null;
   const wealth=Math.round([0,rnd(-1500,1500),rnd(2000,8000),rnd(8000,25000),rnd(25000,60000),rnd(70000,250000)][q]);
   S.fam={type,dad,mom,housing,poor,wealth,events:[]};
@@ -1057,18 +1091,27 @@ function parentLine(p){
 }
 function famYear(S){
   const f=S.fam,a=S.age,y=S.year,ps=[f.dad,f.mom].filter(p=>p.alive);
-  ps.forEach(p=>{if(p.age<85)p.age++});
-  f.wealth*=f.wealth>0?([f.dad,f.mom].some(p=>p.alive&&p.age>=75)?.97:1.015):1.05;
+  ps.forEach(p=>p.age++);
+  // 부모님은 자녀가 어른이 된 뒤에만 돌아가신다
+  if(a>=25)ps.forEach(p=>{if(R()<Math.min(.5,.0004*Math.exp(.088*(p.age-30)))||p.age>=101){p.alive=false;p.diedAt=a;
+    lg(S,`${p.role==='아버지'?'아버지':'어머니'}가 ${p.age}세로 세상을 떠나셨다.`,'life');eff(S,{p:-6});
+    if(![f.dad,f.mom].some(q=>q.alive)&&f.wealth>=300){const n=S.sib==='외동'?1:S.sib==='셋째 이상'?3:2,share=Math.round(f.wealth/n),tax=Math.max(0,(share-50000)*.2),net=Math.round(share-tax);f.wealth=0;
+      lg(S,`부모님이 남기신 재산을 ${n>1?'형제들과 나눠 ':''}상속받았다.${tax?' (상속세 '+fmt(tax)+')':''} <span class="fx">${eff(S,{m:net})}</span>`,'good')}}});
+  f.wealth*=f.wealth>0?([f.dad,f.mom].some(p=>p.alive&&p.age>=75)?.95:1.015):1.05; // 75세 이후엔 노후 생활비·병원비로 줄어든다
   const hh=home(S),child=a<20;
   const once=(key,yr,cond,fn)=>{if(y===yr&&!f.events.includes(key)&&cond){f.events.push(key);fn()}};
   // 시대 사건
   once('imf',1998,a>=6&&a<=30,()=>lg(S,'IMF 외환위기. 뉴스마다 부도와 실직 소식이 이어졌다. 금 모으기 운동에 집에 있던 돌반지를 냈다.'));
   once('wc',2002,a>=5&&a<=40,()=>{eff(S,{p:3});lg(S,'한일 월드컵 4강. 거리마다 "대~한민국"이 울렸다.','good')});
-  once('covid',2020,a>=7&&a<=24,()=>lg(S,'코로나19로 학교와 일상이 온라인으로 바뀌었다.'));
+  once('covid',2020,a>=7&&a<=24,()=>lg(S,a<19||(S.uniEnd&&a<S.uniEnd&&!S.milEnd)?'코로나19로 학교와 일상이 온라인으로 바뀌었다.':'코로나19로 일상이 멈췄다. 마스크 없이는 밖에 나갈 수 없었다.'));
   if(child&&hh.length){
-    if(S.fq<5&&R()<.015){S.fq++;f.wealth+=3000;lg(S,pick(['아버지가 승진했다. 집 분위기가 밝아졌다.','부모님 가게가 자리를 잡았다.','부모님이 작은 집을 장만했다.']),'good');if(/월세|반지하|단칸|쪽방|판자|옥탑/.test(f.housing))f.housing='다세대 전세'}
-    if(a>=7&&R()<(/월세|전세|반지하|단칸|옥탑|쪽방|셋집/.test(f.housing)?.09:.03)){eff(S,{r:-3});lg(S,'계약이 끝나 이사를 했다. 전학 간 학교에서 처음부터 다시 친구를 사귀었다.')}
-    if(f.poor&&a>=7&&a<=18&&R()<.15)lg(S,pick(['급식비 지원 대상자라는 게 알려질까 봐 조마조마했다.','지역아동센터에서 저녁을 먹었다.','교복 지원금을 받았다.']));
+    if(S.fq<5&&!f.up&&R()<.012){const w=hh.filter(working);if(w.length){const p=pick(w),both=hh.length>1,who=both?'부모님':p.role==='아버지'?'아빠':'엄마';
+      f.up=true;S.fq++;f.wealth+=3000;f.poor=null;
+      if(SELF_EMP.test(p.job))lg(S,`${who} 가게가 자리를 잡았다. 집 분위기가 밝아졌다.`,'good');
+      else if(!/자가/.test(f.housing)){f.housing='빌라 자가';lg(S,`${who}가 모은 돈으로 작은 집을 장만했다.`,'good')}
+      else lg(S,`${p.role==='아버지'?'아버지':'어머니'}가 승진했다. 집 분위기가 밝아졌다.`,'good')}}
+    if(a>=8&&a<=17&&!/자가/.test(f.housing)&&R()<.08){eff(S,{r:-3});lg(S,'계약이 끝나 이사를 했다. 전학 간 학교에서 처음부터 다시 친구를 사귀었다.')}
+    if(f.poor&&a>=7&&a<=18&&R()<.15)lg(S,pick([y>=1998?'급식비 지원 대상자라는 게 알려질까 봐 조마조마했다.':'도시락 반찬이 부끄러워 뚜껑으로 가리고 먹었다.',y>=2004?'지역아동센터에서 저녁을 먹었다.':'동네 공부방에서 숙제를 했다.',...(a>=13&&y>=2005?['교복 지원금을 받았다.']:[])]));
   }
 }
 
@@ -1079,7 +1122,7 @@ function newLife(o={}){
   const income=o.income?+o.income:wpick([1,2,3,4,5].map(i=>[i,[0,12,18,22,24,24][i]*Math.exp(Rg.inc*(i-3)*.6)]));
   const sib=wpick([['외동',45],['첫째',30],['둘째',20],['셋째 이상',5]]);
   const S={
-    name:pick(SUR)+pick(NM[gender]),gender,birthYear:+o.year||2026,year:+o.year||2026,age:0,region,town:pick(Rg.towns),
+    name:pick(SUR)+pick(NM[gender]),gender,birthYear:+o.year||2026,year:+o.year||2026,age:0,region,town:region==='gangnam'&&+(o.year||2026)<1975?'서울 영동 (지금의 강남)':pick(Rg.towns),
     income,sib,
     health:clamp(72+rnd(-12,12)),happy:clamp(62+rnd(-8,8)),
     know:clamp(25+income*4+Rg.edu+rnd(-8,8)),rel:clamp(56+rnd(-10,10)+(sib==='외동'?-3:3)),
@@ -1093,7 +1136,7 @@ function newLife(o={}){
   makeFamily(S);const f=S.fam;
   if(f.type.startsWith('한부모'))S.happy-=5;
   if(f.poor)S.know-=3;
-  lg(S,`${S.birthYear}년, ${S.town}에서 ${INC_LABEL[income]} ${famSummary(S)} 가정의 ${sib}로 태어났다. 아버지: ${parentLine(f.dad)} / 어머니: ${parentLine(f.mom)}. 집은 ${f.housing}.${f.poor?` (${f.poor})`:''}`,'choice');
+  lg(S,`${S.birthYear}년, ${S.town}에서 ${INC_LABEL[income]} ${famSummary(S)} 가정의 ${sib}(으)로 태어났다. 아버지: ${parentLine(f.dad)} / 어머니: ${parentLine(f.mom)}. 집은 ${f.housing}.${f.poor?` (${f.poor})`:''}`,'choice');
   return S;
 }
 
@@ -1141,14 +1184,16 @@ function jevFor(S){const id=S.job.id,c=JOB[id].c;
   if((c==='서비스·자영업'&&!OWNER.has(id))||id==='senior'||id==='cleaner')return JEV_EMP;return JEV[c]}
 function randomEvent(S){
   const a=S.age;let pool;
-  if(S.job&&R()<.45)pool=jevFor(S);
-  else if(a>=19&&S.edu.tier>=1&&S.jobSeekAge&&a<S.jobSeekAge&&!S.job&&!S.prep)pool=EV.campus;
+  const inService=(S.milEnd&&a<S.milEnd)||(S.rotcIn&&!S.rotcOut);
+  if(inService)pool=EV.mil;
+  else if(S.job&&R()<.45)pool=jevFor(S);
+  else if(a>=19&&S.edu.tier>=1&&S.jobSeekAge&&a<S.jobSeekAge&&!S.job&&!S.prep&&S.uniEnd&&a<S.uniEnd)pool=EV.campus;
   else pool=a<7?EV.child:a<19?EV.teen:a<35?EV.young:a<60?EV.mid:EV.old;
   const once=S.evOnce||(S.evOnce={});
   const ok=pool.filter(x=>(!x.c||x.c(S))&&(!x.y||S.year>=x.y)&&(!x.amin||a>=x.amin)&&(!x.once||!once[x.once]));if(!ok.length)return;
-  const ev=pick(ok);if(ev.once)once[ev.once]=1;ev.fx&&ev.fx(S);const f=eff(S,ev.e);
+  const ev=pick(ok);if(ev.once)once[ev.once]=1;ev.fx&&ev.fx(S);const f=eff(S,ev.e),evt=typeof ev.t==='function'?ev.t(S):ev.t;
   const p=(ev.e.p||0)+(ev.e.h||0)+(ev.e.r||0)+(ev.e.k||0)+(ev.e.m||0)/400;
-  lg(S,ev.t+(f?` <span class="fx">${f}</span>`:''),p>0?'good':p<0?'bad':'life');
+  lg(S,evt+(f?` <span class="fx">${f}</span>`:''),p>0?'good':p<0?'bad':'life');
 }
 
 function yearly(S){
@@ -1185,19 +1230,23 @@ function yearly(S){
     if(S.job&&j.risk&&R()<j.risk*6){eff(S,{h:-20});lg(S,'업무 중 큰 사고를 당했다. <span class="fx">건강 −20</span>','bad')}
   }
   if(!S.job&&a>=65)inc+=Math.max(S.pension||0,400); // 국민·공무원연금, 없으면 기초연금
-  if(S.married&&a<62&&!(S.spouseOff&&a<S.spouseOff))inc+=S.spouseInc;
+  if(S.married&&a<62&&!(S.spouseOff&&a<S.spouseOff)){inc+=S.spouseInc*.85;if(a<50)S.spouseInc*=1.015}
   if(S.spouseOff&&a===S.spouseOff){S.spouseOff=null;S.spouseInc=Math.round(S.spouseInc*.6);lg(S,'배우자가 다시 일을 시작했다. 예전보다 적은 월급이지만.')}
   if(S.job||S.retired||(S.jobSeekAge&&a>=S.jobSeekAge)){
-    let cost=S.job||S.married||S.retired?1900+(S.married?1100:0)+(S.house?0:1200)+Math.max(0,inc-3000)*.32:900;
-    if(S.kids&&a-S.kidsAge<25)cost+=S.kids*1200;
+    // 생활비: 가구 형태 기본 + 주거비 + 소득이 많을수록 더 쓴다. 소득이 적으면 버는 만큼 줄여 산다
+    let cost=S.job||S.married||S.retired?(S.married?2800:1600)+(S.house?0:S.married?1000:650)+Math.max(0,inc-3000)*.35:900;
+    const kidCost=S.kids&&a-S.kidsAge<25?S.kids*1100:0;cost+=kidCost;
+    if(S.job||S.married)cost=Math.min(cost,Math.max(inc*.96,(S.married?2000:1300)+kidCost*.6));
     if(S.retired||(!S.job&&a>=62))cost=Math.min(cost,1400+(S.married?800:0)+(S.house?0:900)); // 은퇴 후 생활비
-    if(S.money<=0)cost=Math.max(1200,Math.min(cost,inc-(S.debt>0?S.debt*.07+300:0))); // 돈이 없으면 생활비를 줄여 대출부터 갚는다
+    if(S.money<=0)cost=Math.max(S.retired||a>=62?Math.min(1000,inc):1200,Math.min(cost,inc-(S.debt>0?S.debt*.07+300:0))); // 돈이 없으면 생활비를 줄여 대출부터 갚는다
     S.money+=inc-cost;
   }
   if(S.debt>0){const pay=S.debt*.07+300,pr=pay-S.debt*.04;S.money-=pay;S.debt=Math.max(0,S.debt-pr);if(S.debt<200)S.debt=0}
   if(S.house&&S.money<-20000){const left=S.houseValue-S.debt;S.money+=left;S.house=false;S.houseValue=0;S.debt=0;eff(S,{p:-4});lg(S,`대출 상환이 버거워 집을 팔고 전세로 옮겼다. 남은 돈 ${fmt(Math.max(0,left))}.`,'bad')}
-  if(S.money<-3000&&(!S.job||a>=50)){S.money=-3000} // 채무조정·기초생활보장으로 빚이 끝없이 불지 않음
-  S.money*=S.money>0?1+rnd(-.035,.045):S.money>-10000?1.04:1;
+  S.money*=S.money>0?1+rnd(-.035,.045):1.045;
+  // 빚이 감당할 수 없게 불면 개인회생 (7년에 한 번)
+  if(S.money<-5000&&(!S.job||a>=50||inc<3000)&&(!S.reliefAge||a-S.reliefAge>=7)){const before=-S.money;S.reliefAge=a;S.money=Math.round(S.money*.3);
+    lg(S,`불어난 빚 ${fmt(before)}을(를) 감당하지 못해 개인회생을 신청했다. 일부를 탕감받고 나머지는 나눠 갚기로 했다.`,'bad')}
   if(a===60)S.nw60=Math.round(net(S));
   if(S.house)S.houseValue*=1+rnd(-.04,.06);
 
@@ -1262,13 +1311,22 @@ const PREP={
     if(S.retook==null||!S.scoreOnce){S.scoreOnce=1;if(S.birthYear<1975&&S.fq<=2&&R()<.5)S.noCollege=true}
     S.scoreParts={know:Math.round(S.know*(tr==='susi'?.72:.85)),fam:tr==='susi'?Math.round(S.fq*1.2):fam,hs:tr==='susi'?gen+local:S.edu.hs,g,luck:tr==='essay'?'±16':luck,tr};
   },
-  house:S=>{S.housePrice=Math.round(REGIONS[S.region].house*housePI(S.year)*rnd(.85,1.15))}
+  house:S=>{S.housePrice=Math.round(REGIONS[S.region].house*housePI(S.year)*rnd(.92,1.08))},
+  love:S=>{const male=S.gender==='M',by=S.birthYear,age=Math.max(20,S.age+(male?-ri(0,4):ri(0,4)));
+    const works=male?R()<(by<1970?.35:by<1985?.5:.62):R()<.95;
+    const tier=clamp(S.edu.tier+ri(-1,1),0,5);
+    const pool=JOBS.filter(j=>!j.hidden&&j.t<=tier&&j.t>=tier-2&&!j.f&&!INSTANT.has(j.id)&&(!j.ma||age<=j.ma+15));
+    const j=works?wpick(pool.map(j=>[j,POPW[j.id]||.4])):null;
+    const yrs=Math.max(0,age-(tier>=2?26:21));
+    const inc=j?Math.round(Math.min(j.cap,j.s*.9*Math.pow(1+j.g*.8,yrs))*rnd(.85,1.1)*(male?.93:1)):0;
+    const asset=Math.round(inc*.18*yrs*rnd(.4,1.4)+(R()<.25?rnd(1000,5000):0));
+    S.partner={age,job:j?j.n:'전업 (일하지 않음)',jid:j?j.id:null,inc,asset}}
 };
 
 function setJob(S,id,quiet){
   const j=JOB[id];S.jobEnd=null;
   let sal=j.s*.88*(1+(S.edu.tier-2)*.04)*rnd(.9,1.1)*(S.gender==='F'?.93:1);
-  if(S.cb){sal*=.7;S.cb=false;lg(S,'경력단절 뒤 다시 일을 시작했다. 예전 연봉의 70% 수준에서 다시 출발했다.','choice')}
+  if(S.cb){S.cb=false;if(JOB[id].c===S.cbCat&&!LICENSE.has(prepOf(id))){sal*=.7;lg(S,'경력단절 뒤 다시 일을 시작했다. 예전 연봉의 70% 수준에서 다시 출발했다.','choice')}else lg(S,'경력단절 뒤 새 분야에서 다시 시작했다.','choice')}
   S.job={id,sal:Math.round(sal),start:S.age,ret:Math.max(S.age+3,j.ret+ri(-2,2))};
   if(!S.jobsDone.includes(id))S.jobsDone.push(id);
   saveDex(id);S.nextWev=S.age+ri(2,3);S.jobHunt=null;S.stressMod=0;
@@ -1276,33 +1334,44 @@ function setJob(S,id,quiet){
 }
 function prepPass(S,id){
   const j=JOB[id],P=PREPS[prepOf(id)],el=elig(S,j);if(!el.ok)return 0;
-  if(prepOf(id)==='hunt')return clamp(el.c*.7,.03,.85);
+  const k=prepOf(id);
+  if(k==='hunt'){let c=el.c*.7*clamp(1-Math.max(0,S.age-40)*.05,.15,1); // 40대 이후 신입 구직은 갈수록 어렵다
+    if(S.age>=45&&!S.jobsDone.some(x=>JOB[x].c===j.c))c*=.5; // 다른 분야로의 늦은 전직
+    return clamp(c,.03,.85)}
   let r=Math.sqrt(clamp(el.c/j.o,.35,1.8));
   if(P.body)r*=clamp(S.health/70,.6,1.2);
-  r*=clamp(1-Math.max(0,S.age-32)*.04,.15,1);
+  if(AGE_PEN.has(k))r*=clamp(1-Math.max(0,S.age-32)*.04,.15,1);
+  else r*=clamp(1-Math.max(0,S.age-55)*.03,.6,1); // 자격증·창업·귀농은 50~60대도 흔하다
   return clamp(P.pass*r,.02,.97);
 }
 function expYears(S,id){const P=PREPS[prepOf(id)],p=prepPass(S,id);if(!p)return null;return(P.fix||0)+Math.min(P.max||8,1/p)}
 function startPrep(S,id){
   const k=prepOf(id),P=PREPS[k];S.jobEnd=null;
   S.prep={id,k,yrs:0,att:0,spent:0,fixLeft:P.fix||0};
-  lg(S,`${JOB[id].e} ${JOB[id].n}이(가) 되기 위해 ${P.n} 준비를 시작했다. (${P.how})`,'choice');
+  if(id==='elec'&&S.edu.tier<2&&!S.edu.voc)S.prep.fixLeft=3; // 고졸은 기능사 취득 후 실무 3년이 있어야 기사 응시
+  (S.preps=S.preps||[]).push({n:P.n,start:S.age});
+  const what=/준비$|활동$|자격$/.test(P.n)?P.n:P.n+' 준비';
+  lg(S,`${JOB[id].e} ${JOB[id].n}이(가) 되기 위해 ${what}을(를) 시작했다. (${P.how}${S.prep.fixLeft&&!P.fix?' · 고졸은 기능사 취득 후 실무 3년 뒤 응시':''})`,'choice');
 }
 function prepYear(S){
   const P=PREPS[S.prep.k],j=JOB[S.prep.id],pr=S.prep;
   pr.yrs++;S.money-=P.cost;pr.spent+=P.cost;if(P.cost<0)S.lifeIncome-=P.cost;
   S.health+=(P.hp||-1)*rnd(.5,1.2);S.know+=rnd(1,3);
-  if(R()<.6)lg(S,`${P.label||P.n} ${pr.yrs}년 차 — ${pick([...(P.ev||[]),...(P.cost<0?[]:PREP_EV)])}`,'prep');
+  const pev=EXAM_K.has(pr.k)?PREP_EV.filter(e=>(!e.young||(!S.married&&S.age<36))&&(!e.kid||S.kids)&&(!e.old||S.age>=36)).map(e=>typeof e.t==='function'?e.t(S):e.t):[];
+  const pool=[...(P.ev||[]),...pev];if(pool.length&&R()<.6)lg(S,`${P.label||P.n} ${pr.yrs}년 차 — ${pick(pool)}`,'prep');
   if(pr.fixLeft>0)pr.fixLeft--;
   if(pr.fixLeft>0)return;
   pr.att++;
   if(R()<prepPass(S,pr.id)){
     S.prep=null;eff(S,{p:12});S.stress-=20;
-    lg(S,`${pr.yrs}년의 준비 끝에 ${P.n} 합격! (${pr.att}회 응시 · 준비 비용 ${fmt(Math.max(0,pr.spent))})`,'good');
+    const okT=PREP_OK[pr.k];(S.preps=S.preps||[]).push({n:P.n,yrs:pr.yrs,ok:1});
+    lg(S,okT?`${pr.yrs}년 만에 ${okT}. (준비 비용 ${fmt(Math.max(0,pr.spent))})`:`${pr.yrs}년의 준비 끝에 ${P.n} 합격! (${pr.att}회 응시 · 준비 비용 ${fmt(Math.max(0,pr.spent))})`,'good');
     setJob(S,pr.id);
-  }else{eff(S,{p:-6});S.stress+=6;lg(S,`${P.n} 불합격 (${pr.att}회차).`,'bad');S.examFail=true}
+  }else{eff(S,{p:-6});S.stress+=6;if(P.refund){S.money+=P.refund;pr.spent-=P.refund}
+    lg(S,PREP_NG[pr.k]?`${PREP_NG[pr.k]}.`:`${P.n} 불합격 (${pr.att}회차).`,'bad');S.examFail=true}
 }
 function tryJob(S,id){
+  if(S.jobsDone.includes(id)&&LICENSE.has(prepOf(id))){const el=elig(S,JOB[id]);if(el.ok&&R()<Math.max(el.c,.6)){lg(S,`예전에 딴 자격으로 다시 ${JOB[id].n} 일을 구했다.`,'choice');setJob(S,id);return true}return false}
   if(prepOf(id)){startPrep(S,id);return true}
   const el=elig(S,JOB[id]);if(el.ok&&R()<el.c){setJob(S,id);return true}
   return false;
@@ -1467,18 +1536,31 @@ const CHOICES={
    apply:S=>{S.mil='rotc';S.jobSeekAge+=2;S.nextJobTry=S.jobSeekAge;eff(S,{r:5,k:2,m:4500});S.stress+=6;lg(S,'여성 ROTC 후보생으로 선발됐다.','choice')}},
   {label:'여군 부사관 (RNTC 포함)',sub:'졸업 후 하사 임관 · 4년 복무',w:.6,
    apply:S=>{S.mil='rntc';S.jobSeekAge+=3;S.nextJobTry=S.jobSeekAge;eff(S,{r:4,h:3,m:7000});lg(S,'부사관 후보생이 됐다.','choice')}}]}},
- love:S=>({title:`${S.age}세, 결혼`,desc:(()=>{const y=S.year,m=y<1995?[28,25]:y<2005?[29,27]:y<2015?[32,29.5]:[34,31.5];return`${y}년 무렵 평균 초혼 연령은 남 ${m[0]}세, 여 ${m[1]}세.${y>=2010?' 혼인 건수는 30년 새 절반 가까이 줄었습니다.':''}`})(),options:[
-  {label:'결혼한다',sub:'관계↑ 행복↑ · 결혼 비용 약 3천만',lock:S.rel<35&&'관계 지수 35+',w:S.job?3:1,apply:S=>{S.married=true;S.marriedAge=S.age;S.spouseInc=S.gender==='F'?(R()<.95?Math.round(rnd(3000,6500)):0):(R()<(S.birthYear<1970?.35:S.birthYear<1985?.45:.55)?Math.round(rnd(2000,4500)):0);eff(S,{p:8,r:8,m:-3000});
-    lg(S,'결혼했다.','choice');if(S.fq>=4&&S.fam.wealth>20000&&canHelp(S)){S.money+=5000;S.fam.wealth-=5000;lg(S,'부모님이 신혼집 자금 5천만 원을 보태주셨다.','good')}}},
-  {label:'조금 더 지켜본다',sub:'4년 뒤 다시',lock:S.age>=44&&'44세 이후 불가',w:1.5,apply:S=>{S.loveAge=S.age+4}},
-  {label:'비혼으로 산다',sub:'자유와 고독',w:S.birthYear<1970?.1:S.birthYear<1980?.25:S.birthYear<1990?.6:1.2,apply:S=>{S.single=true;eff(S,{p:2})}}]}),
- house:S=>{const P=S.housePrice,m=S.money;return{title:'내 집 마련',desc:`${REGIONS[S.region].n}의 평균적인 집값은 약 <b>${fmt(P)}원</b>. 지금 가진 현금은 ${fmt(m)}원. <span style="font-size:12px;color:var(--ink3)">(모든 금액은 2024년 화폐가치 기준)</span>`,options:[
-  {label:'자력 매수',sub:'자기자본 40% 이상',lock:m<P*.4&&`현금 ${fmt(P*.4)} 필요`,w:3,apply:S=>{S.money-=P*.4;S.debt+=P*.6;S.house=true;S.houseValue=P;eff(S,{p:6});lg(S,`집을 샀다. (${fmt(P)})`,'choice')}},
-  {label:'영끌 매수',sub:'자기자본 15% · 대출 85%',lock:(m<P*.15||!S.job)&&`현금 ${fmt(P*.15)} + 직장`,w:1.5,apply:S=>{S.money-=P*.15;S.debt+=P*.85;S.house=true;S.houseValue=P;eff(S,{p:-3});lg(S,'영끌로 집을 샀다. 월급의 절반이 대출 상환으로 나간다.','choice')}},
-  {label:'부모님 도움으로 매수',sub:'증여 + 대출',lock:(S.fq<4||S.fam.wealth<30000||!canHelp(S))&&'부모님 여유 자산 필요',w:3,apply:S=>{S.money-=Math.min(Math.max(m,0),P*.2);S.debt+=P*.3;S.house=true;S.houseValue=P;eff(S,{p:5});lg(S,'부모님 도움으로 집을 샀다.','choice')}},
-  {label:'청약 도전',sub:`당첨 확률 약 ${Math.round((.06+(S.married?.06:0)+S.kids*.05)*100)}%`,w:1,apply:S=>{if(R()<.06+(S.married?.06:0)+S.kids*.05){S.house=true;S.houseValue=P;S.debt+=P*.7;S.money-=P*.1;eff(S,{p:12});lg(S,'청약에 당첨됐다!','good')}else{S.houseAge=S.age+3;eff(S,{p:-3});lg(S,'청약에 떨어졌다. 3년 뒤 재도전.','bad')}}},
+ love:S=>{const P=S.partner||{age:S.age,job:'회사원',inc:3000,asset:2000},y=S.year;
+  const AGE=[[1990,27.8,24.8],[2000,29.3,26.5],[2010,31.8,28.9],[2015,32.6,30],[2020,33.2,30.8],[2023,34,31.5]];
+  const ia=(k)=>{if(y<=AGE[0][0])return AGE[0][k];for(let i=1;i<AGE.length;i++)if(y<=AGE[i][0]){const[a0,...r0]=AGE[i-1],[a1,...r1]=AGE[i],t=(y-a0)/(a1-a0);return Math.round((r0[k-1]+(r1[k-1]-r0[k-1])*t)*10)/10}return AGE[AGE.length-1][k]};
+  const mAge=y<1990?(y<1975?[27,23]:[27.5,24.5]):[ia(1),ia(2)];
+  return{title:`${S.age}세, 결혼`,desc:`오래 만난 사람이 있습니다. <b>${P.age}세 · ${P.job}${P.inc?` · 연 소득 ${fmt(P.inc)}`:''} · 모은 돈 ${fmt(P.asset)}</b><br><span style="font-size:13px;color:var(--ink3)">${y}년 무렵 평균 초혼 연령은 남 ${mAge[0]}세, 여 ${mAge[1]}세.${y>=2020?' 1996년 43만 건이던 혼인은 2023년 19만 건으로 절반 넘게 줄었습니다.':y>=2010?' 혼인 건수가 해마다 줄고 있습니다.':''}</span>`,options:[
+  {label:'결혼한다',sub:`관계↑ 행복↑ · 결혼 비용 약 3천만 · 배우자 돈 ${fmt(P.asset)} 합침`,lock:S.rel<35&&'관계 지수 35+',w:S.job?3:1,apply:S=>{const P=S.partner;S.married=true;S.marriedAge=S.age;S.spouseInc=P.inc;S.spouseJob=P.job;S.spouseAge0=P.age-S.age;eff(S,{p:8,r:8,m:-3000});S.money+=P.asset;
+    lg(S,`결혼했다. 배우자는 ${P.age}세 ${P.job}${P.inc?`, 연 소득 ${fmt(P.inc)}`:''}. 각자 모은 돈을 합쳤다. <span class="fx">돈 +${fmt(P.asset)}</span>`,'choice');S.partner=null;
+    if(S.fq>=4&&S.fam.wealth>20000&&canHelp(S)){S.money+=5000;S.fam.wealth-=5000;lg(S,'부모님이 신혼집 자금 5천만 원을 보태주셨다.','good')}}},
+  {label:'조금 더 지켜본다',sub:'4년 뒤 다시',lock:S.age>=44&&'44세 이후 불가',w:1.5,apply:S=>{S.loveAge=S.age+4;S.partner=null}},
+  {label:'비혼으로 산다',sub:'자유와 고독',w:S.birthYear<1970?.1:S.birthYear<1980?.25:S.birthYear<1990?.6:1.2,apply:S=>{S.single=true;S.partner=null;eff(S,{p:2})}}]}},
+ house:S=>{const P=S.housePrice,m=S.money,y=S.year,f=S.fam;
+  const my=S.job&&!S.onLeave?S.job.sal:0,sp=S.married&&!(S.spouseOff&&S.age<S.spouseOff)?S.spouseInc:0,hi=my+sp;
+  const loanN=Math.round(Math.min(P*.6,hi*6)),needN=P-loanN;
+  const ltvY=y>=2022?.8:.7,loanY=Math.round(Math.min(P*ltvY,hi*8)),needY=P-loanY;
+  const gift=Math.round(Math.min(P*.5,Math.max(0,f.wealth)*.4)),giftTax=Math.round(Math.max(0,(gift-5000)*.15)),needG=P-gift-loanN+giftTax;
+  const rf={gangnam:.12,seoul:.3,capital:.7,metro:1,city:1.2,rural:1.4}[S.region],pc=Math.min(.6,(.06+(S.married?.06:0)+S.kids*.05)*rf);
+  const local=['city','rural'].includes(S.region),CP=Math.round(REGIONS.city.house*housePI(y)),loanC=Math.round(Math.min(CP*.6,hi*6));
+  const buy=(S,price,loan,msg,p)=>{S.money-=price-loan;S.debt+=loan;S.house=true;S.houseValue=price;eff(S,{p});lg(S,msg,'choice')};
+  return{title:'내 집 마련',desc:`${REGIONS[S.region].n}의 평균적인 집값은 약 <b>${fmt(P)}원</b>.<br>가구 연 소득 <b>${fmt(hi)}</b>${sp?` (본인 ${fmt(my)} + 배우자 ${fmt(sp)})`:''} · 현금 <b>${fmt(m)}</b> · 은행 대출 한도 약 <b>${fmt(loanN)}</b><br><span style="font-size:12px;color:var(--ink3)">대출은 집값의 60%, 원리금이 소득의 40%를 넘지 않는 선까지 (모든 금액은 2024년 화폐가치 기준)</span>`,options:[
+  {label:'대출을 끼고 산다',sub:`현금 ${fmt(needN)} + 대출 ${fmt(loanN)}`,lock:(!hi&&'소득이 없으면 대출이 안 됨')||(m<needN&&`현금 ${fmt(needN)} 필요`),w:3,apply:S=>buy(S,P,loanN,`집을 샀다. 집값 ${fmt(P)} 중 ${fmt(loanN)}은 대출.`,6)},
+  {label:'영끌 매수',sub:`대출 최대 ${Math.round(ltvY*100)}%까지 · 현금 ${fmt(needY)} · 이자 부담 큼`,lock:(!S.job&&'직장 필요')||(m<needY&&`현금 ${fmt(needY)} 필요`)||(loanY<=loanN&&'소득이 낮아 대출을 더 받을 수 없음'),w:1.5,apply:S=>{buy(S,P,loanY,'영끌로 집을 샀다. 월급의 절반 가까이가 대출 상환으로 나간다.',-3);S.stress+=8}},
+  {label:'부모님 도움으로 산다',sub:`증여 ${fmt(gift)}${giftTax?` (증여세 약 ${fmt(giftTax)})`:''} + 대출 · 내 현금 ${fmt(Math.max(0,needG))}`,lock:(!canHelp(S)&&'도와주실 부모님이 안 계심')||(gift<P*.1&&'부모님 여유 자산이 부족')||(m<needG&&`현금 ${fmt(needG)} 필요`),w:3,apply:S=>{S.fam.wealth-=gift;S.money+=gift-giftTax;buy(S,P,loanN,`부모님이 ${fmt(gift)}을(를) 보태주셔서 집을 샀다.`,5)}},
+  {label:'청약 도전',sub:y<1978?'아직 청약 제도가 없던 시절':`당첨 확률 약 ${Math.round(pc*100)}% · 계약금 ${fmt(P*.2)} 필요`,lock:(y<1978&&'청약 제도 이전')||(m<P*.2&&`계약금 ${fmt(P*.2)} 필요`)||(P*.8>hi*8&&'잔금 대출을 받기엔 소득이 부족'),w:1,apply:S=>{if(R()<pc){buy(S,P,Math.round(P*.8),'청약에 당첨됐다! 계약금을 내고 입주까지 기다렸다.',12)}else{S.houseAge=S.age+3;eff(S,{p:-3});lg(S,'청약에 떨어졌다. 3년 뒤 재도전.','bad')}}},
   {label:'전·월세로 산다',sub:'6년 뒤 다시 생각',w:2,apply:S=>{S.houseAge=S.age+6}},
-  {label:'지방으로 이주해 매수',sub:`집값 약 ${fmt(REGIONS.city.house*housePI(S.year))}`,lock:m<REGIONS.city.house*housePI(S.year)*.3&&`현금 ${fmt(REGIONS.city.house*housePI(S.year)*.3)}`,w:.8,apply:S=>{const p=Math.round(REGIONS.city.house*housePI(S.year));S.money-=p*.3;S.debt+=p*.7;S.house=true;S.houseValue=p;S.region='city';eff(S,{p:3,r:-3});lg(S,'지방 도시로 이사해 집을 샀다.','choice')}}]}},
+  ...(local?[]:[{label:'지방으로 옮겨 집을 산다',sub:`집값 약 ${fmt(CP)} · 현금 ${fmt(CP-loanC)}`,lock:(!hi&&'소득이 없으면 대출이 안 됨')||(m<CP-loanC&&`현금 ${fmt(CP-loanC)} 필요`),w:.8,apply:S=>{S.region='city';S.town=pick(REGIONS.city.towns);buy(S,CP,loanC,`${S.town}(으)로 이사해 집을 샀다.`,3);eff(S,{r:-3})}}])]}},
  kids:S=>{const y=S.year,by=S.birthYear;return{title:'첫아이',desc:`${y<1990?'이 시기 합계출산율은 약 1.6명이었습니다.':y<2010?'합계출산율은 1.1~1.3명으로 떨어지고 있었습니다.':'2024년 한국의 합계출산율은 0.75명 — 세계 최저 수준입니다.'} 아이 한 명을 대학까지 키우는 데 약 3억 원이 든다고 합니다.`,options:[
   {label:'아이를 낳는다',sub:'행복·관계↑ · 연 1,200만 지출',w:by<1975?8:by<1985?6:by<1995?3:2,apply:S=>{S.kids=1;S.kidsAge=S.kid1Age=S.age;eff(S,{p:8,r:8});lg(S,'첫아이가 태어났다.','good');
     if(S.gender==='F'&&S.job)S.next='careerBreak';
@@ -1491,7 +1573,7 @@ const CHOICES={
   {label:'한 명으로 충분하다',sub:'지금 그대로',w:2,apply:S=>{}}]}},
  careerBreak:S=>{const by=S.birthYear,j=JOB[S.job.id];return{title:'출산, 그리고 일',desc:`${j.e} ${j.n} ${S.age-S.job.start+1}년 차. 한국 기혼 여성의 약 6명 중 1명이 경력단절을 겪고, 가장 큰 이유는 육아입니다.`,options:[
   {label:'육아휴직 1년 후 복직',sub:'1년간 급여 일부 · 복직',lock:(!isEmp(S)&&'자영업·프리랜서는 육아휴직 제도 밖')||(S.year<2001&&'2001년 이전엔 제도가 거의 없었음'),w:by<1985?.5:by<1995?1.5:2.5,apply:S=>{S.onLeave=true;eff(S,{m:Math.round(S.job.sal*.4)});lg(S,'육아휴직을 냈다.','choice')}},
-  {label:isEmp(S)?'퇴사하고 육아에 전념':'일을 접고 육아에 전념',sub:'3~8년 뒤 재취업 · 연봉 약 70%로 다시 시작',w:by<1970?3:by<1980?2:by<1990?1:.6,apply:S=>{lg(S,`${j.n}을(를) 그만두고 아이를 키우기로 했다.`,'choice');endJob(S);S.cbUntil=S.age+ri(3,8);S.nextJobTry=S.cbUntil;S.cb=true}},
+  {label:isEmp(S)?'퇴사하고 육아에 전념':'일을 접고 육아에 전념',sub:'3~8년 뒤 재취업 · 연봉 약 70%로 다시 시작',w:by<1970?3:by<1980?2:by<1990?1:.6,apply:S=>{S.cbCat=j.c;lg(S,`${j.n}을(를) 그만두고 아이를 키우기로 했다.`,'choice');endJob(S);S.cbUntil=S.age+ri(3,8);S.nextJobTry=S.cbUntil;S.cb=true}},
   {label:isEmp(S)?'부모님께 맡기고 바로 복귀':'부모님께 맡기고 바로 일터로',sub:'스트레스↑ · 비용',w:1,apply:S=>{S.stress+=10;eff(S,{m:-1000,r:-2});lg(S,isEmp(S)?'출산 3개월 만에 복직했다. 아이는 부모님이 돌봐주셨다.':'출산 한 달 만에 다시 일을 시작했다. 아이는 부모님이 돌봐주셨다.','choice')}}]}},
  midcareer:S=>{const j=JOB[S.job.id];return{title:`${S.age}세, 갈림길`,desc:`${j.e} ${j.n} ${S.age-S.job.start}년 차, 연봉 ${fmt(S.job.sal)}원. 인생 2막을 고민할 때입니다.`,options:[
   ...(isEmp(S)?[{label:'승진에 올인',sub:'성공 45% · 연봉 +35% · 건강↓',w:2,apply:S=>{eff(S,{h:-5});if(R()<.45){S.job.sal*=1.35;eff(S,{p:6});lg(S,'승진했다!','good')}else{eff(S,{p:-6});lg(S,'승진에서 밀렸다.','bad')}}},
@@ -1521,12 +1603,12 @@ const CHOICES={
   {label:'살던 집에서',sub:'익숙함',w:2,apply:S=>{eff(S,{p:1})}}]}),
  prepFail:S=>{
   const pr=S.prep,P=PREPS[pr.k],j=JOB[pr.id],p=prepPass(S,pr.id);let fb=FALLBACK[pr.id];if(!fb&&pr.k==='hunt'&&pr.id!=='smallCo')fb='smallCo';const maxed=P.max&&pr.att>=P.max;
-  const o=[{label:`한 번 더 도전 (${pr.att+1}회차)`,sub:`다음 합격률 약 ${Math.round(p*100)}% · 1년 ${P.cost<0?'더 수련':fmt(P.cost)+' 더'}`,lock:(p===0&&'지금은 지원 자격이 없음')||(S.age>=62&&'62세 이상')||(maxed&&`응시 제한 ${P.max}회 소진`)||(j.ma&&S.age>=j.ma&&`응시 연령 ${j.ma}세 초과`),w:pr.att<3?2:.4,apply:S=>{eff(S,{p:-2});lg(S,'다시 책상 앞에 앉았다.','prep')}}];
+  const o=[{label:EXAM_K.has(pr.k)?`한 번 더 도전 (${pr.att+1}회차)`:'1년 더 해 본다',sub:`다음 합격률 약 ${Math.round(p*100)}% · 1년 ${P.cost<0?'더 수련':fmt(P.cost)+' 더'}`,lock:(p===0&&'지금은 지원 자격이 없음')||(S.age>=62&&'62세 이상')||(maxed&&`응시 제한 ${P.max}회 소진`)||(j.ma&&S.age>=j.ma&&`응시 연령 ${j.ma}세 초과`),w:pr.att<3?2:.4,apply:S=>{eff(S,{p:-2});lg(S,EXAM_K.has(S.prep.k)?'다시 책상 앞에 앉았다.':'한 해 더 해 보기로 했다.','prep')}}];
   if(fb){const fj=JOB[fb],fe=elig(S,fj);
    o.push({label:`${fj.e} ${fj.n}(으)로 방향 전환`,sub:pr.id==='judge'?'변시 합격자로 바로 개업':prepOf(fb)?`${PREPS[prepOf(fb)].n} 시작`:`바로 지원 · 합격 ${Math.round((fe.c||0)*100)}%`,lock:pr.id!=='judge'&&!fe.ok&&fe.why,w:1.5,
     apply:S=>{const from=S.prep.id;S.prep=null;if(from==='judge'){setJob(S,'lawyer');return}if(!tryJob(S,fb)){lg(S,`${fj.n} 지원에서도 떨어졌다.`,'bad');S.nextJobTry=S.age;S.next='job'}}})}
   o.push(S.age>=62?{label:'준비를 접고 은퇴한다',sub:'연금으로 생활',w:1,apply:S=>{S.prep=null;S.retired=true;lg(S,'준비를 접고 은퇴했다.','choice')}}:{label:'완전히 다른 길 찾기',sub:'직업 목록으로',w:.6,apply:S=>{S.prep=null;S.nextJobTry=S.age;S.next='job'}});
-  return{title:`${P.n} 불합격`,desc:`${j.e} ${j.n}을(를) 향한 ${pr.yrs}년째. 지금까지 쓴 돈 <b>${fmt(Math.max(0,pr.spent))}원</b>, 스트레스 <b>${Math.round(S.stress)}</b>, 행복 <b>${Math.round(S.happy)}</b>. ${P.comp?`경쟁률 ${P.comp} — `:''}대부분이 같은 결과를 받습니다.`,options:o}},
+  return{title:EXAM_K.has(pr.k)?`${P.n} 불합격`:`${P.n}, 올해는 안 됐다`,desc:`${j.e} ${j.n}을(를) 향한 ${pr.yrs}년째. 지금까지 쓴 돈 <b>${fmt(Math.max(0,pr.spent))}원</b>, 스트레스 <b>${Math.round(S.stress)}</b>, 행복 <b>${Math.round(S.happy)}</b>.${P.comp?` (${P.comp})`:''}${p<.4?' 대부분이 같은 결과를 받습니다.':''}`,options:o}},
  aiLayoff:S=>{const j=JOB[S.job.id],cut=ri(20,50);if(!isEmp(S)){const id=S.job.id;return{title:'AI가 일감을 가져갔다',desc:`${S.year}년. ${['taxi','trucker'].includes(id)?'자율주행 차량이 늘며 콜과 운송 의뢰가 크게 줄었습니다.':['rider','delivery'].includes(id)?'로봇·드론 배송이 늘며 배차가 크게 줄었습니다.':id==='insurance'?'AI 보험 비교 앱으로 설계사 없이 가입하는 사람이 크게 늘었습니다.':id==='realtor'?'AI 매물 추천과 비대면 계약이 늘며 중개 의뢰가 줄었습니다.':['cvs','unmanned'].includes(id)?'AI 무인 점포가 근처에 잇따라 생겼습니다.':['tutor','engTutor'].includes(id)?'AI 튜터 앱이 퍼지며 수강생이 크게 줄었습니다.':['labeler','logistics'].includes(id)?'자동화로 맡을 일이 크게 줄었습니다.':'AI 생성 도구가 퍼지며 의뢰가 줄고 단가가 무너졌습니다.'} (AI 대체 위험 ${AI_N[AI[id]||0]})`,options:[
   {label:'AI를 내 일에 들인다',sub:'60% 적응 · 수입 −10% · 이후 위험 감소',w:1.5,apply:S=>{eff(S,{k:6});S.stress+=8;if(R()<.6){S.job.sal*=.9;S.aiSafe=(S.aiSafe||0)+1;lg(S,'AI 도구를 익혀 일하는 방식을 바꿨다. 살아남았다.','good')}else{lg(S,'새 방식에 적응하지 못했다. 일감이 끊겼다.','bad');aiOut(S,0)}}},
   {label:'단가를 낮춰 버틴다',sub:'수입 −25%',w:1.2,apply:S=>{S.job.sal*=.75;eff(S,{p:-5});lg(S,'단가를 크게 낮췄다. 일은 그대로인데 수입은 줄었다.','bad')}},

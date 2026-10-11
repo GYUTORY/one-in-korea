@@ -15,7 +15,7 @@ for(let i=0;i<N;i++){try{
   const F=S.fam,by=S.birthYear;out.fam.n[by]=(out.fam.n[by]||0)+1;
   if(F.mom.job==='전업주부'||/전업주부/.test(S.log[0].t))out.fam.home[by]=(out.fam.home[by]||0)+1;
   if(F.poor)out.fam.poor++;
-  const ih=S.log.find(l=>l.t.includes('상속받았다'));if(ih)out.fam.inh.push(+(ih.t.match(/\+([\d.,]+)(억|만)/)||[0,0,'만'])[1].replace(/,/g,'')*(ih.t.includes('억</')||/\+[\d.]+억/.test(ih.t)?10000:1));
+  const ih=S.log.find(l=>l.t.includes('상속받았다'));if(ih)out.fam.inh.push(+(ih.t.match(/\+([\d.,]+)(억|만)/)||[0,'0','만'])[1].replace(/,/g,'')*(ih.t.includes('억</')||/\+[\d.]+억/.test(ih.t)?10000:1));
   const L=out.life;if(S.nw60!=null)L.nw60.push(S.nw60);
   const tk=S.edu.univ&&S.edu.univ!=='—'?(S.edu.tier>=5?'SKY·의대':S.edu.tier===4?'인서울·교대·사관':S.edu.tier===3?'지거국·간호':S.edu.tier===2?'지방4년제·예체능':'전문대'):'고졸';
   L.tier[by]=L.tier[by]||{};L.tier[by][tk]=(L.tier[by][tk]||0)+1;
@@ -26,11 +26,11 @@ for(let i=0;i<N;i++){try{
   out.deaths.push(S.age); if(S.gender==='M')out.male++; if(!S.jobsDone.length)out.never++;
   S.jobsDone.forEach(j=>out.jobs[j]=(out.jobs[j]||0)+1);
   S.log.forEach(l=>{const t=l.t.replace(/<[^>]+>/g,'');let m;
-    if(m=t.match(/(.+?)\(으\)로 일을 시작했다/)){const n=m[1].replace(/^\S+\s/,'');(out.start[n]=out.start[n]||[]).push(l.a)}
-    if(m=t.match(/이\(가\) 되기 위해 (.+?) 준비를 시작/))out.prepStart[m[1]]=(out.prepStart[m[1]]||0)+1;
-    if(m=t.match(/(\d+)년의 준비 끝에 (.+?) 합격/)){out.prepPass[m[2]]=(out.prepPass[m[2]]||0)+1;(out.prepYears[m[2]]=out.prepYears[m[2]]||[]).push(+m[1])}
+    if(m=t.match(/(.+?)(?:으로|로) 일을 시작했다/)){const n=m[1].replace(/^\S+\s/,'');(out.start[n]=out.start[n]||[]).push(l.a)}
+
     if(/희망퇴직 서류|해고 통보|자리가 없었다|AI 전환 교육 과정/.test(t))out.aiOut[S.birthYear]=(out.aiOut[S.birthYear]||0)+1;
   });
+  (S.preps||[]).forEach(p=>{if(p.start!=null)out.prepStart[p.n]=(out.prepStart[p.n]||0)+1;if(p.ok){out.prepPass[p.n]=(out.prepPass[p.n]||0)+1;(out.prepYears[p.n]=out.prepYears[p.n]||[]).push(p.yrs)}});
   out.wev+=S.history.filter(h=>h.id==='workEvent').length;
 }catch(e){out.err++;if(out.err<3)console.log(e.stack)}}
 out.totalJobs=JOBS.filter(j=>!j.hidden).length;
@@ -55,6 +55,7 @@ for (const n of Object.keys(LIMITS)) {
   console.log(`  ${n.padEnd(12)} n=${String(a.length).padStart(4)}  중앙 ${med(a)}  최고 ${max(a)}`);
   check(max(a) <= LIMITS[n], `${n} 최고 시작 나이 ${max(a)} > ${LIMITS[n]}`);
 }
+check(Object.keys(o.start).length>20,'첫 출근 기록을 읽지 못함 — 로그 문구가 바뀌었는지 확인');
 console.log('\n[준비 과정] 시작 → 합격률 · 합격자 평균 준비년수');
 Object.keys(o.prepStart).filter(k => o.prepStart[k] >= 20).sort((a, b) => o.prepStart[b] - o.prepStart[a]).forEach(k => {
   const y = o.prepYears[k] || [];
