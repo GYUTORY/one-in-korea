@@ -25,8 +25,12 @@
 ```bash
 open index.html                          # 빌드 없음. 그냥 연다
 python3 -m http.server 8765              # 브라우저 자동화로 볼 때 (localhost:8765)
-node tools/realism-check.mjs 5000        # 일생 5,000번 헤드리스 시뮬레이션 + 현실성 기준 검사 (exit 1이면 위반)
+node tools/realism-check.mjs 5000        # 일생 5,000번 헤드리스 시뮬레이션 + 현실성 기준 검사 (exit 1이면 위반). 1960~2026년생 6개 코호트
+node tools/transcript.mjs 3 7 1990 F 2   # 일생 전체 기록(선택 화면·잠금 사유·로그) 덤프. 인자: N seed 출생연도 성별 소득분위
+node tools/event-matrix.mjs cafe nurse   # 직업별로 뜰 수 있는 직장 상황(WEV)·연간 사건(JEV) 전부 출력 (인자 없으면 전 직업)
 ```
+
+**검수 원칙**: 숫자(realism-check)만 보지 말고 `transcript.mjs`로 여러 출생연도·성별·소득분위의 일생을 끝까지 읽고, 직업·사건을 바꿨다면 `event-matrix.mjs`로 모든 직업 × 상황 조합을 확인한다. 사용자는 "모든 케이스 직접 확인해서 완벽하면 보고"를 요구했다.
 
 **엔진을 건드렸다면 반드시 `realism-check`를 5,000회 이상 돌리고 결과 숫자를 보고할 것.** 사용자는 "5천 번 안 돌려본 것 같다"고 지적한 적이 있다. 직관이 아니라 분포로 확인한다.
 
@@ -57,6 +61,15 @@ node tools/realism-check.mjs 5000        # 일생 5,000번 헤드리스 시뮬�
 - 연쇄 선택(대학 → 전공 등)은 `S.next`에 다음 선택 id를 넣는다.
 - 한 번만 뜨는 선택은 `nextChoice` 안의 `once()`와 `S.asked`로 관리한다.
 
+### 근무 형태 · 학과 · 캐릭터
+- 근무 형태: `OWNER`(자영업·프리랜서) / `FLAT`(직급 없는 일) / 그 외 회사원. `wkOf(S)`가 'own'|'flat'|'emp'를 돌려주고, `WEV` 항목의 `who`·`ok`·`ok2`, 선택지의 `who`·`if`로 뜰 수 있는 상황을 거른다. 직업별 문구 덮어쓰기는 `WEV_ID_D`, 연간 사건(`JEV`)은 항목별 `c:jis(...)/jnot(...)` 조건.
+- 묶음: `SHOP`(점포), `GIG`(플랫폼·운송 개인사업), `CREATOR`, `STAGE`(무대·연기), `SITE`(현장 안전 사건 대상).
+- 폐업은 조용히 처리하지 않는다: `S.bizCrisis` → `bizCrisis` 선택(정리/대출로 버티기/권리금). 일자리를 잃으면 `S.jobEnd`에 이유를 남겨 직업 목록 상단에 보여주고, 58세 이후는 `afterLoss()`.
+- 학과: `DEPTS`(4년제 이름 `u`, 전문대 이름 `j`, 컷 `min`/`minJ`). 직업의 `dp`=면허 응시에 필요한 학과(없으면 잠금), `dpp`=우대 학과(±). 수의대·약대는 대학 선택지(`f:'vet'`, `flag pharm`).
+- 조사: 문구에는 `이(가)`·`을(를)`·`(으)로`를 그대로 쓰면 `josa()`가 `lg()`와 모든 `CHOICES` 출력에서 받침에 맞게 바꾼다. UI에서 직접 만드는 문장은 `josa()`를 거칠 것.
+- 시대: 부모 직업(`fixPJ`), 학제(국민학교·과외 금지·자사고 등), 병역 명칭, 출산율·초혼연령 문구, 직업 `from`(생긴 해), 대학 정원(`shift`), 집값 지수 `HPI`는 모두 연도별. 새 문구를 넣을 땐 1960년생에게도 맞는지 확인.
+- 캐릭터(UI): `stageOf(S)` → 단계·직업별 `outfitOf()` → `avatarSVG(S)`(인라인 SVG). `avatarKey`가 바뀔 때만 다시 그린다. 행복→표정, 스트레스 75+→땀, 배우자·자녀 표시.
+
 ### 직업 데이터 스키마 (`JOBS` 항목)
 `{id, n(이름), c(카테고리 ∈ CATS), e(이모지), t(최소 학력 티어 0~5), k(기준 지식), o(기본 합격률), s(초봉, 만원), g(연 상승률), cap(연봉 상한), ret(정년), wlb(1~5), sat(1~5), d(설명)}`
 
@@ -76,10 +89,13 @@ node tools/realism-check.mjs 5000        # 일생 5,000번 헤드리스 시뮬�
 | `pub` | 공무원 연금 |
 | `ma` | 연령 상한 |
 | `hidden` | 직업 목록에서 숨김 |
+| `dp` · `dpp` | 필수 학과(면허) · 우대 학과 (`DEPTS` 키) |
+| `from` | 그 직업이 생긴 해 (이전 출생자는 잠금) |
 
 **새 직업을 넣으면** 아래도 같이 손볼 것 (`job-designer` 에이전트 참고):
 - `prepOf` 매핑: 시험이면 `PREP_OF`, 즉시 시작이면 `INSTANT`, 창업이면 `STARTUP`. 셋 다 아니면 기본값 '구직 활동'
 - `WORK` (스트레스·주당 시간·원인 태그)
+- 근무 형태(`OWNER`/`FLAT`/`SHOP` 등), 연간 사건 조건, 필요하면 `dp`/`dpp`, `from` — 그리고 `event-matrix.mjs`로 확인
 - `AI` 위험도
 - 필요하면 `FALLBACK`, `RANK_ID`, `DAY_ID`
 
